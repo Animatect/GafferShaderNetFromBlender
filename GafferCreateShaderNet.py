@@ -4,6 +4,8 @@ import IECoreScene
 import GafferCycles
 import Gaffer
 import GafferScene
+import imath
+import warnings
 
 def create_shader_box(boxparent, boxname):
 	boxNode = Gaffer.Box(boxname)
@@ -25,7 +27,6 @@ def connect_in_out(parentbox, lastbox, box):
 	#Connect
 	bxout["in"].setInput(box["out"])
 	box["in"].setInput(bxin["out"])
-	#Optionaly set filter
 
 def connect_shaderassignment(shassignnode, boxnode, path = ""):
 	bxout = boxnode['BoxOut']
@@ -34,16 +35,34 @@ def connect_shaderassignment(shassignnode, boxnode, path = ""):
 	bxout["in"].setInput(shassignnode["out"])
 	shassignnode["in"].setInput(bxin["out"])
 	# Filter path
-	if not path == "":
-		pathFilter = GafferScene.PathFilter()
-		boxnode.addChild( pathFilter )
-		shassignnode['filter'].setInput( pathFilter['out'] )
-		##Filter
+	if not path == "":		
+		### Create Filter Node ###
+		pathFilter = GafferScene.PathFilter(boxnode.getName() + "_pathFilter")
+		boxparent = boxnode.parent()
+		boxparent.addChild(pathFilter)
+		
+		##set filter paths
 		#paths.setValue( IECore.StringVectorData( [ path ] ) )
 		paths = pathFilter["paths"]
 		ar = paths.getValue()
 		ar.append(path)
 		paths.setValue(ar)
+
+		## Connect Filter
+		boxnode.addChild( Gaffer.BoxIn( "BoxIn1"  ) )
+		boxnode["BoxIn1" ].setup( GafferScene.FilterPlug( "out", defaultValue = 0, minValue = 0, maxValue = 7, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.AcceptsDependencyCycles, ) )
+		boxnode["BoxIn1"]["name"].setValue( 'filter' )
+
+		Gaffer.Metadata.registerValue( boxnode["filter"], 'nodule:color', imath.Color3f( 0.689999998, 0.537800014, 0.228300005 ) )
+		Gaffer.Metadata.registerValue( boxnode["filter"], 'description', 'The result of the filter. This should be connected into\nthe "filter" plug of a FilteredSceneProcessor.' )
+		Gaffer.Metadata.registerValue( boxnode["filter"], 'plugValueWidget:type', '' )
+		Gaffer.Metadata.registerValue( boxnode["filter"], 'noduleLayout:section', 'right' )
+		
+		boxnode["filter"].setInput( pathFilter["out"] )
+
+		#Connect ShaderAssignment
+		shassignnode['filter'].setInput( boxnode['BoxIn1']["out"] )
+
 
 
 def transfer_shader_parameters(source, target):
@@ -134,40 +153,45 @@ def convert_cyc_shaders(surface_attr, network, path, ParentShaderBox, shadernumb
 #Get Focus node
 focusNode = root.getFocus()
 
-#Create Main BoxNode to hold shaders
-mainBox = create_shader_box(root, "MainShaderBox")
+if not focusNode == None:
 
-#Get nodes connected to Focus and plug the box node
-for output in focusNode["out"].outputs():
-	finalnode = output.node()
-	finalnodeinplug = output
-	plugname = finalnodeinplug.getName()
-	finalnode[plugname].setInput(mainBox["out"])		
+	#Create Main BoxNode to hold shaders
+	mainBox = create_shader_box(root, "MainShaderBox")
 
-#Connect into the graph
-mainBox["in"].setInput(focusNode["out"])
+	#Get nodes connected to Focus and plug the box node
+	for output in focusNode["out"].outputs():
+		finalnode = output.node()
+		finalnodeinplug = output
+		plugname = finalnodeinplug.getName()
+		finalnode[plugname].setInput(mainBox["out"])		
 
-##Traverse hierarchy
-def visit( scene, path ):
-	shadercount = 0
-	lastnode = mainBox
-	for childName in scene.childNames( path ) :
-		#print(childName)
-		newpath = path.rstrip( "/" ) + "/" + str( childName )
-		if scene.object(newpath).typeName() == "MeshPrimitive":
-			attr = scene.attributes(newpath)
-			if 'cycles:surface' in attr:
-				## QUERY ATTRIBUTE ##
-				shaderNet = attr['cycles:surface']
-				#### MAKE SHADERS ####
-				shaderbox = convert_cyc_shaders("cycles:surface", shaderNet, newpath, mainBox, shadercount)
-				connect_in_out(mainBox, lastnode, shaderbox)
-				lastnode = shaderbox
-				shadercount += 1
-		visit( scene, newpath )
+	#Connect into the graph
+	mainBox["in"].setInput(focusNode["out"])
 
-node = focusNode
-visit( node["out"], "/" )
+	##Traverse hierarchy
+	def visit( scene, path ):
+		shadercount = 0
+		lastnode = mainBox
+		for childName in scene.childNames( path ) :
+			#print(childName)
+			newpath = path.rstrip( "/" ) + "/" + str( childName )
+			if scene.object(newpath).typeName() == "MeshPrimitive":
+				attr = scene.attributes(newpath)
+				if 'cycles:surface' in attr:
+					## QUERY ATTRIBUTE ##
+					shaderNet = attr['cycles:surface']
+					#### MAKE SHADERS ####
+					shaderbox = convert_cyc_shaders("cycles:surface", shaderNet, newpath, mainBox, shadercount)
+					connect_in_out(mainBox, lastnode, shaderbox)
+					lastnode = shaderbox
+					shadercount += 1
+			visit( scene, newpath )
+
+	node = focusNode
+	visit( node["out"], "/" )
+
+else:
+	warnings.warn("No Focus Node Selected")
 
 
 
