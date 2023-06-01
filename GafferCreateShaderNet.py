@@ -7,6 +7,41 @@ import GafferScene
 import imath
 import warnings
 
+
+def visit( scene, path, initBox, mainBox, index = 0)->int:
+		lastnode = initBox
+		idx:int = index
+
+		print( "la iteracion actual es {}".format( idx ) )
+
+		for childName in scene.childNames( path ) :
+			#print(childName)
+			newpath = path.rstrip( "/" ) + "/" + str( childName )
+			print("El path actual es: {}".format( newpath ) )
+			if scene.object(newpath).typeName() == "MeshPrimitive":
+				attr = scene.attributes(newpath)
+				if 'cycles:surface' in attr:
+					## QUERY ATTRIBUTE ##
+					shaderNet = attr['cycles:surface']
+					#### MAKE SHADERS ####
+					shaderbox = convert_cyc_shaders("cycles:surface", shaderNet, newpath, mainBox, idx)
+					#print( "El Shader {} es del tipo {}".format( shaderbox.getName(), str( type(shaderbox) ) ) )					
+					#print( "El nombre del lastnode es {}  y es del tipo {}".format( lastnode.getName(), str( type(lastnode) ) ) )
+					if idx == 0:
+						print("idx0")
+						connect_in_out(mainBox, lastnode, shaderbox, True)
+					else:
+						print("idxnot0")
+						connect_in_out(mainBox, lastnode, shaderbox, False)
+					lastnode = shaderbox
+					#print( "El NUEVO nombre del lastnode es {}  y AHORA es del tipo {}".format( lastnode.getName(), str( type(lastnode) ) ) )
+					idx += 1
+			#We assign the values inside the recursive function variables to the variables outside to transport them correctly.
+			idx, lastnode = visit( scene, newpath, lastnode, mainBox, idx)
+
+		return idx, lastnode
+
+
 def create_shader_box(boxparent, boxname):
 	boxNode = Gaffer.Box(boxname)
 	boxparent.addChild(boxNode)
@@ -19,14 +54,21 @@ def create_shader_box(boxparent, boxname):
 	# return the box
 	return boxNode
 
-def connect_in_out(parentbox, lastbox, box):
+def connect_in_out(parentbox, lastbox, box, isFirstIteration):
 	bxout = parentbox['BoxOut']
-	bxin = lastbox
-	if parentbox==lastbox:
+	#bxin = lastbox
+	print("el last box en la funcion es: {}".format( lastbox.getName() ) )
+	print("es la primera iteracion = {}".format( str(isFirstIteration) ) )
+	#if parentbox==lastbox:
+	if isFirstIteration:
 		bxin = parentbox["BoxIn"]
+		bxout["in"].setInput(box["out"])
+		box["in"].setInput(bxin["out"])
 	#Connect
-	bxout["in"].setInput(box["out"])
-	box["in"].setInput(bxin["out"])
+	else:
+		bxin = lastbox		
+		bxout["in"].setInput(box["out"])
+		box["in"].setInput(bxin["out"])
 
 def connect_shaderassignment(shassignnode, boxnode, path = ""):
 	bxout = boxnode['BoxOut']
@@ -75,13 +117,12 @@ def transfer_shader_parameters(source, target):
 		target["parameters"][p] = v
 
 ## Hay que pasar el network desde python con el codigo que ya se probo
-def convert_cyc_shaders(surface_attr, network, path, ParentShaderBox, shadernumber=0):
+def convert_cyc_shaders(surface_attr, network, path, ParentShaderBox, shadernumber:int = 0):
 	print("||||||||||||||||||||| ", surface_attr,network, " |||||||||||||||||||||")
 	if isinstance( network, IECoreScene.ShaderNetwork ) :
 		output_shader = None # Set variable for output shader
-		print("esshader")
 		#AddShaderAssignmentmyBox = Gaffer.Box("myShaderBox")
-		boxname = "myShaderBox"+str(shadernumber)		
+		boxname = "ShaderNetwork_"+str(shadernumber).zfill(4)	
 		shaderbox = create_shader_box(ParentShaderBox, boxname)
 		
 		myShaderAssignment = GafferScene.ShaderAssignment()
@@ -169,26 +210,10 @@ if not focusNode == None:
 	mainBox["in"].setInput(focusNode["out"])
 
 	##Traverse hierarchy
-	def visit( scene, path ):
-		shadercount = 0
-		lastnode = mainBox
-		for childName in scene.childNames( path ) :
-			#print(childName)
-			newpath = path.rstrip( "/" ) + "/" + str( childName )
-			if scene.object(newpath).typeName() == "MeshPrimitive":
-				attr = scene.attributes(newpath)
-				if 'cycles:surface' in attr:
-					## QUERY ATTRIBUTE ##
-					shaderNet = attr['cycles:surface']
-					#### MAKE SHADERS ####
-					shaderbox = convert_cyc_shaders("cycles:surface", shaderNet, newpath, mainBox, shadercount)
-					connect_in_out(mainBox, lastnode, shaderbox)
-					lastnode = shaderbox
-					shadercount += 1
-			visit( scene, newpath )
-
 	node = focusNode
-	visit( node["out"], "/" )
+	numberofshaders, lastcreatednode = visit( node["out"], "/", mainBox, mainBox, 0 )
+
+	print("Se crearon {} Shaders".format(str(numberofshaders)))
 
 else:
 	warnings.warn("No Focus Node Selected")
