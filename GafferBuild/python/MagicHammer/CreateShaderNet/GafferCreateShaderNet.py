@@ -28,6 +28,7 @@ def visit( scene, path, initBox, mainBox, index = 0)->int:
 					#print( "El Shader {} es del tipo {}".format( shaderbox.getName(), str( type(shaderbox) ) ) )					
 					#print( "El nombre del lastnode es {}  y es del tipo {}".format( lastnode.getName(), str( type(lastnode) ) ) )
 					if idx == 0:
+						
 						print("idx0")
 						connect_in_out(mainBox, lastnode, shaderbox, True)
 					else:
@@ -192,6 +193,7 @@ def convert_cyc_shaders(surface_attr, network, path, ParentShaderBox, shadernumb
 
 ########### INICIO ############
 #Get Focus node
+
 focusNode = root.getFocus()
 
 if not focusNode == None:
@@ -305,3 +307,4 @@ for p in ar:
 
 paths.setValue(ar)
 """
+
