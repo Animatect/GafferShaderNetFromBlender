@@ -4,7 +4,7 @@ import GafferScene
 import IECore
 import imath
 import os
-from MagicHammer.CreateShaderNet.GafferCreateShaderNet import create_networks
+import GafferCycles
 
 
 # def connect_in_graph(node):
@@ -30,13 +30,19 @@ def setup_box(node, code):
 	mainShaderbox = node
 	
 	mainShaderbox.addChild( Gaffer.V2fPlug( "__uiPosition", defaultValue = imath.V2f( 0, 0 ), flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
+	mainShaderbox.addChild( Gaffer.StringVectorDataPlug( "paths", defaultValue = IECore.StringVectorData( [  ] ), flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
 	mainShaderbox.addChild( Gaffer.StringPlug( "updateList", defaultValue = '', flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
-	mainShaderbox.addChild( Gaffer.StringPlug( "shotsList", defaultValue = '', flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
-	mainShaderbox.addChild( Gaffer.StringPlug( "currentShot", defaultValue = '', flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
 
 	Gaffer.Metadata.registerValue( mainShaderbox, 'uiEditor:emptySections', IECore.StringVectorData( [  ] ) )
 	Gaffer.Metadata.registerValue( mainShaderbox, 'uiEditor:emptySectionIndices', IECore.IntVectorData( [  ] ) )
 
+	## Paths ##
+	Gaffer.Metadata.registerValue( mainShaderbox["paths"], 'nodule:type', '' )
+	Gaffer.Metadata.registerValue( mainShaderbox["paths"], 'layout:section', 'Settings' )
+	Gaffer.Metadata.registerValue( mainShaderbox["paths"], 'layout:index', 0 )
+	mainShaderbox["paths"].setValue( IECore.StringVectorData( [ '/' ] ) )
+
+	## Button ##
 	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'nodule:type', '' )
 	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'layout:section', 'Settings' )
 	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'plugValueWidget:type', 'GafferUI.ButtonPlugValueWidget' )
@@ -46,7 +52,11 @@ def setup_box(node, code):
 
 	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'description', 'es un boton' )
 	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'label', 'Create Material Networks' )
-	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'layout:index', -1 )
+	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'layout:index', 1 )
+	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'layout:divider', True )
+
+	## Color ##	
+	Gaffer.Metadata.registerValue( mainShaderbox, 'nodeGadget:color', imath.Color3f( 0.435000002, 0.145724997, 0.353971571 ) )
 
 	# in plug
 	mainShaderbox.addChild( Gaffer.BoxIn( "BoxIn" ) )
@@ -56,7 +66,7 @@ def setup_box(node, code):
 	mainShaderbox["BoxOut"].setup( GafferScene.ScenePlug( "in", ) )
 
 def __cycmatnetextract() :
-	return Gaffer.Box( "MultiShotsBox" )
+	return Gaffer.Box( "MateriaslNetworkBox" )
 
 
 def __cycmatnetextractPostCreator( node, menu ) :

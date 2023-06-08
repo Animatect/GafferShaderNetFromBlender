@@ -42,6 +42,21 @@ def visit( scene, path, initBox, mainBox, index = 0)->int:
 
 		return idx, lastnode
 
+def create_basecheck_shader(mainShaderbox, paths):	
+	## BaseCheck Shader ##
+	shassignnode = GafferScene.ShaderAssignment("CheckShader")
+	mainShaderbox.addChild( shassignnode )
+	checkMat = GafferCycles.CyclesShader( "CheckMaterial" )
+	mainShaderbox.addChild( checkMat )
+	checkMat.loadShader( "emission" )
+	checkMat["parameters"]["color"].setValue( imath.Color3f( 1, 0, 1 ) )
+	Gaffer.Metadata.registerValue( checkMat, 'nodeGadget:color', imath.Color3f( 1, 0, 1 ) )
+	shassignnode['shader'].setInput( checkMat['out'] )
+	connect_shaderassignment( shassignnode, mainShaderbox )
+	pathFilter = GafferScene.PathFilter("CheckerNodes_pathFilter")
+	mainShaderbox.addChild(pathFilter)
+	shassignnode['filter'].setInput( pathFilter["out"] )
+	pathFilter["paths"].setValue(paths)
 
 def create_shader_box(boxparent, boxname):
 	boxNode = Gaffer.Box(boxname)
@@ -58,11 +73,12 @@ def create_shader_box(boxparent, boxname):
 def connect_in_out(parentbox, lastbox, box, isFirstIteration):
 	bxout = parentbox['BoxOut']
 	#bxin = lastbox
-	print("el last box en la funcion es: {}".format( lastbox.getName() ) )
-	print("es la primera iteracion = {}".format( str(isFirstIteration) ) )
+	#print("el last box en la funcion es: {}".format( lastbox.getName() ) )
+	#print("es la primera iteracion = {}".format( str(isFirstIteration) ) )
 	#if parentbox==lastbox:
 	if isFirstIteration:
-		bxin = parentbox["BoxIn"]
+		#bxin = parentbox["BoxIn"]
+		bxin = parentbox['CheckShader']
 		bxout["in"].setInput(box["out"])
 		box["in"].setInput(bxin["out"])
 	#Connect
@@ -119,7 +135,7 @@ def transfer_shader_parameters(source, target):
 
 ## Hay que pasar el network desde python con el codigo que ya se probo
 def convert_cyc_shaders(surface_attr, network, path, ParentShaderBox, shadernumber:int = 0):
-	print("||||||||||||||||||||| ", surface_attr,network, " |||||||||||||||||||||")
+	# print("||||||||||||||||||||| ", surface_attr,network, " |||||||||||||||||||||")
 	if isinstance( network, IECoreScene.ShaderNetwork ) :
 		output_shader = None # Set variable for output shader
 		#AddShaderAssignmentmyBox = Gaffer.Box("myShaderBox")
@@ -135,14 +151,14 @@ def convert_cyc_shaders(surface_attr, network, path, ParentShaderBox, shadernumb
 		
 		network_output_shader = network.getOutput().shader # Store output shader name
 		for shader in sorted(network.shaders()):
-				print("---------------------")
-				print(shader)
-				print("---------------------")
+				#print("---------------------")
+				#print(shader)
+				#print("---------------------")
 				shader_name = shader
 				shader_type = network.shaders()[shader].name
 				type = network.shaders()[shader].type
-				print("\tCYCLES TYPE:\t", network.shaders()[shader_name].type)
-				print("\tCYCLES_SHADER:\t", shader_type)
+				#print("\tCYCLES TYPE:\t", network.shaders()[shader_name].type)
+				#print("\tCYCLES_SHADER:\t", shader_type)
 				
 				# Check if shader is shader nework output
 				if network_output_shader == shader:
@@ -161,7 +177,7 @@ def convert_cyc_shaders(surface_attr, network, path, ParentShaderBox, shadernumb
 				
 				#Copy Parameters
 				#transfer_shader_parameters(shader, myShader)
-				print("!!!!!!!!!!!!")
+				#print("!!!!!!!!!!!!")
 				#print(network.shaders()[shader].parameters)
 				parameters = network.shaders()[shader].parameters
 				paramkeys = parameters.keys()
@@ -172,7 +188,7 @@ def convert_cyc_shaders(surface_attr, network, path, ParentShaderBox, shadernumb
 						Gaffer.PlugAlgo.setValueFromData(plug,data)
 					except:
 						print(parameter)
-				print("!!!!!!!!!!!!")
+				#print("!!!!!!!!!!!!")
 				
 				#Store nodes and connections
 				if len(output_connections) > 0:
@@ -208,14 +224,19 @@ def connect_into_network(node):
 ########### START ############
 ##############################
 
+#! Revisar si hay cosas en el box node y si hay pedir que se borren
+
 def create_networks(node):
 	input = node['in'].getInput()
 	if not input == None:
-		hierarchyNode = input.node()
-		##Traverse hierarchy
-		numberofshaders, lastcreatednode = visit( hierarchyNode["out"], "/", node, node, 0 )
-		
-		print("Se crearon {} Shaders".format(str(numberofshaders)))
+		paths = node['paths'].getValue()
+		create_basecheck_shader(node, paths)
+		for path in paths:
+			hierarchyNode = input.node()
+			##Traverse hierarchy
+			numberofshaders, lastcreatednode = visit( hierarchyNode["out"], path, node, node, 0 )
+			
+			print("Se crearon {} Shaders".format(str(numberofshaders)))
 
 	else:
 		## Change to error
