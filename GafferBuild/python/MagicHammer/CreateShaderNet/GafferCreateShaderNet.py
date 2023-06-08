@@ -191,34 +191,41 @@ def convert_cyc_shaders(surface_attr, network, path, ParentShaderBox, shadernumb
 
 
 
-########### INICIO ############
-#Get Focus node
-
-focusNode = root.getFocus()
-
-if not focusNode == None:
-
-	#Create Main BoxNode to hold shaders
-	mainBox = create_shader_box(root, "MainShaderBox")
-
+def connect_into_network(node):
 	#Get nodes connected to Focus and plug the box node
 	for output in focusNode["out"].outputs():
 		finalnode = output.node()
 		finalnodeinplug = output
 		plugname = finalnodeinplug.getName()
-		finalnode[plugname].setInput(mainBox["out"])		
+		finalnode[plugname].setInput(node["out"])		
 
 	#Connect into the graph
-	mainBox["in"].setInput(focusNode["out"])
+	node["in"].setInput(focusNode["out"])
 
-	##Traverse hierarchy
-	node = focusNode
-	numberofshaders, lastcreatednode = visit( node["out"], "/", mainBox, mainBox, 0 )
 
-	print("Se crearon {} Shaders".format(str(numberofshaders)))
 
-else:
-	warnings.warn("No Focus Node Selected")
+##############################
+########### START ############
+##############################
+
+def create_networks(node):
+	input = node['in'].getInput()
+	if not input == None:
+		hierarchyNode = input.node()
+		##Traverse hierarchy
+		numberofshaders, lastcreatednode = visit( hierarchyNode["out"], "/", node, node, 0 )
+		
+		print("Se crearon {} Shaders".format(str(numberofshaders)))
+
+	else:
+		## Change to error
+		print('Node input is not connected')
+
+
+
+
+
+
 
 
 

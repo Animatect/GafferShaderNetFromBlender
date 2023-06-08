@@ -69,6 +69,7 @@ def __cycmatnetextractPostCreator( node, menu ) :
 
 	setup_box( node, code )
 
+## MAKE NODE ##
 nodeMenu = GafferUI.NodeMenu.acquire( application )
 
 nodeMenu.append(
