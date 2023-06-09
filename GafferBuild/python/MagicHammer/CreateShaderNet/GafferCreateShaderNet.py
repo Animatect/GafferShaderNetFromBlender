@@ -56,7 +56,13 @@ def create_basecheck_shader(mainShaderbox, paths):
 	pathFilter = GafferScene.PathFilter("CheckerNodes_pathFilter")
 	mainShaderbox.addChild(pathFilter)
 	shassignnode['filter'].setInput( pathFilter["out"] )
-	pathFilter["paths"].setValue(paths)
+	newpaths = IECore.StringVectorData()
+	for v in paths:
+		val = v + "..."
+		if not v[-1] == '/':
+			val = v + "/..."
+		newpaths.append( val )
+	pathFilter["paths"].setValue(newpaths)
 
 def create_shader_box(boxparent, boxname):
 	boxNode = Gaffer.Box(boxname)
@@ -67,6 +73,8 @@ def create_shader_box(boxparent, boxname):
 	# out plug
 	boxNode.addChild( Gaffer.BoxOut( "BoxOut" ) )
 	boxNode["BoxOut"].setup( GafferScene.ScenePlug( "in", ) )
+	# add enable shader assignment plug
+	boxNode.addChild( Gaffer.BoolPlug( "enabled", defaultValue = True, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
 	# return the box
 	return boxNode
 
@@ -93,8 +101,11 @@ def connect_shaderassignment(shassignnode, boxnode, path = ""):
 	#Connect
 	bxout["in"].setInput(shassignnode["out"])
 	shassignnode["in"].setInput(bxin["out"])
+	# try connecting the enabled plug
+	if 'enabled' in boxnode.keys():
+		shassignnode["enabled"].setInput( boxnode["enabled"] ) 
 	# Filter path
-	if not path == "":		
+	if not path == "":	
 		### Create Filter Node ###
 		pathFilter = GafferScene.PathFilter(boxnode.getName() + "_pathFilter")
 		boxparent = boxnode.parent()
@@ -249,90 +260,21 @@ def create_networks(node):
 
 
 
-
-""" name = "ShaderAssignment"
-script = "myShaderAssignment = GafferScene.{}()".format(name)
-exec(script)
-root.addChild( myShaderAssignment ) """
-
 """
-target = root['myShaderBox']['color1']
-sourceparams = root['myShaderBox']['color']["parameters"].items()
-#params = root['myShaderBox']['image_texture']["parameters"].items()
+## Compare Shders ##
+## Use MatHierarchy.gfr
+sp = root['Group']['out'].attributes('/geometry/group/sphere')
+cu = root['Group']['out'].attributes('/geometry/group/cube')
+pl = root['Group']['out'].attributes('/geometry/plane')
 
-#print(type(params))
-#print(params)
-for p,v in sourceparams:
-	print("\t\t\t", p, v)
-	target["parameters"][p] = v
-"""
+cucs = cu["cycles:surface"]
 
-"""
-print(srf_result.items())
-
-print(srf_result.get('direction'))
-dir(srf_result)
-
-for p, v in srf_result.items():
-	print("\t\t\t", p, v)
-	root['normal']["parameters"][p] = v
-
-print(root['normal']["parameters"]['direction'])
-
-plug = root['normal']["parameters"]['direction']
-data = srf_result.get('direction')
-
-Gaffer.PlugAlgo.setValueFromData(plug,data)
+cucs.isSame(sp["cycles:surface"])
 
 
-"""
+print(cu["cycles:surface"] == sp["cycles:surface"])
 
-######## TRAVERSE HIERARCHY ##########
+print(pl["cycles:surface"] == sp["cycles:surface"])
 
-"""
-##Traverse hierarchy
-def visit( scene, path ) :
-
-	for childName in scene.childNames( path ) :
-		#print(childName)
-		newpath = path.rstrip( "/" ) + "/" + str( childName )
-		if scene.object(newpath).typeName() == "MeshPrimitive":
-			if 'cycles:surface' in scene.attributes(newpath):
-				print( newpath )
-				
-				## QUERY EL ATTRIBUTE DESDE PYTHON ##
-		visit( scene, newpath )
-
-node = root['CustomAttributes']
-visit( node["out"], "/" )
-
-####tests####
-attr = root['CustomAttributes']["out"].attributes( "/world/geometry/plane" )
-print(attr.keys())
-
-attrquery = attr['cycles:surface']
-print(attrquery.typeName())
-
-tmp = root['CustomAttributes']["out"].object( "/world/geometry/plane" )
-print(tmp.typeName())
-
-print(root['CustomAttributes']["out"].attributes( "/world/geometry/plane" ))
-
-"""
-
-"""
-### FILTER ###
-root['PathFilter3']["paths"].setValue( IECore.StringVectorData( [ '/world/geometry/sphere', "asd" ] ) )
-
-paths = root['PathFilter3']["paths"]
-
-ar = paths.getValue()
-
-ar.append("holi")
-
-for p in ar:
-	print(p)
-
-paths.setValue(ar)
 """
 
