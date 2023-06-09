@@ -17,7 +17,7 @@ def visit( scene, path, initBox, mainBox, index = 0)->int:
 		for childName in scene.childNames( path ) :
 			#print(childName)
 			newpath = path.rstrip( "/" ) + "/" + str( childName )
-			print("El path actual es: {}".format( newpath ) )
+			#print("El path actual es: {}".format( newpath ) )
 			if scene.object(newpath).typeName() == "MeshPrimitive":
 				attr = scene.attributes(newpath)
 				if 'cycles:surface' in attr:
@@ -29,10 +29,10 @@ def visit( scene, path, initBox, mainBox, index = 0)->int:
 					#print( "El nombre del lastnode es {}  y es del tipo {}".format( lastnode.getName(), str( type(lastnode) ) ) )
 					if idx == 0:
 						
-						print("idx0")
+						#print("idx0")
 						connect_in_out(mainBox, lastnode, shaderbox, True)
 					else:
-						print("idxnot0")
+						#print("idxnot0")
 						connect_in_out(mainBox, lastnode, shaderbox, False)
 					lastnode = shaderbox
 					#print( "El NUEVO nombre del lastnode es {}  y AHORA es del tipo {}".format( lastnode.getName(), str( type(lastnode) ) ) )
@@ -235,8 +235,6 @@ def connect_into_network(node):
 ########### START ############
 ##############################
 
-#! Revisar si hay cosas en el box node y si hay pedir que se borren
-
 def create_networks(node):
 	input = node['in'].getInput()
 	if not input == None:
@@ -248,6 +246,9 @@ def create_networks(node):
 			numberofshaders, lastcreatednode = visit( hierarchyNode["out"], path, node, node, 0 )
 			
 			print("Se crearon {} Shaders".format(str(numberofshaders)))
+		## Remove UI after Ussage to avoid overwriting and/or making a mess ##
+		node.removeChild(node['updateList'])
+		node.removeChild(node['paths'])
 
 	else:
 		## Change to error
