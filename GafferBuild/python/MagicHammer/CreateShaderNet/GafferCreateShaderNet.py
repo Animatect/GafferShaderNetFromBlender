@@ -266,7 +266,7 @@ def create_networks(node):
 
 	else:
 		## Change to error
-		print('Node input is not connected')
+		IECore.warning('Node input is not connected')
 
 
 
@@ -292,6 +292,16 @@ print(cu["cycles:surface"] == sp["cycles:surface"])
 print(pl["cycles:surface"] == sp["cycles:surface"])
 
 """
+
+"""
+cb1 = root['SceneReader']['out'].attributes('/root/Cube/Cube')
+cb2 = root['SceneReader']['out'].attributes('/root/Cube_001/Cube_001')
+cb3 = root['SceneReader']['out'].attributes('/root/Cube_002/Cube_002')
+dif = root['SceneReader']['out'].attributes('/root/notSame/Cube_003')
+
+#print(cb1["cycles:surface"] == cb2["cycles:surface"])
+
+#print(cb1["cycles:surface"] == dif["cycles:surface"])
 
 cb1mt = cb1["cycles:surface"]
 cb2mt = cb2["cycles:surface"]
