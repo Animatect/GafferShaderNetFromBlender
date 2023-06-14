@@ -8,9 +8,10 @@ import imath
 import warnings
 
 
-def visit( scene, path, initBox, mainBox, index = 0)->int:
+def visit( scene, path, initBox, mainBox, index = 0, materials = {})->int:
 		lastnode = initBox
 		idx:int = index
+		matDict = materials
 
 		print( "la iteracion actual es {}".format( idx ) )
 
@@ -23,24 +24,36 @@ def visit( scene, path, initBox, mainBox, index = 0)->int:
 				if 'cycles:surface' in attr:
 					## QUERY ATTRIBUTE ##
 					shaderNet = attr['cycles:surface']
-					#### MAKE SHADERS ####
-					shaderbox = convert_cyc_shaders("cycles:surface", shaderNet, newpath, mainBox, idx)
-					#print( "El Shader {} es del tipo {}".format( shaderbox.getName(), str( type(shaderbox) ) ) )					
-					#print( "El nombre del lastnode es {}  y es del tipo {}".format( lastnode.getName(), str( type(lastnode) ) ) )
-					if idx == 0:
-						
-						#print("idx0")
-						connect_in_out(mainBox, lastnode, shaderbox, True)
+					#### CHECK IF MATERIAL EXISTS ####
+					hashvalue = str( shaderNet.hash() )
+					print("LLEGAMOS A ESTA PARTE")
+					if not hashvalue in matDict:
+						print("LLEGAMOS A ESTA OTRA PARTE")
+						#### MAKE SHADERS ####
+						shaderbox = convert_cyc_shaders("cycles:surface", shaderNet, newpath, mainBox, idx)
+						if idx == 0:							
+							#print("idx0")
+							connect_in_out(mainBox, lastnode, shaderbox, True)
+						else:
+							#print("idxnot0")
+							connect_in_out(mainBox, lastnode, shaderbox, False)
+						lastnode = shaderbox
+						#### ADD TO MATERIALS ####
+						matDict[hashvalue] = shaderbox
+						idx += 1
 					else:
-						#print("idxnot0")
-						connect_in_out(mainBox, lastnode, shaderbox, False)
-					lastnode = shaderbox
-					#print( "El NUEVO nombre del lastnode es {}  y AHORA es del tipo {}".format( lastnode.getName(), str( type(lastnode) ) ) )
-					idx += 1
+						#### MATERIAL EXISTS ####
+						shaderbox = matDict[hashvalue]
+						filternode = shaderbox["filter"].getInput().node()
+						paths = filternode["paths"]
+						ar = paths.getValue()
+						ar.append(newpath)
+						paths.setValue(ar)
+						
 			#We assign the values inside the recursive function variables to the variables outside to transport them correctly.
-			idx, lastnode = visit( scene, newpath, lastnode, mainBox, idx)
+			idx, lastnode, matDict = visit( scene, newpath, lastnode, mainBox, idx, matDict)
 
-		return idx, lastnode
+		return idx, lastnode, matDict
 
 def create_basecheck_shader(mainShaderbox, paths):	
 	## BaseCheck Shader ##
@@ -243,7 +256,8 @@ def create_networks(node):
 		for path in paths:
 			hierarchyNode = input.node()
 			##Traverse hierarchy
-			numberofshaders, lastcreatednode = visit( hierarchyNode["out"], path, node, node, 0 )
+			materialsdict = {}
+			numberofshaders, lastcreatednode, materials = visit( hierarchyNode["out"], path, node, node, 0, materialsdict)
 			
 			print("Se crearon {} Shaders".format(str(numberofshaders)))
 		## Remove UI after Ussage to avoid overwriting and/or making a mess ##
@@ -279,3 +293,19 @@ print(pl["cycles:surface"] == sp["cycles:surface"])
 
 """
 
+cb1mt = cb1["cycles:surface"]
+cb2mt = cb2["cycles:surface"]
+cb3mt = cb3["cycles:surface"]
+difmt = dif["cycles:surface"]
+
+hs1 = cb1mt.hash()
+hs2 = cb2mt.hash()
+hs3 = cb3mt.hash()
+hs4 = difmt.hash()
+
+hs1 == hs4
+
+ar = [hs1, hs2, hs3, hs4]
+
+hs1 in ar
+"""
