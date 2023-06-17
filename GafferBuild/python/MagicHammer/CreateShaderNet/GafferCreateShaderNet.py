@@ -159,75 +159,78 @@ def transfer_shader_parameters(source, target):
 
 ## Hay que pasar el network desde python con el codigo que ya se probo
 def convert_cyc_shaders(surface_attr, network, path, ParentShaderBox, shadernumber:int = 0):
-	# print("||||||||||||||||||||| ", surface_attr,network, " |||||||||||||||||||||")
-	if isinstance( network, IECoreScene.ShaderNetwork ) :
-		output_shader = None # Set variable for output shader
-		#AddShaderAssignmentmyBox = Gaffer.Box("myShaderBox")
-		boxname = "ShaderNetwork_"+str(shadernumber).zfill(4)	
-		shaderbox = create_shader_box(ParentShaderBox, boxname)
-		
-		myShaderAssignment = GafferScene.ShaderAssignment()
-		shaderbox.addChild( myShaderAssignment )
-		connect_shaderassignment(myShaderAssignment, shaderbox, path)
+		# print("||||||||||||||||||||| ", surface_attr,network, " |||||||||||||||||||||")
+		if isinstance( network, IECoreScene.ShaderNetwork ) :
+			output_shader = None # Set variable for output shader
+			#AddShaderAssignmentmyBox = Gaffer.Box("myShaderBox")
+			boxname = "ShaderNetwork_"+str(shadernumber).zfill(4)	
+			shaderbox = create_shader_box(ParentShaderBox, boxname)
 
-		connections = []
-		parameters = None
-		
-		network_output_shader = network.getOutput().shader # Store output shader name
-		for shader in sorted(network.shaders()):
-				#print("---------------------")
-				#print(shader)
-				#print("---------------------")
-				shader_name = shader
-				shader_type = network.shaders()[shader].name
-				type = network.shaders()[shader].type
-				#print("\tCYCLES TYPE:\t", network.shaders()[shader_name].type)
-				#print("\tCYCLES_SHADER:\t", shader_type)
-				
-				# Check if shader is shader nework output
-				if network_output_shader == shader:
-					output_shader = shader
-				
-				# Store Connections for later fixes
-				input_connections = network.inputConnections( shader )
-				output_connections = network.outputConnections( shader )
-				#print("\t intput:", shader, input_connections)
-				#print("\t output:", shader, output_connections)
-				
-				#Add Shaders
-				myShader = GafferCycles.CyclesShader(shader_name)
-				myShader.loadShader(shader_type)
-				shaderbox.addChild( myShader )				
-				
-				#Copy Parameters
-				#transfer_shader_parameters(shader, myShader)
-				#print("!!!!!!!!!!!!")
-				#print(network.shaders()[shader].parameters)
-				parameters = network.shaders()[shader].parameters
-				paramkeys = parameters.keys()
-				for parameter in paramkeys:
-					try:
-						plug = myShader["parameters"][parameter]
-						data = parameters.get(parameter)
-						Gaffer.PlugAlgo.setValueFromData(plug,data)
-					except:
-						print(parameter)
-				#print("!!!!!!!!!!!!")
-				
-				#Store nodes and connections
-				if len(output_connections) > 0:
-					connections.append(output_connections)
-				
-	out = shaderbox[output_shader]
-	shaderbox['ShaderAssignment']['shader'].setInput(out['out'])
-	#Set connections
-	for nodeconnections in connections:
-		for connection in nodeconnections:
-			src = connection.source
-			dst = connection.destination
-			shaderbox[dst.shader]["parameters"][dst.name].setInput(shaderbox[src.shader]['out'][src.name])
-	
-	return shaderbox
+			myShaderAssignment = GafferScene.ShaderAssignment()
+			shaderbox.addChild( myShaderAssignment )
+			connect_shaderassignment(myShaderAssignment, shaderbox, path)
+
+			connections = []
+			parameters = None
+
+			network_output_shader = network.getOutput().shader # Store output shader name
+			for shader in sorted(network.shaders()):
+					#print("---------------------")
+					#print(shader)
+					#print("---------------------")
+					shader_name = shader
+					shader_type = network.shaders()[shader].name
+					type = network.shaders()[shader].type
+					#print("\tCYCLES TYPE:\t", network.shaders()[shader_name].type)
+					#print("\tCYCLES_SHADER:\t", shader_type)
+
+					# Check if shader is shader nework output
+					if network_output_shader == shader:
+						output_shader = shader
+
+					# Store Connections for later fixes
+					input_connections = network.inputConnections( shader )
+					output_connections = network.outputConnections( shader )
+					#print("\t intput:", shader, input_connections)
+					#print("\t output:", shader, output_connections)
+
+					#Add Shaders
+					myShader = GafferCycles.CyclesShader(shader_name)
+					myShader.loadShader(shader_type)
+					shaderbox.addChild( myShader )				
+
+					#Copy Parameters
+					#transfer_shader_parameters(shader, myShader)
+					#print("!!!!!!!!!!!!")
+					#print(network.shaders()[shader].parameters)
+					parameters = network.shaders()[shader].parameters
+					paramkeys = parameters.keys()
+					for parameter in paramkeys:
+						try:
+							plug = myShader["parameters"][parameter]
+							data = parameters.get(parameter)
+							Gaffer.PlugAlgo.setValueFromData(plug,data)
+						except:
+							print(parameter)
+					#print("!!!!!!!!!!!!")
+
+					#Store nodes and connections
+					if len(output_connections) > 0:
+						connections.append(output_connections)
+
+		out = shaderbox[output_shader]
+		shaderbox['ShaderAssignment']['shader'].setInput(out['out'])
+			#Set connections
+		for nodeconnections in connections:
+				for connection in nodeconnections:
+						src = connection.source
+						dst = connection.destination
+						try:
+								shaderbox[dst.shader]["parameters"][dst.name].setInput(shaderbox[src.shader]['out'][src.name])
+						except:
+								print(f"source: {src.name} can't connect to destination: {dst.name}")
+
+		return shaderbox
 
 
 
