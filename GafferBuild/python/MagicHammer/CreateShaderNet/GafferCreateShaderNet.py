@@ -175,9 +175,6 @@ def convert_cyc_shaders(surface_attr, network, path, ParentShaderBox, shadernumb
 
 			network_output_shader = network.getOutput().shader # Store output shader name
 			for shader in sorted(network.shaders()):
-					#print("---------------------")
-					#print(shader)
-					#print("---------------------")
 					shader_name = shader
 					shader_type = network.shaders()[shader].name
 					type = network.shaders()[shader].type
@@ -211,7 +208,7 @@ def convert_cyc_shaders(surface_attr, network, path, ParentShaderBox, shadernumb
 							data = parameters.get(parameter)
 							Gaffer.PlugAlgo.setValueFromData(plug,data)
 						except:
-							print(parameter)
+							print(f'No se encontró: del nodo {shader_name}, {parameter}')
 					#print("!!!!!!!!!!!!")
 
 					#Store nodes and connections
@@ -220,19 +217,41 @@ def convert_cyc_shaders(surface_attr, network, path, ParentShaderBox, shadernumb
 
 		out = shaderbox[output_shader]
 		shaderbox['ShaderAssignment']['shader'].setInput(out['out'])
-			#Set connections
 		for nodeconnections in connections:
 				for connection in nodeconnections:
 						src = connection.source
 						dst = connection.destination
-						try:
-								shaderbox[dst.shader]["parameters"][dst.name].setInput(shaderbox[src.shader]['out'][src.name])
-						except:
-								print(f"source: {src.name} can't connect to destination: {dst.name}")
+						splug = shaderbox[src.shader]['out'][src.name]
+						dplug = shaderbox[dst.shader]["parameters"][dst.name]
+						if dplug.typeName() == splug.typeName():
+								dplug.setInput(splug)
+						else:
+							try:
+								types = {
+									'Gaffer::FloatPlug':'float',
+									'Gaffer::IntPlug':'int',
+									'Gaffer::V3fPlug':'vector',
+									'Gaffer::Color3fPlug':'color',
+									'Gaffer::StringPlug':'string',
+									'Gaffer::BoolPlug':'int'
+								}
+								## Convert Types of plugs ##
+								shadertype = f'convert_{ types[splug.typeName()] }_to_{ types[dplug.typeName()] }' ##e.g. "convert_vector_to_float"
+								#print( f'el shadertype es: {shadertype}' )
+								converter = GafferCycles.CyclesShader( 'aTOb' )
+								#print( f'el converter es: {converter}' )
+								converter.loadShader( shadertype )
+								shaderbox.addChild( converter )
+								Gaffer.Metadata.registerValue( converter, 'nodeGadget:color', imath.Color3f( 0.275000006, 0.630050004, 0.685000002 ) )
+								inplugname = f'value_{ types[splug.typeName()] }'
+								outplugname = f'value_{ types[dplug.typeName()] }'
+								converter['parameters'][inplugname].setInput(splug)
+								#print( f'los plugnames son: {inplugname} y {outplugname}' )
+								dplug.setInput( converter['out'][outplugname] )
+							except:
+								print(f"source:{src.shader}, {src.name} of type {splug.typeName()} can't connect to destination:{dst.shader}, {dst.name} of type {dplug.typeName()}")
 
 		return shaderbox
-
-
 
 def connect_into_network(node):
 	#Get nodes connected to Focus and plug the box node
