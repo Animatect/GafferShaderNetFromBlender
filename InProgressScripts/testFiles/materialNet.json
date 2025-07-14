@@ -1,0 +1,728 @@
+{
+  "AI58_001_Hoker_Seat": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Metallic": 0.0,
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular Tint": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Coat Normal": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Emission Color": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Emission Strength": 1.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": "<Vector (310.0000, 0.0000)>"
+      },
+      "DiffAmount_AI58_001_Hoker_Seat": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
+          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
+          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+        },
+        "location": "<Vector (-80.0000, 900.0000)>"
+      },
+      "Diff_AI58_001_Hoker_Seat": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {},
+        "location": "<Vector (-370.0000, 900.0000)>"
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": "<Vector (0.0000, 0.0000, 0.0000)>",
+          "Rotation": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
+          "Scale": "<Vector (1.0000, 1.0000, 1.0000)>"
+        },
+        "location": "<Vector (-1350.0000, 0.0000)>"
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": "<Vector (-1640.0000, 0.0000)>"
+      },
+      "GlossAmount_AI58_001_Hoker_Seat": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
+          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
+          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+        },
+        "location": "<Vector (-80.0000, 51.6062)>"
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": "<Vector (-370.0000, 0.0000)>"
+      },
+      "Gloss_AI58_001_Hoker_Seat": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {},
+        "location": "<Vector (-660.0000, 0.0000)>"
+      },
+      "IOR_AI58_001_Hoker_Seat": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {},
+        "location": "<Vector (-80.0000, -225.0000)>"
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0
+        },
+        "location": "<Vector (-80.0000, -750.0000)>"
+      },
+      "Normal_AI58_001_Hoker_Seat": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {},
+        "location": "<Vector (-380.0000, -750.0000)>"
+      },
+      "SpecAmount_AI58_001_Hoker_Seat": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
+          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
+          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+        },
+        "location": "<Vector (-80.0000, 600.0000)>"
+      },
+      "Spec_AI58_001_Hoker_Seat": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {},
+        "location": "<Vector (-370.0000, 600.0000)>"
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI58_001_Hoker_Seat",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI58_001_Hoker_Seat",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI58_001_Hoker_Seat",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI58_001_Hoker_Seat",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI58_001_Hoker_Seat",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI58_001_Hoker_Seat",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI58_001_Hoker_Seat",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI58_001_Hoker_Seat",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "IOR_AI58_001_Hoker_Seat",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "IOR_AI58_001_Hoker_Seat",
+        "from_socket": "Color",
+        "to_node": "Principled BSDF",
+        "to_socket": "IOR"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Normal_AI58_001_Hoker_Seat",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Normal_AI58_001_Hoker_Seat",
+        "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Spec_AI58_001_Hoker_Seat",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Spec_AI58_001_Hoker_Seat",
+        "from_socket": "Color",
+        "to_node": "SpecAmount_AI58_001_Hoker_Seat",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "SpecAmount_AI58_001_Hoker_Seat",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular IOR Level"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI58_001_metal_black": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Metallic": 0.800000011920929,
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular Tint": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Coat Normal": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Emission Color": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Emission Strength": 1.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": "<Vector (310.0000, 0.0000)>"
+      },
+      "DiffAmount_AI58_001_metal_blackV002": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
+          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
+          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+        },
+        "location": "<Vector (-80.0000, 900.0000)>"
+      },
+      "Diff_AI58_001_metal_blackV002": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {},
+        "location": "<Vector (-370.0000, 900.0000)>"
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": "<Vector (0.0000, 0.0000, 0.0000)>",
+          "Rotation": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
+          "Scale": "<Vector (1.0000, 1.0000, 1.0000)>"
+        },
+        "location": "<Vector (-1350.0000, 0.0000)>"
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": "<Vector (-1640.0000, 0.0000)>"
+      },
+      "GlossAmount_AI58_001_metal_blackV002": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
+          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
+          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+        },
+        "location": "<Vector (-80.0000, 0.0000)>"
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": "<Vector (-370.0000, 0.0000)>"
+      },
+      "Gloss_AI58_001_metal_blackV002": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {},
+        "location": "<Vector (-660.0000, 0.0000)>"
+      },
+      "IOR_AI58_001_metal_blackV002": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {},
+        "location": "<Vector (-80.0000, -225.0000)>"
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0
+        },
+        "location": "<Vector (-80.0000, -750.0000)>"
+      },
+      "Normal_AI58_001_metal_blackV002": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {},
+        "location": "<Vector (-380.0000, -750.0000)>"
+      },
+      "SpecAmount_AI58_001_metal_blackV002": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
+          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
+          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+        },
+        "location": "<Vector (-80.0000, 600.0000)>"
+      },
+      "Spec_AI58_001_metal_blackV002": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {},
+        "location": "<Vector (-370.0000, 600.0000)>"
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI58_001_metal_blackV002",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI58_001_metal_blackV002",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI58_001_metal_blackV002",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI58_001_metal_blackV002",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI58_001_metal_blackV002",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI58_001_metal_blackV002",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI58_001_metal_blackV002",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI58_001_metal_blackV002",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "IOR_AI58_001_metal_blackV002",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "IOR_AI58_001_metal_blackV002",
+        "from_socket": "Color",
+        "to_node": "Principled BSDF",
+        "to_socket": "IOR"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Normal_AI58_001_metal_blackV002",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Normal_AI58_001_metal_blackV002",
+        "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Spec_AI58_001_metal_blackV002",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Spec_AI58_001_metal_blackV002",
+        "from_socket": "Color",
+        "to_node": "SpecAmount_AI58_001_metal_blackV002",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "SpecAmount_AI58_001_metal_blackV002",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular IOR Level"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI58_001_MetalV001": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Metallic": 0.0,
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular Tint": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Coat Normal": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Emission Color": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Emission Strength": 1.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": "<Vector (310.0000, 0.0000)>"
+      },
+      "DiffAmount_AI58_001_MetalV001": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
+          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
+          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+        },
+        "location": "<Vector (-80.0000, 900.0000)>"
+      },
+      "Diff_AI58_001_MetalV001": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {},
+        "location": "<Vector (-370.0000, 900.0000)>"
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": "<Vector (0.0000, 0.0000, 0.0000)>",
+          "Rotation": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
+          "Scale": "<Vector (1.0000, 1.0000, 1.0000)>"
+        },
+        "location": "<Vector (-1350.0000, 0.0000)>"
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": "<Vector (-1640.0000, 0.0000)>"
+      },
+      "GlossAmount_AI58_001_MetalV001": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
+          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
+          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+        },
+        "location": "<Vector (-80.0000, 0.0000)>"
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": "<Vector (-370.0000, 0.0000)>"
+      },
+      "Gloss_AI58_001_MetalV001": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {},
+        "location": "<Vector (-660.0000, 0.0000)>"
+      },
+      "IOR_AI58_001_MetalV001": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {},
+        "location": "<Vector (-80.0000, -225.0000)>"
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0
+        },
+        "location": "<Vector (-80.0000, -750.0000)>"
+      },
+      "Normal_AI58_001_MetalV001": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {},
+        "location": "<Vector (-380.0000, -750.0000)>"
+      },
+      "SpecAmount_AI58_001_MetalV001": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
+          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
+          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+        },
+        "location": "<Vector (-80.0000, 600.0000)>"
+      },
+      "Spec_AI58_001_MetalV001": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {},
+        "location": "<Vector (-370.0000, 600.0000)>"
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI58_001_MetalV001",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI58_001_MetalV001",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI58_001_MetalV001",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI58_001_MetalV001",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI58_001_MetalV001",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI58_001_MetalV001",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI58_001_MetalV001",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI58_001_MetalV001",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "IOR_AI58_001_MetalV001",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "IOR_AI58_001_MetalV001",
+        "from_socket": "Color",
+        "to_node": "Principled BSDF",
+        "to_socket": "IOR"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Normal_AI58_001_MetalV001",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Normal_AI58_001_MetalV001",
+        "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Spec_AI58_001_MetalV001",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Spec_AI58_001_MetalV001",
+        "from_socket": "Color",
+        "to_node": "SpecAmount_AI58_001_MetalV001",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "SpecAmount_AI58_001_MetalV001",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular IOR Level"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  }
+}

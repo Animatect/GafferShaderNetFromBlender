@@ -15,6 +15,9 @@ PLUG_TYPE_MAP = {
     'Gaffer::StringPlug': 'string',
     'Gaffer::BoolPlug': 'int'
 }
+def safe_plug_name(plugname):
+    plugnamesafe = plugname.lower().replace(" ", "_")
+    return plugnamesafe
 
 # --- Safe plug connection with auto converter shader insertion ---
 def safe_connect(parent, src_node, src_name, dst_node, dst_name):
@@ -87,7 +90,16 @@ def load_material_from_json(json_path, parent):
 
     # Second pass: link nodes
     for link in links:
-        from_node, from_socket, to_node, to_socket = link
+        print("📦 Raw link:", link)
+        if isinstance(link, dict):
+            from_node = link.get("from_node")
+            from_socket = safe_plug_name( link.get("from_socket") )
+            to_node = link.get("to_node")
+            to_socket = safe_plug_name( link.get("to_socket") )
+        else:
+            print(f"⚠️ Invalid link format (not a dict): {link}")
+            continue
+
         if from_node == output_node_name:
             continue  # skip linking from output
         if to_node == output_node_name:
