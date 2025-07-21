@@ -31,16 +31,16 @@ def resolve_plug_name(socket_label, gaffer_node, io="parameters", shader_type=No
     # 1. Try safe plug name directly
     candidate = safe_plug_name(socket_label)
     if io in gaffer_node and candidate in gaffer_node[io]:
-        print("### 1 ###")
-        print("candidate: ", candidate)
+        # print("### 1 ###")
+        # print("candidate: ", candidate)
         return candidate
 
     # 2. Try label map fallback
     if shader_type:
-        print("### 2 ###")
-        print("SHT: ", shader_type, ", OnLblMap: ",LABEL_MAP.get(shader_type, {}))
+        # print("### 2 ###")
+        # print("SHT: ", shader_type, ", OnLblMap: ",LABEL_MAP.get(shader_type, {}))
         remap = LABEL_MAP.get(shader_type, {}).get(socket_label.lower())
-        print("remap: ", remap)
+        # print("remap: ", remap)
         if remap and remap in gaffer_node[io]:
             return remap
 
@@ -48,9 +48,9 @@ def resolve_plug_name(socket_label, gaffer_node, io="parameters", shader_type=No
     print("shader_type: ", shader_type)
     norm_target = normalize_name(socket_label)
     for name in gaffer_node[io].keys():
-        print("### 3 ###")
+        # print("### 3 ###")
         if normalize_name(name) == norm_target:
-            print("name: ",name)
+            # print("name: ",name)
             return name
 
     return None
@@ -103,74 +103,122 @@ def safe_connect(parent, src_node_name, src_socket_label, dst_node_name, dst_soc
     except Exception as e:
         print(f"❌ Failed to connect {src_node_name}.{src_socket_label} → {dst_node_name}.{dst_socket_label}: {e}")
 
+def create_basecheck_shader(mainShaderbox, paths):
+    shassignnode = GafferScene.ShaderAssignment("CheckShader")
+    mainShaderbox.addChild(shassignnode)
+
+    checkMat = GafferCycles.CyclesShader("CheckMaterial")
+    mainShaderbox.addChild(checkMat)
+    checkMat.loadShader("emission")
+    checkMat["parameters"]["color"].setValue(imath.Color3f(1, 0, 1))  # Magenta
+    #Gaffer.Metadata.registerValue(checkMat, 'nodeGadget:color', imath.Color3f(1, 0, 1))
+
+    shassignnode['shader'].setInput(checkMat['out'])
+
+    pathFilter = GafferScene.PathFilter("CheckerNodes_pathFilter")
+    mainShaderbox.addChild(pathFilter)
+    shassignnode['filter'].setInput(pathFilter["out"])
+
+    newpaths = IECore.StringVectorData()
+    for v in paths:
+        newpaths.append(v if v.endswith("/...") else v.rstrip("/") + "/...")
+    pathFilter["paths"].setValue(newpaths)
+
+    return shassignnode
+
 
 # --- Main material loader ---
-def load_material_from_json(json_path, parent):
+def load_materials_from_json(json_path, parent):
     with open(json_path, "r") as f:
         material_data = json.load(f)
 
-    material_name, material = next(iter(material_data.items()))
-    nodes = material["nodes"]
-    links = material.get("links", [])
+    paths = [f"/{mat}" for mat in material_data.keys()]
 
-    created_nodes = {}
+    # Add fallback check shader box
+    fallback_box = Gaffer.Box("Fallback_Material")
+    parent.addChild(fallback_box)
+    Gaffer.Metadata.registerValue(fallback_box, 'nodeGadget:color', imath.Color3f(1, 0, 1))
+    shassignnode = create_basecheck_shader(fallback_box, paths)
+    #PromoteInOut
+    boxInPlug = Gaffer.BoxIO.promote( shassignnode["in"] )
+    boxOutPlug = Gaffer.BoxIO.promote( shassignnode["out"] )
+    # Add a passthrough
+    boxOutNode = boxOutPlug.getInput().node()
+    boxInNode = boxInPlug.outputs()[0].node()
+    boxOutNode["passThrough"].setInput( boxInNode["out"] )
+    #
+    last_out = fallback_box["out"]
 
-    # First pass: create all shaders
-    for node_name, node_info in nodes.items():
-        node_type = node_info.get("type", "")
-        shader_type = node_info.get("cycles_type", "")
-        parameters = node_info.get("parameters", {})
+    for mat_name, material in material_data.items():
+        print(f"\n🧱 Loading material: {mat_name}")
+        mat_box = Gaffer.Box(mat_name)
+        parent.addChild(mat_box)
 
-        if node_type == "ShaderNodeOutputMaterial":
-            print(f"🎯 Found output node: {node_name} (skipping shader creation)")
-            output_node_name = node_name
-            continue
+        nodes = material["nodes"]
+        links = material.get("links", [])
+        created_nodes = {}
 
-        safe_name = re.sub(r'\W|^(?=\d)', '_', node_name)
-        shader_node = GafferCycles.CyclesShader(safe_name)
-        shader_node.loadShader(shader_type)
-        shader_node.shaderType = shader_type
-        parent.addChild(shader_node)
-        created_nodes[node_name] = safe_name
+        for node_name, node_info in nodes.items():
+            node_type = node_info.get("type", "")
+            shader_type = node_info.get("cycles_type", "")
+            params = node_info.get("parameters", {})
 
-        print(f"➕ Created shader node: {node_name} as {safe_name}")
+            if node_type == "ShaderNodeOutputMaterial":
+                output_node_name = node_name
+                continue
 
-        for param, value in parameters.items():
-            try:
-                plug = shader_node["parameters"][param]
-                Gaffer.PlugAlgo.setValueFromData(plug, value)
-            except Exception as e:
-                print(f"⚠️ Could not set parameter '{param}' on node '{safe_name}': {e}")
+            safe_name = re.sub(r'\W|^(?=\d)', '_', node_name)
+            shader = GafferCycles.CyclesShader(safe_name)
+            shader.loadShader(shader_type)
+            shader.shaderType = shader_type
+            mat_box.addChild(shader)
+            created_nodes[node_name] = safe_name
 
-    # Second pass: link nodes
-    for link in links:
-        print("📦 Raw link:", link)
-        if isinstance(link, dict):
-            from_node = link.get("from_node")
-            from_socket = safe_plug_name( link.get("from_socket") )
-            to_node = link.get("to_node")
-            to_socket = safe_plug_name( link.get("to_socket") )
-        else:
-            print(f"⚠️ Invalid link format (not a dict): {link}")
-            continue
+            print(f"➕ Created shader node: {node_name} as {safe_name}")
 
-        if from_node == output_node_name:
-            continue  # skip linking from output
-        if to_node == output_node_name:
-            final_shader = created_nodes.get(from_node)
-            if final_shader:
-                shader_assignment = GafferScene.ShaderAssignment("ShaderAssignment")
-                parent.addChild(shader_assignment)
-                shader_assignment["shader"].setInput(parent[final_shader]["out"])
-                print(f"🎯 Created ShaderAssignment and connected final shader {final_shader}")
-            continue
-        if from_node in created_nodes and to_node in created_nodes:
-            safe_connect(parent, created_nodes[from_node], from_socket, created_nodes[to_node], to_socket)
-        else:
-            print(f"⚠️ Skipping connection {from_node}.{from_socket} → {to_node}.{to_socket} (node not found)")
+            for param, value in params.items():
+                try:
+                    Gaffer.PlugAlgo.setValueFromData(shader["parameters"][param], value)
+                except Exception as e:
+                    print(f"⚠️ Could not set param {param} on {safe_name}: {e}")
+
+        for link in links:
+            print("📦 Raw link:", link)
+            if not isinstance(link, dict):
+                continue
+
+            from_node = link["from_node"]
+            to_node = link["to_node"]
+            from_socket = link["from_socket"]
+            to_socket = link["to_socket"]
+
+            if from_node == output_node_name:
+                continue
+            if to_node == output_node_name:
+                final_shader = created_nodes.get(from_node)
+                if final_shader:
+                    sh_assign = GafferScene.ShaderAssignment("ShaderAssignment")
+                    mat_box.addChild(sh_assign)
+                    sh_assign["shader"].setInput(mat_box[final_shader]["out"])
+                    print(f"🎯 Created ShaderAssignment and connected final shader {final_shader}")
+                continue
+
+            if from_node in created_nodes and to_node in created_nodes:
+                safe_connect(mat_box, created_nodes[from_node], from_socket, created_nodes[to_node], to_socket)
+
+        # #PromoteInOut
+        boxInPlug = Gaffer.BoxIO.promote( sh_assign["in"] )
+        boxOutPlug = Gaffer.BoxIO.promote( sh_assign["out"] )
+        # Add a passthrough
+        boxOutNode = boxOutPlug.getInput().node()
+        boxInNode = boxInPlug.outputs()[0].node()
+        boxOutNode["passThrough"].setInput( boxInNode["out"] )
+        # Connect in/out for box chaining
+        mat_box["in"].setInput(last_out)
+        last_out = mat_box["out"]
 
 
 # Usage:
 # Assuming you're running this in a Gaffer script editor or binding context
 json_path = r"C:\tmp\Gaffer\BlenderInterop\matTests\materialNet.json"
-load_material_from_json(json_path, root)  # or a Gaffer.Box() if building modular
+load_materials_from_json(json_path, root)  # or a Gaffer.Box() if building modular
