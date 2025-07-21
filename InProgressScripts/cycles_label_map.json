@@ -1,0 +1,218 @@
+{
+  "principled_bsdf": {
+    "base color": "base_color",
+    "ior": "thin_film_ior",
+    "method": "subsurface_method",
+    "weight": "sheen_weight",
+    "radius": "subsurface_radius",
+    "scale": "subsurface_scale",
+    "anisotropy": "subsurface_anisotropy",
+    "distribution": "distribution",
+    "ior level": "specular_ior_level",
+    "tint": "sheen_tint",
+    "anisotropic": "anisotropic",
+    "anisotropic rotation": "anisotropic_rotation",
+    "tangent": "tangent",
+    "roughness": "sheen_roughness",
+    "normal": "coat_normal",
+    "color": "emission_color",
+    "strength": "emission_strength",
+    "thickness": "thin_film_thickness"
+  },
+  "principled_hair_bsdf": {
+    "absorption coefficient": "absorption_coefficient",
+    "melanin redness": "melanin_redness",
+    "radial roughness": "radial_roughness",
+    "ior": "ior",
+    "random color": "random_color",
+    "random roughness": "random_roughness",
+    "aspect ratio": "aspect_ratio"
+  },
+  "principled_volume": {
+    "color attribute": "color_attribute",
+    "density attribute": "density_attribute",
+    "absorption color": "absorption_color",
+    "emission strength": "emission_strength",
+    "emission color": "emission_color",
+    "blackbody intensity": "blackbody_intensity",
+    "blackbody tint": "blackbody_tint",
+    "temperature attribute": "temperature_attribute"
+  },
+  "vector_map_range": {
+    "interpolation type": "range_type",
+    "from min": "from_min",
+    "from max": "from_max",
+    "to min": "to_min",
+    "to max": "to_max",
+    "steps": "steps",
+    "clamp": "use_clamp"
+  },
+  "map_range": {
+    "interpolation type": "range_type",
+    "from min": "from_min",
+    "from max": "from_max",
+    "to min": "to_min",
+    "to max": "to_max",
+    "steps": "steps",
+    "clamp": "use_clamp"
+  },
+  "mix": {
+    "blending mode": "mix_type",
+    "a": "color1",
+    "b": "color2",
+    "clamp": "use_clamp",
+    "result": "color"
+  },
+  "mix_color": {
+    "blending mode": "blend_type",
+    "clamp result": "use_clamp_result",
+    "clamp factor": "use_clamp"
+  },
+  "float_curve": {
+    "min x": "min_x",
+    "max x": "max_x"
+  },
+  "rgb_curves": {
+    "min x": "min_x",
+    "max x": "max_x"
+  },
+  "vector_curves": {
+    "min x": "min_x",
+    "max x": "max_x"
+  },
+  "vector_transform": {
+    "type": "transform_type",
+    "convert from": "convert_from",
+    "mconvert to": "convert_to"
+  },
+  "mapping": {
+    "type": "mapping_type"
+  },
+  "vector_rotate": {
+    "type": "rotate_type"
+  },
+  "clamp": {
+    "clamp type": "clamp_type"
+  },
+  "mix_float": {
+    "clamp": "use_clamp"
+  },
+  "mix_vector": {
+    "clamp": "use_clamp"
+  },
+  "mix_vector_non_uniform": {
+    "clamp": "use_clamp"
+  },
+  "brightness_contrast": {
+    "brightness": "bright"
+  },
+  "normal": {
+    "direction": "direction"
+  },
+  "bump": {
+    "sample center": "sample_center",
+    "sample x": "sample_x",
+    "sample y": "sample_y",
+    "use object space": "use_object_space"
+  },
+  "vertex_color": {
+    "layer name": "layer_name"
+  },
+  "vector_math": {
+    "operation": "math_type"
+  },
+  "texture_coordinate": {
+    "from dupli": "from_dupli",
+    "use transform": "use_transform",
+    "object transform": "ob_tfm"
+  },
+  "ambient_occlusion": {
+    "only local": "only_local"
+  },
+  "uvmap": {
+    "from dupli": "from_dupli"
+  },
+  "wireframe": {
+    "use pixel size": "use_pixel_size"
+  },
+  "tangent": {
+    "direction": "direction_type"
+  },
+  "point_density_texture": {
+    "transform": "tfm"
+  },
+  "image_texture": {
+    "alpha type": "alpha_type",
+    "projection blend": "projection_blend"
+  },
+  "environment_texture": {
+    "alpha type": "alpha_type"
+  },
+  "sky_texture": {
+    "type": "sky_type",
+    "sun direction": "sun_direction",
+    "sun disc": "sun_disc",
+    "sun size": "sun_size",
+    "sun intensity": "sun_intensity",
+    "sun elevation": "sun_elevation",
+    "sun rotation": "sun_rotation",
+    "ground albedo": "ground_albedo",
+    "air": "air_density",
+    "dust": "dust_density",
+    "ozone": "ozone_density"
+  },
+  "noise_texture": {
+    "normalize": "use_normalize"
+  },
+  "gradient_texture": {
+    "gradient type": "gradient_type"
+  },
+  "voronoi_texture": {
+    "normalize": "use_normalize"
+  },
+  "ies_light": {
+    "ies": "ies"
+  },
+  "musgrave_texture": {
+    "musgrave type": "musgrave_type"
+  },
+  "checker_texture": {},
+  "magic_texture": {},
+  "wave_texture": {
+    "wave type": "wave_type",
+    "bands direction": "bands_direction",
+    "rings direction": "rings_direction",
+    "detail scale": "detail_scale",
+    "detail roughness": "detail_roughness"
+  },
+  "brick_texture": {
+    "offset frequency": "offset_frequency",
+    "squash frequency": "squash_frequency",
+    "mortar size": "mortar_size",
+    "mortar smooth": "mortar_smooth",
+    "brick width": "brick_width",
+    "row width": "brick_height"
+  },
+  "hair_bsdf": {
+    "roughness u": "roughness_u",
+    "roughness v": "roughness_v"
+  },
+  "subsurface_scattering": {
+    "ior": "subsurface_ior",
+    "roughness": "subsurface_roughness",
+    "anisotropy": "subsurface_anisotropy"
+  },
+  "math": {
+    "operation": "math_type",
+    "clamp": "use_clamp"
+  },
+  "rgb_ramp": {
+    "ramp alpha": "ramp_alpha"
+  },
+  "glass_bsdf": {},
+  "toon_bsdf": {},
+  "glossy_bsdf": {},
+  "refraction_bsdf": {},
+  "sheen_bsdf": {},
+  "diffuse_bsdf": {}
+}
