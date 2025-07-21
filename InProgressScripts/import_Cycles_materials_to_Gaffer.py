@@ -126,6 +126,16 @@ def create_basecheck_shader(mainShaderbox, paths):
 
     return shassignnode
 
+def boxInOutHandling(innode, outnode=None):
+    if not outnode:
+        outnode = innode
+    #PromoteInOut
+    boxInPlug = Gaffer.BoxIO.promote( innode["in"] )
+    boxOutPlug = Gaffer.BoxIO.promote( outnode["out"] )
+    # Add a passthrough
+    boxOutNode = boxOutPlug.getInput().node()
+    boxInNode = boxInPlug.outputs()[0].node()
+    boxOutNode["passThrough"].setInput( boxInNode["out"] )
 
 # --- Main material loader ---
 def load_materials_from_json(json_path, parent):
@@ -134,25 +144,22 @@ def load_materials_from_json(json_path, parent):
 
     paths = [f"/{mat}" for mat in material_data.keys()]
 
+    #Add Master Box
+    materials_box = Gaffer.Box("Materials")
+    parent.addChild(materials_box)
+
     # Add fallback check shader box
     fallback_box = Gaffer.Box("Fallback_Material")
-    parent.addChild(fallback_box)
+    materials_box.addChild(fallback_box)
     Gaffer.Metadata.registerValue(fallback_box, 'nodeGadget:color', imath.Color3f(1, 0, 1))
     shassignnode = create_basecheck_shader(fallback_box, paths)
-    #PromoteInOut
-    boxInPlug = Gaffer.BoxIO.promote( shassignnode["in"] )
-    boxOutPlug = Gaffer.BoxIO.promote( shassignnode["out"] )
-    # Add a passthrough
-    boxOutNode = boxOutPlug.getInput().node()
-    boxInNode = boxInPlug.outputs()[0].node()
-    boxOutNode["passThrough"].setInput( boxInNode["out"] )
-    #
+    boxInOutHandling(shassignnode)
     last_out = fallback_box["out"]
 
     for mat_name, material in material_data.items():
         print(f"\n🧱 Loading material: {mat_name}")
         mat_box = Gaffer.Box(mat_name)
-        parent.addChild(mat_box)
+        materials_box.addChild(mat_box)
 
         nodes = material["nodes"]
         links = material.get("links", [])
@@ -206,16 +213,13 @@ def load_materials_from_json(json_path, parent):
             if from_node in created_nodes and to_node in created_nodes:
                 safe_connect(mat_box, created_nodes[from_node], from_socket, created_nodes[to_node], to_socket)
 
-        # #PromoteInOut
-        boxInPlug = Gaffer.BoxIO.promote( sh_assign["in"] )
-        boxOutPlug = Gaffer.BoxIO.promote( sh_assign["out"] )
-        # Add a passthrough
-        boxOutNode = boxOutPlug.getInput().node()
-        boxInNode = boxInPlug.outputs()[0].node()
-        boxOutNode["passThrough"].setInput( boxInNode["out"] )
+        boxInOutHandling(sh_assign)
         # Connect in/out for box chaining
         mat_box["in"].setInput(last_out)
         last_out = mat_box["out"]
+    
+    #Handle InOut for master box
+    boxInOutHandling(fallback_box, mat_box)
 
 
 # Usage:
