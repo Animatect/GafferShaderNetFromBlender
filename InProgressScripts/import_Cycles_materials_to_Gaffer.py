@@ -31,26 +31,18 @@ def resolve_plug_name(socket_label, gaffer_node, io="parameters", shader_type=No
     # 1. Try safe plug name directly
     candidate = safe_plug_name(socket_label)
     if io in gaffer_node and candidate in gaffer_node[io]:
-        # print("### 1 ###")
-        # print("candidate: ", candidate)
         return candidate
 
     # 2. Try label map fallback
     if shader_type:
-        # print("### 2 ###")
-        # print("SHT: ", shader_type, ", OnLblMap: ",LABEL_MAP.get(shader_type, {}))
         remap = LABEL_MAP.get(shader_type, {}).get(socket_label.lower())
-        # print("remap: ", remap)
         if remap and remap in gaffer_node[io]:
             return remap
 
     # 3. Try fuzzy match
-    print("shader_type: ", shader_type)
     norm_target = normalize_name(socket_label)
     for name in gaffer_node[io].keys():
-        # print("### 3 ###")
         if normalize_name(name) == norm_target:
-            # print("name: ",name)
             return name
 
     return None
@@ -64,8 +56,8 @@ def safe_connect(parent, src_node_name, src_socket_label, dst_node_name, dst_soc
         # Try to guess shader types from node names
         src_shader_type = src_node['name'].getValue()#getattr(src_node, "shaderType", None)
         dst_shader_type = dst_node['name'].getValue()#getattr(dst_node, "shaderType", None)
-        print("dst_node: ", dst_node)
-        print("dst_shader_type: ", dst_shader_type)
+        # print("dst_node: ", dst_node)
+        # print("dst_shader_type: ", dst_shader_type)
 
         src_plug_name = resolve_plug_name(src_socket_label, src_node, io="out", shader_type=src_shader_type)
         dst_plug_name = resolve_plug_name(dst_socket_label, dst_node, io="parameters", shader_type=dst_shader_type)
@@ -79,7 +71,7 @@ def safe_connect(parent, src_node_name, src_socket_label, dst_node_name, dst_soc
 
         if dst_plug.typeName() == src_plug.typeName():
             dst_plug.setInput(src_plug)
-            print(f"🔗 Connected {src_node_name}.{src_plug_name} → {dst_node_name}.{dst_plug_name}")
+            # print(f"🔗 Connected {src_node_name}.{src_plug_name} → {dst_node_name}.{dst_plug_name}")
         else:
             from_type = PLUG_TYPE_MAP.get(src_plug.typeName())
             to_type = PLUG_TYPE_MAP.get(dst_plug.typeName())
@@ -98,7 +90,7 @@ def safe_connect(parent, src_node_name, src_socket_label, dst_node_name, dst_soc
 
             converter["parameters"][inplugname].setInput(src_plug)
             dst_plug.setInput(converter["out"][outplugname])
-            print(f"🔀 Inserted converter: {converter_name} between {src_node_name}.{src_plug_name} → {dst_node_name}.{dst_plug_name}")
+            #print(f"🔀 Inserted converter: {converter_name} between {src_node_name}.{src_plug_name} → {dst_node_name}.{dst_plug_name}")
 
     except Exception as e:
         print(f"❌ Failed to connect {src_node_name}.{src_socket_label} → {dst_node_name}.{dst_socket_label}: {e}")
@@ -181,7 +173,7 @@ def load_materials_from_json(json_path, parent):
             mat_box.addChild(shader)
             created_nodes[node_name] = safe_name
 
-            print(f"➕ Created shader node: {node_name} as {safe_name}")
+            # print(f"➕ Created shader node: {node_name} as {safe_name}")
 
             for param, value in params.items():
                 try:
@@ -190,7 +182,7 @@ def load_materials_from_json(json_path, parent):
                     print(f"⚠️ Could not set param {param} on {safe_name}: {e}")
 
         for link in links:
-            print("📦 Raw link:", link)
+            #print("📦 Raw link:", link)
             if not isinstance(link, dict):
                 continue
 
