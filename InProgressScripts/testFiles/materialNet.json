@@ -19,71 +19,108 @@
           "Weight": 0.0,
           "Diffuse Roughness": 0.0,
           "Subsurface Weight": 0.0,
-          "Subsurface Radius": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
           "Subsurface Scale": 0.05000000074505806,
           "Subsurface IOR": 1.399999976158142,
           "Subsurface Anisotropy": 0.0,
-          "Specular Tint": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Specular Tint": 1.0,
           "Anisotropic": 0.0,
           "Anisotropic Rotation": 0.0,
-          "Tangent": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Tangent": 0.0,
           "Transmission Weight": 0.0,
           "Coat Weight": 0.0,
           "Coat Roughness": 0.029999999329447746,
           "Coat IOR": 1.5,
-          "Coat Tint": "<bpy_float[4], NodeSocketColor.default_value>",
-          "Coat Normal": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Coat Tint": 1.0,
+          "Coat Normal": 0.0,
           "Sheen Weight": 0.0,
           "Sheen Roughness": 0.5,
-          "Sheen Tint": "<bpy_float[4], NodeSocketColor.default_value>",
-          "Emission Color": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Sheen Tint": 1.0,
+          "Emission Color": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
           "Emission Strength": 1.0,
           "Thin Film Thickness": 0.0,
           "Thin Film IOR": 1.3300000429153442
         },
-        "location": "<Vector (310.0000, 0.0000)>"
+        "location": null
       },
       "DiffAmount_AI58_001_Hoker_Seat": {
         "type": "ShaderNodeMix",
         "cycles_type": "mix",
         "params": {
-          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
-          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
-          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
         },
-        "location": "<Vector (-80.0000, 900.0000)>"
+        "location": null
       },
       "Diff_AI58_001_Hoker_Seat": {
         "type": "ShaderNodeTexImage",
         "cycles_type": "image_texture",
         "params": {},
-        "location": "<Vector (-370.0000, 900.0000)>"
+        "location": null
       },
       "Mapping": {
         "type": "ShaderNodeMapping",
         "cycles_type": "mapping",
         "params": {
-          "Location": "<Vector (0.0000, 0.0000, 0.0000)>",
-          "Rotation": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
-          "Scale": "<Vector (1.0000, 1.0000, 1.0000)>"
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
         },
-        "location": "<Vector (-1350.0000, 0.0000)>"
+        "location": null
       },
       "Texture Coordinate": {
         "type": "ShaderNodeTexCoord",
         "cycles_type": "texture_coordinate",
         "params": {},
-        "location": "<Vector (-1640.0000, 0.0000)>"
+        "location": null
       },
       "GlossAmount_AI58_001_Hoker_Seat": {
         "type": "ShaderNodeMix",
         "cycles_type": "mix",
         "params": {
-          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
-          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
-          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
         },
-        "location": "<Vector (-80.0000, 51.6062)>"
+        "location": null
       },
       "Invert": {
         "type": "ShaderNodeInvert",
@@ -91,19 +128,19 @@
         "params": {
           "Fac": 1.0
         },
-        "location": "<Vector (-370.0000, 0.0000)>"
+        "location": null
       },
       "Gloss_AI58_001_Hoker_Seat": {
         "type": "ShaderNodeTexImage",
         "cycles_type": "image_texture",
         "params": {},
-        "location": "<Vector (-660.0000, 0.0000)>"
+        "location": null
       },
       "IOR_AI58_001_Hoker_Seat": {
         "type": "ShaderNodeTexImage",
         "cycles_type": "image_texture",
         "params": {},
-        "location": "<Vector (-80.0000, -225.0000)>"
+        "location": null
       },
       "Normal Map": {
         "type": "ShaderNodeNormalMap",
@@ -111,29 +148,37 @@
         "params": {
           "Strength": 1.0
         },
-        "location": "<Vector (-80.0000, -750.0000)>"
+        "location": null
       },
       "Normal_AI58_001_Hoker_Seat": {
         "type": "ShaderNodeTexImage",
         "cycles_type": "image_texture",
         "params": {},
-        "location": "<Vector (-380.0000, -750.0000)>"
+        "location": null
       },
       "SpecAmount_AI58_001_Hoker_Seat": {
         "type": "ShaderNodeMix",
         "cycles_type": "mix",
         "params": {
-          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
-          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
-          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
         },
-        "location": "<Vector (-80.0000, 600.0000)>"
+        "location": null
       },
       "Spec_AI58_001_Hoker_Seat": {
         "type": "ShaderNodeTexImage",
         "cycles_type": "image_texture",
         "params": {},
-        "location": "<Vector (-370.0000, 600.0000)>"
+        "location": null
       }
     },
     "links": [
@@ -261,71 +306,108 @@
           "Weight": 0.0,
           "Diffuse Roughness": 0.0,
           "Subsurface Weight": 0.0,
-          "Subsurface Radius": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
           "Subsurface Scale": 0.05000000074505806,
           "Subsurface IOR": 1.399999976158142,
           "Subsurface Anisotropy": 0.0,
-          "Specular Tint": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Specular Tint": 1.0,
           "Anisotropic": 0.0,
           "Anisotropic Rotation": 0.0,
-          "Tangent": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Tangent": 0.0,
           "Transmission Weight": 0.0,
           "Coat Weight": 0.0,
           "Coat Roughness": 0.029999999329447746,
           "Coat IOR": 1.5,
-          "Coat Tint": "<bpy_float[4], NodeSocketColor.default_value>",
-          "Coat Normal": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Coat Tint": 1.0,
+          "Coat Normal": 0.0,
           "Sheen Weight": 0.0,
           "Sheen Roughness": 0.5,
-          "Sheen Tint": "<bpy_float[4], NodeSocketColor.default_value>",
-          "Emission Color": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Sheen Tint": 1.0,
+          "Emission Color": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
           "Emission Strength": 1.0,
           "Thin Film Thickness": 0.0,
           "Thin Film IOR": 1.3300000429153442
         },
-        "location": "<Vector (310.0000, 0.0000)>"
+        "location": null
       },
       "DiffAmount_AI58_001_metal_blackV002": {
         "type": "ShaderNodeMix",
         "cycles_type": "mix",
         "params": {
-          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
-          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
-          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
         },
-        "location": "<Vector (-80.0000, 900.0000)>"
+        "location": null
       },
       "Diff_AI58_001_metal_blackV002": {
         "type": "ShaderNodeTexImage",
         "cycles_type": "image_texture",
         "params": {},
-        "location": "<Vector (-370.0000, 900.0000)>"
+        "location": null
       },
       "Mapping": {
         "type": "ShaderNodeMapping",
         "cycles_type": "mapping",
         "params": {
-          "Location": "<Vector (0.0000, 0.0000, 0.0000)>",
-          "Rotation": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
-          "Scale": "<Vector (1.0000, 1.0000, 1.0000)>"
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
         },
-        "location": "<Vector (-1350.0000, 0.0000)>"
+        "location": null
       },
       "Texture Coordinate": {
         "type": "ShaderNodeTexCoord",
         "cycles_type": "texture_coordinate",
         "params": {},
-        "location": "<Vector (-1640.0000, 0.0000)>"
+        "location": null
       },
       "GlossAmount_AI58_001_metal_blackV002": {
         "type": "ShaderNodeMix",
         "cycles_type": "mix",
         "params": {
-          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
-          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
-          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
         },
-        "location": "<Vector (-80.0000, 0.0000)>"
+        "location": null
       },
       "Invert": {
         "type": "ShaderNodeInvert",
@@ -333,19 +415,19 @@
         "params": {
           "Fac": 1.0
         },
-        "location": "<Vector (-370.0000, 0.0000)>"
+        "location": null
       },
       "Gloss_AI58_001_metal_blackV002": {
         "type": "ShaderNodeTexImage",
         "cycles_type": "image_texture",
         "params": {},
-        "location": "<Vector (-660.0000, 0.0000)>"
+        "location": null
       },
       "IOR_AI58_001_metal_blackV002": {
         "type": "ShaderNodeTexImage",
         "cycles_type": "image_texture",
         "params": {},
-        "location": "<Vector (-80.0000, -225.0000)>"
+        "location": null
       },
       "Normal Map": {
         "type": "ShaderNodeNormalMap",
@@ -353,29 +435,37 @@
         "params": {
           "Strength": 1.0
         },
-        "location": "<Vector (-80.0000, -750.0000)>"
+        "location": null
       },
       "Normal_AI58_001_metal_blackV002": {
         "type": "ShaderNodeTexImage",
         "cycles_type": "image_texture",
         "params": {},
-        "location": "<Vector (-380.0000, -750.0000)>"
+        "location": null
       },
       "SpecAmount_AI58_001_metal_blackV002": {
         "type": "ShaderNodeMix",
         "cycles_type": "mix",
         "params": {
-          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
-          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
-          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
         },
-        "location": "<Vector (-80.0000, 600.0000)>"
+        "location": null
       },
       "Spec_AI58_001_metal_blackV002": {
         "type": "ShaderNodeTexImage",
         "cycles_type": "image_texture",
         "params": {},
-        "location": "<Vector (-370.0000, 600.0000)>"
+        "location": null
       }
     },
     "links": [
@@ -503,71 +593,108 @@
           "Weight": 0.0,
           "Diffuse Roughness": 0.0,
           "Subsurface Weight": 0.0,
-          "Subsurface Radius": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
           "Subsurface Scale": 0.05000000074505806,
           "Subsurface IOR": 1.399999976158142,
           "Subsurface Anisotropy": 0.0,
-          "Specular Tint": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Specular Tint": 1.0,
           "Anisotropic": 0.0,
           "Anisotropic Rotation": 0.0,
-          "Tangent": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Tangent": 0.0,
           "Transmission Weight": 0.0,
           "Coat Weight": 0.0,
           "Coat Roughness": 0.029999999329447746,
           "Coat IOR": 1.5,
-          "Coat Tint": "<bpy_float[4], NodeSocketColor.default_value>",
-          "Coat Normal": "<bpy_float[3], NodeSocketVector.default_value>",
+          "Coat Tint": 1.0,
+          "Coat Normal": 0.0,
           "Sheen Weight": 0.0,
           "Sheen Roughness": 0.5,
-          "Sheen Tint": "<bpy_float[4], NodeSocketColor.default_value>",
-          "Emission Color": "<bpy_float[4], NodeSocketColor.default_value>",
+          "Sheen Tint": 1.0,
+          "Emission Color": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
           "Emission Strength": 1.0,
           "Thin Film Thickness": 0.0,
           "Thin Film IOR": 1.3300000429153442
         },
-        "location": "<Vector (310.0000, 0.0000)>"
+        "location": null
       },
       "DiffAmount_AI58_001_MetalV001": {
         "type": "ShaderNodeMix",
         "cycles_type": "mix",
         "params": {
-          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
-          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
-          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
         },
-        "location": "<Vector (-80.0000, 900.0000)>"
+        "location": null
       },
       "Diff_AI58_001_MetalV001": {
         "type": "ShaderNodeTexImage",
         "cycles_type": "image_texture",
         "params": {},
-        "location": "<Vector (-370.0000, 900.0000)>"
+        "location": null
       },
       "Mapping": {
         "type": "ShaderNodeMapping",
         "cycles_type": "mapping",
         "params": {
-          "Location": "<Vector (0.0000, 0.0000, 0.0000)>",
-          "Rotation": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
-          "Scale": "<Vector (1.0000, 1.0000, 1.0000)>"
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
         },
-        "location": "<Vector (-1350.0000, 0.0000)>"
+        "location": null
       },
       "Texture Coordinate": {
         "type": "ShaderNodeTexCoord",
         "cycles_type": "texture_coordinate",
         "params": {},
-        "location": "<Vector (-1640.0000, 0.0000)>"
+        "location": null
       },
       "GlossAmount_AI58_001_MetalV001": {
         "type": "ShaderNodeMix",
         "cycles_type": "mix",
         "params": {
-          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
-          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
-          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
         },
-        "location": "<Vector (-80.0000, 0.0000)>"
+        "location": null
       },
       "Invert": {
         "type": "ShaderNodeInvert",
@@ -575,19 +702,19 @@
         "params": {
           "Fac": 1.0
         },
-        "location": "<Vector (-370.0000, 0.0000)>"
+        "location": null
       },
       "Gloss_AI58_001_MetalV001": {
         "type": "ShaderNodeTexImage",
         "cycles_type": "image_texture",
         "params": {},
-        "location": "<Vector (-660.0000, 0.0000)>"
+        "location": null
       },
       "IOR_AI58_001_MetalV001": {
         "type": "ShaderNodeTexImage",
         "cycles_type": "image_texture",
         "params": {},
-        "location": "<Vector (-80.0000, -225.0000)>"
+        "location": null
       },
       "Normal Map": {
         "type": "ShaderNodeNormalMap",
@@ -595,29 +722,37 @@
         "params": {
           "Strength": 1.0
         },
-        "location": "<Vector (-80.0000, -750.0000)>"
+        "location": null
       },
       "Normal_AI58_001_MetalV001": {
         "type": "ShaderNodeTexImage",
         "cycles_type": "image_texture",
         "params": {},
-        "location": "<Vector (-380.0000, -750.0000)>"
+        "location": null
       },
       "SpecAmount_AI58_001_MetalV001": {
         "type": "ShaderNodeMix",
         "cycles_type": "mix",
         "params": {
-          "Factor": "<bpy_float[3], NodeSocketVector.default_value>",
-          "A": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>",
-          "B": "<Euler (x=0.0000, y=0.0000, z=0.0000), order='XYZ'>"
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
         },
-        "location": "<Vector (-80.0000, 600.0000)>"
+        "location": null
       },
       "Spec_AI58_001_MetalV001": {
         "type": "ShaderNodeTexImage",
         "cycles_type": "image_texture",
         "params": {},
-        "location": "<Vector (-370.0000, 600.0000)>"
+        "location": null
       }
     },
     "links": [
@@ -716,6 +851,80 @@
         "from_socket": "Result",
         "to_node": "Principled BSDF",
         "to_socket": "Specular IOR Level"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "Material2": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          300.0,
+          300.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Metallic": 0.0,
+          "Roughness": 0.5,
+          "IOR": 1.5,
+          "Alpha": 1.0,
+          "Normal": 0.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular IOR Level": 0.5,
+          "Specular Tint": 1.0,
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": 0.0,
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": 1.0,
+          "Coat Normal": 0.0,
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": 1.0,
+          "Emission Color": 1.0,
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "RGB": {
+        "type": "ShaderNodeRGB",
+        "cycles_type": "color",
+        "params": {},
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "RGB",
+        "from_socket": "Color",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
       },
       {
         "from_node": "Principled BSDF",

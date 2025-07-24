@@ -1,9 +1,10 @@
 import bpy
+import mathutils
 import json
 import os
 
 
-script_dir = r"C:\tmp\Gaffer\BlenderInterop\WorkingScripts"#os.path.dirname(os.path.abspath(__file__))
+script_dir = r"C:\GitHub\GafferShaderNetFromAttr_Builder\InProgressScripts"#os.path.dirname(os.path.abspath(__file__))
 mapping_path = os.path.join(script_dir, "blender_shader_class_to_cycles_name.json")
 with open(mapping_path, "r") as f:
     BLENDER_TO_CYCLES_SHADER_MAP = json.load(f)
@@ -15,15 +16,31 @@ def blender_node_to_cycles(node):
         return "unknown"
     return cycles_name
     
-def to_serializable(val):
-    if hasattr(val, "to_list"):
-        return val.to_list()
-    elif isinstance(val, (list, tuple)):
+def to_serializable(socket):
+    try:
+        val = socket.default_value
+    except AttributeError:
+        return None
+
+    # If it's an Euler, Vector, or Color from mathutils
+    if isinstance(val, (mathutils.Vector, mathutils.Euler, mathutils.Color)):
         return list(val)
-    elif isinstance(val, (float, int, str)) or val is None:
+
+    # Primitive types
+    if isinstance(val, (float, int, bool, str)):
         return val
-    else:
-        return str(val)
+
+    # Fallback for iterable types
+    if hasattr(val, "__iter__"):
+        val_list = list(val)
+        # Heuristic: treat uniform vector [x, x, x] as scalar x
+        if len(set(val_list)) == 1:
+            return val_list[0]
+        return val_list
+
+    return str(val)
+
+
 
 def trace_shader_network(material):
     if not material.use_nodes:
@@ -63,7 +80,7 @@ def trace_shader_network(material):
                     "type": from_node.bl_idname,
                     "cycles_type": cycles_type,
                     "params": {
-                        inp.name: to_serializable(inp.default_value)
+                        inp.name: to_serializable(inp)  # ✅ pass the socket
                         for inp in from_node.inputs
                         if not inp.is_linked and hasattr(inp, "default_value")
                     },
@@ -109,7 +126,7 @@ for mat in bpy.data.materials:
 
 # Save to JSON file
 #output_path = bpy.path.abspath("//shader_export.json")
-output_path = "C:\\tmp\\Gaffer\\BlenderInterop\\matTests\\materialNet.json"
+output_path = "C:\\GitHub\\GafferShaderNetFromAttr_Builder\\InProgressScripts\\testFiles\\materialNet.json"
 with open(output_path, 'w') as f:
     json.dump(all_materials_data, f, indent=2)
 
