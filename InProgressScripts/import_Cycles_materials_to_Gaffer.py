@@ -1,10 +1,11 @@
 import Gaffer
 import GafferScene
 import GafferCycles
+import IECore
+import imath
 import json
 import os
 import re
-import imath
 
 # --- Type conversion map for plugs ---
 PLUG_TYPE_MAP = {
@@ -46,6 +47,50 @@ def resolve_plug_name(socket_label, gaffer_node, io="parameters", shader_type=No
             return name
 
     return None
+
+
+def to_iecore_data(value):
+    if isinstance(value, bool):
+        return IECore.BoolData(value)
+    elif isinstance(value, int):
+        return IECore.IntData(value)
+    elif isinstance(value, float):
+        return IECore.FloatData(value)
+    elif isinstance(value, str):
+        return IECore.StringData(value)
+    elif isinstance(value, imath.V3f):
+        return IECore.V3fData(value)
+    elif isinstance(value, imath.Color3f):
+        return IECore.Color3fData(value)
+    elif isinstance(value, list) and all(isinstance(x, float) for x in value):
+        if len(value) == 3:
+            return IECore.V3fData(imath.V3f(*value))
+        elif len(value) == 4:
+            return IECore.Color3fData(imath.Color3f(*value[:3]))  # ignore alpha
+        else:
+            return IECore.FloatVectorData(value)
+    elif isinstance(value, list) and all(isinstance(x, int) for x in value):
+        return IECore.IntVectorData(value)
+    else:
+        raise TypeError(f"Unsupported value type for IECore conversion: {type(value)} → {value}")
+
+
+def set_shader_parameters(shader_node, params_dict, shader_type):
+    print(params_dict)
+    for param_label, value in params_dict.items():
+        plug_name = resolve_plug_name(param_label, shader_node, io="parameters", shader_type=shader_type)
+
+        if not plug_name:
+            print(f"⚠️ Could not resolve param '{param_label}' for shader type '{shader_type}'")
+            continue
+        cnvrtvalue = to_iecore_data(value)
+        try:
+            plug = shader_node["parameters"][plug_name]
+            Gaffer.PlugAlgo.setValueFromData(plug, cnvrtvalue)
+            print(f"🔧 Set {shader_node.getName()}.{plug_name} = {value} => {cnvrtvalue}")
+        except Exception as e:
+            print(f"❌ Failed to set {shader_node.getName()}.{plug_name}: {e}")
+
 
 # --- Safe plug connection with auto converter shader insertion ---
 def safe_connect(parent, src_node_name, src_socket_label, dst_node_name, dst_socket_label):
@@ -160,7 +205,7 @@ def load_materials_from_json(json_path, parent):
         for node_name, node_info in nodes.items():
             node_type = node_info.get("type", "")
             shader_type = node_info.get("cycles_type", "")
-            params = node_info.get("parameters", {})
+            params = node_info.get("params", {})
 
             if node_type == "ShaderNodeOutputMaterial":
                 output_node_name = node_name
@@ -174,12 +219,7 @@ def load_materials_from_json(json_path, parent):
             created_nodes[node_name] = safe_name
 
             # print(f"➕ Created shader node: {node_name} as {safe_name}")
-
-            for param, value in params.items():
-                try:
-                    Gaffer.PlugAlgo.setValueFromData(shader["parameters"][param], value)
-                except Exception as e:
-                    print(f"⚠️ Could not set param {param} on {safe_name}: {e}")
+            set_shader_parameters(shader, params, shader_type)
 
         for link in links:
             #print("📦 Raw link:", link)
