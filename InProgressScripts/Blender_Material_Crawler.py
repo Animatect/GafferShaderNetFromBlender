@@ -40,7 +40,61 @@ def to_serializable(socket):
 
     return str(val)
 
+def extract_node_extras(node):
+    extras = {}
+    socket_names = {s.name for s in node.inputs} | {s.name for s in node.outputs}
+    skip_exact = {
+        "bl_idname", "bl_label", "bl_description", "bl_icon", "bl_static_type",
+        "name", "label", "type", "location", "select", "color_tag", "color",
+        "width", "height", "bl_width_min", "bl_width_max", "bl_width_default",
+        "bl_height_min", "bl_height_max", "bl_height_default",
+        "show_options", "show_preview", "show_texture", "use_custom_color",
+        "parent", "hide", "mute", "warning_propagation"
+    }
 
+    for attr in dir(node):
+        if attr.startswith("_") or attr in socket_names or attr in skip_exact:
+            continue
+        try:
+            val = getattr(node, attr)
+            if inspect.ismethod(val) or inspect.isfunction(val):
+                continue
+            if hasattr(val, "bl_rna"):
+                continue
+            if is_serializable(val):
+                extras[attr] = val
+        except Exception:
+            continue
+    return extras
+
+def extract_special_cases(node):
+    specials = {}
+    if node.bl_idname == "ShaderNodeTexImage":
+        if node.image:
+            img = node.image
+            imgpath = img.filepath.replace("\\", "/")
+            imgpath = bpy.path.abspath(imgpath)
+            imgpath = os.path.realpath(imgpath)
+            specials["image"] = imgpath
+            if hasattr(img, "colorspace_settings"):
+                specials["image_color_space"] = img.colorspace_settings.name
+            if hasattr(img, "alpha_mode"):
+                specials["alpha_mode"] = img.alpha_mode
+            if hasattr(img, "use_view_as_render"):
+                specials["use_view_as_render"] = img.use_view_as_render
+            if hasattr(img, "use_alpha"):
+                specials["use_alpha"] = img.use_alpha
+
+        if hasattr(node, "color_space"):
+            specials["color_space"] = node.color_space
+        if hasattr(node, "interpolation"):
+            specials["interpolation"] = node.interpolation
+        if hasattr(node, "projection"):
+            specials["projection"] = node.projection
+        if hasattr(node, "extension"):
+            specials["extension"] = node.extension
+
+    return specials
 
 def trace_shader_network(material):
     if not material.use_nodes:
@@ -76,14 +130,23 @@ def trace_shader_network(material):
                 cycles_type = blender_node_to_cycles(from_node)
                 if cycles_type == "unknown":
                     print("On ",material.name, " the node ", from_node.name, " of Type: ", from_node.bl_idname, " mapped to unknown.")
+                params = {
+                    inp.name: to_serializable(inp)
+                    for inp in from_node.inputs
+                    if not inp.is_linked and hasattr(inp, "default_value")
+                }
+
+                extras = extract_node_extras(from_node)
+                specials = extract_special_cases(from_node)
+
+                # Merge extras and specials into params
+                params.update(extras)
+                params.update(specials)
+
                 node_info[from_node.name] = {
                     "type": from_node.bl_idname,
                     "cycles_type": cycles_type,
-                    "params": {
-                        inp.name: to_serializable(inp)  # ✅ pass the socket
-                        for inp in from_node.inputs
-                        if not inp.is_linked and hasattr(inp, "default_value")
-                    },
+                    "params": params,
                     "location": to_serializable(from_node.location)
                 }
 

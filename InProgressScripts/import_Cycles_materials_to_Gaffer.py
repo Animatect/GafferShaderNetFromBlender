@@ -256,5 +256,5 @@ def load_materials_from_json(json_path, parent):
 
 # Usage:
 # Assuming you're running this in a Gaffer script editor or binding context
-json_path = r"C:\tmp\Gaffer\BlenderInterop\matTests\materialNet.json"
+json_path = r"C:\GitHub\GafferShaderNetFromAttr_Builder\InProgressScripts\testFiles\materialNet.json"
 load_materials_from_json(json_path, root)  # or a Gaffer.Box() if building modular
