@@ -1,6 +1,7 @@
 {
   "principled_bsdf": {
     "base color": "base_color",
+    "diffuse roughness":"roughness",
     "ior": "thin_film_ior",
     "method": "subsurface_method",
     "weight": "sheen_weight",
@@ -58,6 +59,7 @@
   },
   "mix": {
     "blending mode": "mix_type",
+    "factor":"fac",
     "a": "color1",
     "b": "color2",
     "clamp": "use_clamp",
@@ -73,6 +75,7 @@
     "max x": "max_x"
   },
   "rgb_curves": {
+    "color":"value",
     "min x": "min_x",
     "max x": "max_x"
   },
@@ -142,6 +145,8 @@
     "transform": "tfm"
   },
   "image_texture": {
+    "image":"filename",
+    "image_color_space":"colorspace",
     "alpha type": "alpha_type",
     "projection blend": "projection_blend"
   },

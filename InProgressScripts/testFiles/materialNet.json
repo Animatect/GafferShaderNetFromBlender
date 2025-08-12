@@ -1,21 +1,1003 @@
 {
-  "Material": {
+  "AI58_001_Hoker_Seat": {
     "nodes": {
       "Material Output": {
         "type": "ShaderNodeOutputMaterial",
         "cycles_type": "material_output",
         "params": {},
         "location": [
-          382.0999755859375,
-          319.1907958984375
+          600.0,
+          0.0
         ]
       },
       "Principled BSDF": {
         "type": "ShaderNodeBsdfPrincipled",
         "cycles_type": "principled_bsdf",
         "params": {
+          "Metallic": 0.0,
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular Tint": 1.0,
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": 0.0,
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": 1.0,
+          "Coat Normal": 0.0,
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": 1.0,
+          "Emission Color": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "Emission Strength": 1.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "DiffAmount_AI58_001_Hoker_Seat": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Diff_AI58_001_Hoker_Seat": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_Hoker_Seat_Diffuse.png",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      },
+      "GlossAmount_AI58_001_Hoker_Seat": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Gloss_AI58_001_Hoker_Seat": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_Hoker_Seat_Glossiness.png",
+          "image_color_space": "Linear Rec.709",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "IOR_AI58_001_Hoker_Seat": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_Hoker_Seat_ior.png",
+          "image_color_space": "Linear Rec.709",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0
+        },
+        "location": null
+      },
+      "Normal_AI58_001_Hoker_Seat": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_Hoker_Seat_Normal.png",
+          "image_color_space": "Linear Rec.709",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "SpecAmount_AI58_001_Hoker_Seat": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Spec_AI58_001_Hoker_Seat": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_Hoker_Seat_Reflection.png",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI58_001_Hoker_Seat",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI58_001_Hoker_Seat",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI58_001_Hoker_Seat",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI58_001_Hoker_Seat",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI58_001_Hoker_Seat",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI58_001_Hoker_Seat",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI58_001_Hoker_Seat",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI58_001_Hoker_Seat",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "IOR_AI58_001_Hoker_Seat",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "IOR_AI58_001_Hoker_Seat",
+        "from_socket": "Color",
+        "to_node": "Principled BSDF",
+        "to_socket": "IOR"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Normal_AI58_001_Hoker_Seat",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Normal_AI58_001_Hoker_Seat",
+        "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Spec_AI58_001_Hoker_Seat",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Spec_AI58_001_Hoker_Seat",
+        "from_socket": "Color",
+        "to_node": "SpecAmount_AI58_001_Hoker_Seat",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "SpecAmount_AI58_001_Hoker_Seat",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular IOR Level"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI58_001_metal_black": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Metallic": 0.800000011920929,
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular Tint": 1.0,
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": 0.0,
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": 1.0,
+          "Coat Normal": 0.0,
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": 1.0,
+          "Emission Color": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "Emission Strength": 1.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "DiffAmount_AI58_001_metal_blackV002": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Diff_AI58_001_metal_blackV002": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_metal_blackV002_Diffuse.png",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      },
+      "GlossAmount_AI58_001_metal_blackV002": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Gloss_AI58_001_metal_blackV002": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_metal_blackV002_Glossiness.png",
+          "image_color_space": "Linear Rec.709",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "IOR_AI58_001_metal_blackV002": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_metal_blackV002_ior.png",
+          "image_color_space": "Linear Rec.709",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0
+        },
+        "location": null
+      },
+      "Normal_AI58_001_metal_blackV002": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_metal_blackV002_Normal.png",
+          "image_color_space": "Linear Rec.709",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "SpecAmount_AI58_001_metal_blackV002": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Spec_AI58_001_metal_blackV002": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_metal_blackV002_Reflection.png",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI58_001_metal_blackV002",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI58_001_metal_blackV002",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI58_001_metal_blackV002",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI58_001_metal_blackV002",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI58_001_metal_blackV002",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI58_001_metal_blackV002",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI58_001_metal_blackV002",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI58_001_metal_blackV002",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "IOR_AI58_001_metal_blackV002",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "IOR_AI58_001_metal_blackV002",
+        "from_socket": "Color",
+        "to_node": "Principled BSDF",
+        "to_socket": "IOR"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Normal_AI58_001_metal_blackV002",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Normal_AI58_001_metal_blackV002",
+        "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Spec_AI58_001_metal_blackV002",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Spec_AI58_001_metal_blackV002",
+        "from_socket": "Color",
+        "to_node": "SpecAmount_AI58_001_metal_blackV002",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "SpecAmount_AI58_001_metal_blackV002",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular IOR Level"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI58_001_MetalV001": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Metallic": 0.0,
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular Tint": 1.0,
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": 0.0,
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": 1.0,
+          "Coat Normal": 0.0,
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": 1.0,
+          "Emission Color": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "Emission Strength": 1.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "DiffAmount_AI58_001_MetalV001": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Diff_AI58_001_MetalV001": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_MetalV001_Diffuse.png",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      },
+      "GlossAmount_AI58_001_MetalV001": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Gloss_AI58_001_MetalV001": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_MetalV001_Glossiness.png",
+          "image_color_space": "Linear Rec.709",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "IOR_AI58_001_MetalV001": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_MetalV001_ior.png",
+          "image_color_space": "Linear Rec.709",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0
+        },
+        "location": null
+      },
+      "Normal_AI58_001_MetalV001": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_MetalV001_Normal.png",
+          "image_color_space": "Linear Rec.709",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "SpecAmount_AI58_001_MetalV001": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": 0.5,
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Spec_AI58_001_MetalV001": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_MetalV001_Reflection.png",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI58_001_MetalV001",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI58_001_MetalV001",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI58_001_MetalV001",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI58_001_MetalV001",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI58_001_MetalV001",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI58_001_MetalV001",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI58_001_MetalV001",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI58_001_MetalV001",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "IOR_AI58_001_MetalV001",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "IOR_AI58_001_MetalV001",
+        "from_socket": "Color",
+        "to_node": "Principled BSDF",
+        "to_socket": "IOR"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Normal_AI58_001_MetalV001",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Normal_AI58_001_MetalV001",
+        "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Spec_AI58_001_MetalV001",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Spec_AI58_001_MetalV001",
+        "from_socket": "Color",
+        "to_node": "SpecAmount_AI58_001_MetalV001",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "SpecAmount_AI58_001_MetalV001",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular IOR Level"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "Material2": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          300.0,
+          300.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Metallic": 0.0,
           "Roughness": 0.5,
-          "IOR": 1.4500000476837158,
+          "IOR": 1.5,
           "Alpha": 1.0,
           "Normal": 0.0,
           "Weight": 0.0,
@@ -50,42 +1032,57 @@
         },
         "location": null
       },
-      "Image Texture": {
-        "type": "ShaderNodeTexImage",
-        "cycles_type": "image_texture",
+      "RGB Curves": {
+        "type": "ShaderNodeRGBCurve",
+        "cycles_type": "rgb_curves",
         "params": {
-          "Vector": 0.0,
-          "image": "C:\\Users\\ecovo\\Desktop\\Untitled3.jpg",
-          "image_color_space": "AgX Log",
-          "alpha_mode": "CHANNEL_PACKED",
-          "use_view_as_render": false,
-          "interpolation": "Linear",
-          "projection": "FLAT",
-          "extension": "REPEAT"
+          "Fac": 1.0
         },
         "location": null
       },
-      "Gradient Texture": {
-        "type": "ShaderNodeTexGradient",
-        "cycles_type": "gradient_texture",
-        "params": {
-          "Vector": 0.0
-        },
+      "Gamma": {
+        "type": "ShaderNodeGamma",
+        "cycles_type": "gamma",
+        "params": {},
+        "location": null
+      },
+      "RGB": {
+        "type": "ShaderNodeRGB",
+        "cycles_type": "color",
+        "params": {},
+        "location": null
+      },
+      "Value": {
+        "type": "ShaderNodeValue",
+        "cycles_type": "value",
+        "params": {},
         "location": null
       }
     },
     "links": [
       {
-        "from_node": "Image Texture",
+        "from_node": "RGB",
+        "from_socket": "Color",
+        "to_node": "Gamma",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Value",
+        "from_socket": "Value",
+        "to_node": "Gamma",
+        "to_socket": "Gamma"
+      },
+      {
+        "from_node": "Gamma",
+        "from_socket": "Color",
+        "to_node": "RGB Curves",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "RGB Curves",
         "from_socket": "Color",
         "to_node": "Principled BSDF",
         "to_socket": "Base Color"
-      },
-      {
-        "from_node": "Gradient Texture",
-        "from_socket": "Color",
-        "to_node": "Principled BSDF",
-        "to_socket": "Metallic"
       },
       {
         "from_node": "Principled BSDF",

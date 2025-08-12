@@ -17,6 +17,10 @@ PLUG_TYPE_MAP = {
     'Gaffer::BoolPlug': 'int'
 }
 
+SPECIAL_CASES = [
+    "image_texture"
+]
+
 label_map_path = os.path.join("C:\\GitHub\\GafferShaderNetFromAttr_Builder\\InProgressScripts", "cycles_label_map.json")
 with open(label_map_path, "r", encoding="utf-8") as f:
     LABEL_MAP = json.load(f)
@@ -74,9 +78,18 @@ def to_iecore_data(value):
     else:
         raise TypeError(f"Unsupported value type for IECore conversion: {type(value)} → {value}")
 
+def set_shader_specialCases(shader_node, params_dict, shader_type):
+    if shader_type == "image_texture":        
+        Gaffer.PlugAlgo.setValueFromData(shader_node["parameters"]["filename"], to_iecore_data(params_dict["image"].replace("\\", "/")))
 
 def set_shader_parameters(shader_node, params_dict, shader_type):
     print(params_dict)
+    if shader_type in SPECIAL_CASES:
+        # print("#### - ",shader_type, " is special case 💼. - ####")
+        # print("params: \n", params_dict)
+        # print("⚾")
+        set_shader_specialCases(shader_node, params_dict, shader_type)
+        return 
     for param_label, value in params_dict.items():
         plug_name = resolve_plug_name(param_label, shader_node, io="parameters", shader_type=shader_type)
 
