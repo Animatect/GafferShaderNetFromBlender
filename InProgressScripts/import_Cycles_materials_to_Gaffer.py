@@ -21,7 +21,7 @@ SPECIAL_CASES = [
     "image_texture"
 ]
 
-label_map_path = os.path.join("C:\\GitHub\\GafferShaderNetFromAttr_Builder\\InProgressScripts", "cycles_label_map.json")
+label_map_path = os.path.join("C:\\GitHub\\GafferShaderNetFromBlender\\InProgressScripts", "cycles_label_map.json")
 with open(label_map_path, "r", encoding="utf-8") as f:
     LABEL_MAP = json.load(f)
 
@@ -52,7 +52,6 @@ def resolve_plug_name(socket_label, gaffer_node, io="parameters", shader_type=No
 
     return None
 
-
 def to_iecore_data(value):
     if isinstance(value, bool):
         return IECore.BoolData(value)
@@ -77,10 +76,22 @@ def to_iecore_data(value):
         return IECore.IntVectorData(value)
     else:
         raise TypeError(f"Unsupported value type for IECore conversion: {type(value)} → {value}")
+def process_values(value):
+    if isinstance(value, list) and all(isinstance(x, float) for x in value):
+        if len(value) == 3:
+            return imath.V3f(*value)
+        elif len(value) == 4:
+            return imath.Color3f(*value[:3])  # ignore alpha
+        else:
+            return [float(v) for v in value]  # plain list of floats
+    elif isinstance(value, list) and all(isinstance(x, int) for x in value):
+        return [int(v) for v in value]  # plain list of ints
+    else:
+        return value
 
 def set_shader_specialCases(shader_node, params_dict, shader_type):
     if shader_type == "image_texture":        
-        Gaffer.PlugAlgo.setValueFromData(shader_node["parameters"]["filename"], to_iecore_data(params_dict["image"].replace("\\", "/")))
+        shader_node["parameters"]["filename"].setValue((params_dict["image"].replace("\\", "/")))
 
 def set_shader_parameters(shader_node, params_dict, shader_type):
     print(params_dict)
@@ -96,13 +107,13 @@ def set_shader_parameters(shader_node, params_dict, shader_type):
         if not plug_name:
             print(f"⚠️ Could not resolve param '{param_label}' for shader type '{shader_type}'")
             continue
-        cnvrtvalue = to_iecore_data(value)
+
         try:
             plug = shader_node["parameters"][plug_name]
-            Gaffer.PlugAlgo.setValueFromData(plug, cnvrtvalue)
-            print(f"🔧 Set {shader_node.getName()}.{plug_name} = {value} => {cnvrtvalue}")
+            plug.setValue(process_values(value))
+            print(f"🔧 Set {shader_node.getName()}.{plug_name} = {value} => {value}")
         except Exception as e:
-            print(f"❌ Failed to set {shader_node.getName()}.{plug_name}: {e}")
+            print(f"❌ Failed to set {shader_node.getName()}.{plug_name}, value={value}:\n {e}")
 
 
 # --- Safe plug connection with auto converter shader insertion ---
@@ -269,5 +280,5 @@ def load_materials_from_json(json_path, parent):
 
 # Usage:
 # Assuming you're running this in a Gaffer script editor or binding context
-json_path = r"C:\GitHub\GafferShaderNetFromAttr_Builder\InProgressScripts\testFiles\materialNet.json"
+json_path = r"C:\GitHub\GafferShaderNetFromBlender\InProgressScripts\testFiles\materialNet.json"
 load_materials_from_json(json_path, root)  # or a Gaffer.Box() if building modular

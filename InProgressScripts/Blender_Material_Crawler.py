@@ -4,7 +4,7 @@ import json
 import os
 
 
-script_dir = r"C:\GitHub\GafferShaderNetFromAttr_Builder\InProgressScripts"#os.path.dirname(os.path.abspath(__file__))
+script_dir = r"C:\GitHub\GafferShaderNetFromBlender\InProgressScripts"#os.path.dirname(os.path.abspath(__file__))
 mapping_path = os.path.join(script_dir, "blender_shader_class_to_cycles_name.json")
 with open(mapping_path, "r") as f:
     BLENDER_TO_CYCLES_SHADER_MAP = json.load(f)
@@ -32,10 +32,7 @@ def to_serializable(socket):
 
     # Fallback for iterable types
     if hasattr(val, "__iter__"):
-        val_list = list(val)
-        # Heuristic: treat uniform vector [x, x, x] as scalar x
-        if len(set(val_list)) == 1:
-            return val_list[0]
+        val_list = list(val)        
         return val_list
 
     return str(val)
@@ -67,7 +64,7 @@ def extract_node_extras(node):
             continue
     return extras
 
-def extract_special_cases(node):
+def handle_special_cases(node):
     specials = {}
     if node.bl_idname == "ShaderNodeTexImage":
         if node.image:
@@ -93,6 +90,44 @@ def extract_special_cases(node):
             specials["projection"] = node.projection
         if hasattr(node, "extension"):
             specials["extension"] = node.extension
+    elif node.bl_idname == "ShaderNodeMix":
+        specials["data_type"] = node.data_type
+        specials["clamp_factor"] = node.clamp_factor
+        specials["clamp_result"] = node.clamp_result
+        if node.data_type == 'RGBA':
+            specials["Factor"] = node.inputs[0].default_value
+            specials["A"] = to_serializable(node.inputs[6])
+            specials["B"] = to_serializable(node.inputs[7])
+        elif node.data_type == 'VECTOR':
+            if node.factor_mode == 'UNIFORM':
+                specials["Factor"] = node.inputs[0].default_value
+            else:
+                specials["Factor"] = to_serializable(node.inputs[1])
+            specials["A"] = to_serializable(node.inputs[4])
+            specials["B"] = to_serializable(node.inputs[5])
+        elif node.data_type == 'FLOAT':
+            specials["Factor"] = node.inputs[0].default_value
+            specials["A"] = node.inputs[2].default_value
+            specials["B"] = node.inputs[3].default_value
+    elif node.bl_idname == "ShaderNodeMapRange":
+        specials["data_type"] = node.data_type
+        specials["interpolation_type"] = node.interpolation_type
+        specials["clamp"] = node.clamp
+        if node.data_type == 'FLOAT':
+            specials["Value"] = node.inputs[0].default_value
+            specials["From Min"] = node.inputs[1].default_value
+            specials["From Max"] = node.inputs[2].default_value
+            specials["To Min"] = node.inputs[3].default_value
+            specials["To Max"] = node.inputs[4].default_value
+            specials["Steps"] = node.inputs[5].default_value
+        elif node.data_type == 'FLOAT_VECTOR':            
+            specials["Vector"] = to_serializable(node.inputs[6])
+            specials["Value"] = node.inputs[0].default_value
+            specials["From Min"] = to_serializable(node.inputs[7])
+            specials["From Max"] = to_serializable(node.inputs[8])
+            specials["To Min"] = to_serializable(node.inputs[9])
+            specials["To Max"] = to_serializable(node.inputs[10])
+            specials["Steps"] = to_serializable(node.inputs[11])
 
     return specials
 
@@ -130,18 +165,16 @@ def trace_shader_network(material):
                 cycles_type = blender_node_to_cycles(from_node)
                 if cycles_type == "unknown":
                     print("On ",material.name, " the node ", from_node.name, " of Type: ", from_node.bl_idname, " mapped to unknown.")
-                params = {
-                    inp.name: to_serializable(inp)
-                    for inp in from_node.inputs
-                    if not inp.is_linked and hasattr(inp, "default_value")
-                }
-
-                extras = extract_node_extras(from_node)
-                specials = extract_special_cases(from_node)
-
-                # Merge extras and specials into params
-                params.update(extras)
-                params.update(specials)
+                # We check for special handling and if the is not we proceed with regular node handling.
+                params = handle_special_cases(from_node)
+                if len(params)==0:
+                    params = {
+                        inp.name: to_serializable(inp)
+                        for inp in from_node.inputs
+                        if not inp.is_linked and hasattr(inp, "default_value")
+                    }
+                    extras = extract_node_extras(from_node)
+                    params.update(extras)
 
                 node_info[from_node.name] = {
                     "type": from_node.bl_idname,
@@ -189,7 +222,7 @@ for mat in bpy.data.materials:
 
 # Save to JSON file
 #output_path = bpy.path.abspath("//shader_export.json")
-output_path = "C:\\GitHub\\GafferShaderNetFromAttr_Builder\\InProgressScripts\\testFiles\\materialNet.json"
+output_path = "C:\\GitHub\\GafferShaderNetFromBlender\\InProgressScripts\\testFiles\\materialNet.json"
 with open(output_path, 'w') as f:
     json.dump(all_materials_data, f, indent=2)
 

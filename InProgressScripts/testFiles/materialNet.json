@@ -1,5 +1,5 @@
 {
-  "AI58_001_Hoker_Seat": {
+  "AI48_001_eurosofa_a": {
     "nodes": {
       "Material Output": {
         "type": "ShaderNodeOutputMaterial",
@@ -15,991 +15,8 @@
         "cycles_type": "principled_bsdf",
         "params": {
           "Metallic": 0.0,
+          "IOR": 1.4500000476837158,
           "Alpha": 1.0,
-          "Weight": 0.0,
-          "Diffuse Roughness": 0.0,
-          "Subsurface Weight": 0.0,
-          "Subsurface Radius": [
-            1.0,
-            0.20000000298023224,
-            0.10000000149011612
-          ],
-          "Subsurface Scale": 0.05000000074505806,
-          "Subsurface IOR": 1.399999976158142,
-          "Subsurface Anisotropy": 0.0,
-          "Specular Tint": 1.0,
-          "Anisotropic": 0.0,
-          "Anisotropic Rotation": 0.0,
-          "Tangent": 0.0,
-          "Transmission Weight": 0.0,
-          "Coat Weight": 0.0,
-          "Coat Roughness": 0.029999999329447746,
-          "Coat IOR": 1.5,
-          "Coat Tint": 1.0,
-          "Coat Normal": 0.0,
-          "Sheen Weight": 0.0,
-          "Sheen Roughness": 0.5,
-          "Sheen Tint": 1.0,
-          "Emission Color": [
-            0.0,
-            0.0,
-            0.0,
-            1.0
-          ],
-          "Emission Strength": 1.0,
-          "Thin Film Thickness": 0.0,
-          "Thin Film IOR": 1.3300000429153442
-        },
-        "location": null
-      },
-      "DiffAmount_AI58_001_Hoker_Seat": {
-        "type": "ShaderNodeMix",
-        "cycles_type": "mix",
-        "params": {
-          "Factor": 0.5,
-          "A": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "B": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
-        "location": null
-      },
-      "Diff_AI58_001_Hoker_Seat": {
-        "type": "ShaderNodeTexImage",
-        "cycles_type": "image_texture",
-        "params": {
-          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_Hoker_Seat_Diffuse.png",
-          "image_color_space": "sRGB",
-          "alpha_mode": "STRAIGHT",
-          "use_view_as_render": false,
-          "interpolation": "Linear",
-          "projection": "FLAT",
-          "extension": "REPEAT"
-        },
-        "location": null
-      },
-      "Mapping": {
-        "type": "ShaderNodeMapping",
-        "cycles_type": "mapping",
-        "params": {
-          "Location": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "Rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "Scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "location": null
-      },
-      "Texture Coordinate": {
-        "type": "ShaderNodeTexCoord",
-        "cycles_type": "texture_coordinate",
-        "params": {},
-        "location": null
-      },
-      "GlossAmount_AI58_001_Hoker_Seat": {
-        "type": "ShaderNodeMix",
-        "cycles_type": "mix",
-        "params": {
-          "Factor": 0.5,
-          "A": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "B": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
-        "location": null
-      },
-      "Invert": {
-        "type": "ShaderNodeInvert",
-        "cycles_type": "invert",
-        "params": {
-          "Fac": 1.0
-        },
-        "location": null
-      },
-      "Gloss_AI58_001_Hoker_Seat": {
-        "type": "ShaderNodeTexImage",
-        "cycles_type": "image_texture",
-        "params": {
-          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_Hoker_Seat_Glossiness.png",
-          "image_color_space": "Linear Rec.709",
-          "alpha_mode": "STRAIGHT",
-          "use_view_as_render": false,
-          "interpolation": "Linear",
-          "projection": "FLAT",
-          "extension": "REPEAT"
-        },
-        "location": null
-      },
-      "IOR_AI58_001_Hoker_Seat": {
-        "type": "ShaderNodeTexImage",
-        "cycles_type": "image_texture",
-        "params": {
-          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_Hoker_Seat_ior.png",
-          "image_color_space": "Linear Rec.709",
-          "alpha_mode": "STRAIGHT",
-          "use_view_as_render": false,
-          "interpolation": "Linear",
-          "projection": "FLAT",
-          "extension": "REPEAT"
-        },
-        "location": null
-      },
-      "Normal Map": {
-        "type": "ShaderNodeNormalMap",
-        "cycles_type": "normal_map",
-        "params": {
-          "Strength": 1.0
-        },
-        "location": null
-      },
-      "Normal_AI58_001_Hoker_Seat": {
-        "type": "ShaderNodeTexImage",
-        "cycles_type": "image_texture",
-        "params": {
-          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_Hoker_Seat_Normal.png",
-          "image_color_space": "Linear Rec.709",
-          "alpha_mode": "STRAIGHT",
-          "use_view_as_render": false,
-          "interpolation": "Linear",
-          "projection": "FLAT",
-          "extension": "REPEAT"
-        },
-        "location": null
-      },
-      "SpecAmount_AI58_001_Hoker_Seat": {
-        "type": "ShaderNodeMix",
-        "cycles_type": "mix",
-        "params": {
-          "Factor": 0.5,
-          "A": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "B": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
-        "location": null
-      },
-      "Spec_AI58_001_Hoker_Seat": {
-        "type": "ShaderNodeTexImage",
-        "cycles_type": "image_texture",
-        "params": {
-          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_Hoker_Seat_Reflection.png",
-          "image_color_space": "sRGB",
-          "alpha_mode": "STRAIGHT",
-          "use_view_as_render": false,
-          "interpolation": "Linear",
-          "projection": "FLAT",
-          "extension": "REPEAT"
-        },
-        "location": null
-      }
-    },
-    "links": [
-      {
-        "from_node": "Texture Coordinate",
-        "from_socket": "UV",
-        "to_node": "Mapping",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "Mapping",
-        "from_socket": "Vector",
-        "to_node": "Diff_AI58_001_Hoker_Seat",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "Diff_AI58_001_Hoker_Seat",
-        "from_socket": "Color",
-        "to_node": "DiffAmount_AI58_001_Hoker_Seat",
-        "to_socket": "B"
-      },
-      {
-        "from_node": "DiffAmount_AI58_001_Hoker_Seat",
-        "from_socket": "Result",
-        "to_node": "Principled BSDF",
-        "to_socket": "Base Color"
-      },
-      {
-        "from_node": "Mapping",
-        "from_socket": "Vector",
-        "to_node": "Gloss_AI58_001_Hoker_Seat",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "Gloss_AI58_001_Hoker_Seat",
-        "from_socket": "Color",
-        "to_node": "Invert",
-        "to_socket": "Color"
-      },
-      {
-        "from_node": "Invert",
-        "from_socket": "Color",
-        "to_node": "GlossAmount_AI58_001_Hoker_Seat",
-        "to_socket": "B"
-      },
-      {
-        "from_node": "GlossAmount_AI58_001_Hoker_Seat",
-        "from_socket": "Result",
-        "to_node": "Principled BSDF",
-        "to_socket": "Roughness"
-      },
-      {
-        "from_node": "Mapping",
-        "from_socket": "Vector",
-        "to_node": "IOR_AI58_001_Hoker_Seat",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "IOR_AI58_001_Hoker_Seat",
-        "from_socket": "Color",
-        "to_node": "Principled BSDF",
-        "to_socket": "IOR"
-      },
-      {
-        "from_node": "Mapping",
-        "from_socket": "Vector",
-        "to_node": "Normal_AI58_001_Hoker_Seat",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "Normal_AI58_001_Hoker_Seat",
-        "from_socket": "Color",
-        "to_node": "Normal Map",
-        "to_socket": "Color"
-      },
-      {
-        "from_node": "Normal Map",
-        "from_socket": "Normal",
-        "to_node": "Principled BSDF",
-        "to_socket": "Normal"
-      },
-      {
-        "from_node": "Mapping",
-        "from_socket": "Vector",
-        "to_node": "Spec_AI58_001_Hoker_Seat",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "Spec_AI58_001_Hoker_Seat",
-        "from_socket": "Color",
-        "to_node": "SpecAmount_AI58_001_Hoker_Seat",
-        "to_socket": "B"
-      },
-      {
-        "from_node": "SpecAmount_AI58_001_Hoker_Seat",
-        "from_socket": "Result",
-        "to_node": "Principled BSDF",
-        "to_socket": "Specular IOR Level"
-      },
-      {
-        "from_node": "Principled BSDF",
-        "from_socket": "BSDF",
-        "to_node": "Material Output",
-        "to_socket": "Surface"
-      }
-    ]
-  },
-  "AI58_001_metal_black": {
-    "nodes": {
-      "Material Output": {
-        "type": "ShaderNodeOutputMaterial",
-        "cycles_type": "material_output",
-        "params": {},
-        "location": [
-          600.0,
-          0.0
-        ]
-      },
-      "Principled BSDF": {
-        "type": "ShaderNodeBsdfPrincipled",
-        "cycles_type": "principled_bsdf",
-        "params": {
-          "Metallic": 0.800000011920929,
-          "Alpha": 1.0,
-          "Weight": 0.0,
-          "Diffuse Roughness": 0.0,
-          "Subsurface Weight": 0.0,
-          "Subsurface Radius": [
-            1.0,
-            0.20000000298023224,
-            0.10000000149011612
-          ],
-          "Subsurface Scale": 0.05000000074505806,
-          "Subsurface IOR": 1.399999976158142,
-          "Subsurface Anisotropy": 0.0,
-          "Specular Tint": 1.0,
-          "Anisotropic": 0.0,
-          "Anisotropic Rotation": 0.0,
-          "Tangent": 0.0,
-          "Transmission Weight": 0.0,
-          "Coat Weight": 0.0,
-          "Coat Roughness": 0.029999999329447746,
-          "Coat IOR": 1.5,
-          "Coat Tint": 1.0,
-          "Coat Normal": 0.0,
-          "Sheen Weight": 0.0,
-          "Sheen Roughness": 0.5,
-          "Sheen Tint": 1.0,
-          "Emission Color": [
-            0.0,
-            0.0,
-            0.0,
-            1.0
-          ],
-          "Emission Strength": 1.0,
-          "Thin Film Thickness": 0.0,
-          "Thin Film IOR": 1.3300000429153442
-        },
-        "location": null
-      },
-      "DiffAmount_AI58_001_metal_blackV002": {
-        "type": "ShaderNodeMix",
-        "cycles_type": "mix",
-        "params": {
-          "Factor": 0.5,
-          "A": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "B": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
-        "location": null
-      },
-      "Diff_AI58_001_metal_blackV002": {
-        "type": "ShaderNodeTexImage",
-        "cycles_type": "image_texture",
-        "params": {
-          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_metal_blackV002_Diffuse.png",
-          "image_color_space": "sRGB",
-          "alpha_mode": "STRAIGHT",
-          "use_view_as_render": false,
-          "interpolation": "Linear",
-          "projection": "FLAT",
-          "extension": "REPEAT"
-        },
-        "location": null
-      },
-      "Mapping": {
-        "type": "ShaderNodeMapping",
-        "cycles_type": "mapping",
-        "params": {
-          "Location": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "Rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "Scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "location": null
-      },
-      "Texture Coordinate": {
-        "type": "ShaderNodeTexCoord",
-        "cycles_type": "texture_coordinate",
-        "params": {},
-        "location": null
-      },
-      "GlossAmount_AI58_001_metal_blackV002": {
-        "type": "ShaderNodeMix",
-        "cycles_type": "mix",
-        "params": {
-          "Factor": 0.5,
-          "A": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "B": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
-        "location": null
-      },
-      "Invert": {
-        "type": "ShaderNodeInvert",
-        "cycles_type": "invert",
-        "params": {
-          "Fac": 1.0
-        },
-        "location": null
-      },
-      "Gloss_AI58_001_metal_blackV002": {
-        "type": "ShaderNodeTexImage",
-        "cycles_type": "image_texture",
-        "params": {
-          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_metal_blackV002_Glossiness.png",
-          "image_color_space": "Linear Rec.709",
-          "alpha_mode": "STRAIGHT",
-          "use_view_as_render": false,
-          "interpolation": "Linear",
-          "projection": "FLAT",
-          "extension": "REPEAT"
-        },
-        "location": null
-      },
-      "IOR_AI58_001_metal_blackV002": {
-        "type": "ShaderNodeTexImage",
-        "cycles_type": "image_texture",
-        "params": {
-          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_metal_blackV002_ior.png",
-          "image_color_space": "Linear Rec.709",
-          "alpha_mode": "STRAIGHT",
-          "use_view_as_render": false,
-          "interpolation": "Linear",
-          "projection": "FLAT",
-          "extension": "REPEAT"
-        },
-        "location": null
-      },
-      "Normal Map": {
-        "type": "ShaderNodeNormalMap",
-        "cycles_type": "normal_map",
-        "params": {
-          "Strength": 1.0
-        },
-        "location": null
-      },
-      "Normal_AI58_001_metal_blackV002": {
-        "type": "ShaderNodeTexImage",
-        "cycles_type": "image_texture",
-        "params": {
-          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_metal_blackV002_Normal.png",
-          "image_color_space": "Linear Rec.709",
-          "alpha_mode": "STRAIGHT",
-          "use_view_as_render": false,
-          "interpolation": "Linear",
-          "projection": "FLAT",
-          "extension": "REPEAT"
-        },
-        "location": null
-      },
-      "SpecAmount_AI58_001_metal_blackV002": {
-        "type": "ShaderNodeMix",
-        "cycles_type": "mix",
-        "params": {
-          "Factor": 0.5,
-          "A": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "B": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
-        "location": null
-      },
-      "Spec_AI58_001_metal_blackV002": {
-        "type": "ShaderNodeTexImage",
-        "cycles_type": "image_texture",
-        "params": {
-          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_metal_blackV002_Reflection.png",
-          "image_color_space": "sRGB",
-          "alpha_mode": "STRAIGHT",
-          "use_view_as_render": false,
-          "interpolation": "Linear",
-          "projection": "FLAT",
-          "extension": "REPEAT"
-        },
-        "location": null
-      }
-    },
-    "links": [
-      {
-        "from_node": "Texture Coordinate",
-        "from_socket": "UV",
-        "to_node": "Mapping",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "Mapping",
-        "from_socket": "Vector",
-        "to_node": "Diff_AI58_001_metal_blackV002",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "Diff_AI58_001_metal_blackV002",
-        "from_socket": "Color",
-        "to_node": "DiffAmount_AI58_001_metal_blackV002",
-        "to_socket": "B"
-      },
-      {
-        "from_node": "DiffAmount_AI58_001_metal_blackV002",
-        "from_socket": "Result",
-        "to_node": "Principled BSDF",
-        "to_socket": "Base Color"
-      },
-      {
-        "from_node": "Mapping",
-        "from_socket": "Vector",
-        "to_node": "Gloss_AI58_001_metal_blackV002",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "Gloss_AI58_001_metal_blackV002",
-        "from_socket": "Color",
-        "to_node": "Invert",
-        "to_socket": "Color"
-      },
-      {
-        "from_node": "Invert",
-        "from_socket": "Color",
-        "to_node": "GlossAmount_AI58_001_metal_blackV002",
-        "to_socket": "B"
-      },
-      {
-        "from_node": "GlossAmount_AI58_001_metal_blackV002",
-        "from_socket": "Result",
-        "to_node": "Principled BSDF",
-        "to_socket": "Roughness"
-      },
-      {
-        "from_node": "Mapping",
-        "from_socket": "Vector",
-        "to_node": "IOR_AI58_001_metal_blackV002",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "IOR_AI58_001_metal_blackV002",
-        "from_socket": "Color",
-        "to_node": "Principled BSDF",
-        "to_socket": "IOR"
-      },
-      {
-        "from_node": "Mapping",
-        "from_socket": "Vector",
-        "to_node": "Normal_AI58_001_metal_blackV002",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "Normal_AI58_001_metal_blackV002",
-        "from_socket": "Color",
-        "to_node": "Normal Map",
-        "to_socket": "Color"
-      },
-      {
-        "from_node": "Normal Map",
-        "from_socket": "Normal",
-        "to_node": "Principled BSDF",
-        "to_socket": "Normal"
-      },
-      {
-        "from_node": "Mapping",
-        "from_socket": "Vector",
-        "to_node": "Spec_AI58_001_metal_blackV002",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "Spec_AI58_001_metal_blackV002",
-        "from_socket": "Color",
-        "to_node": "SpecAmount_AI58_001_metal_blackV002",
-        "to_socket": "B"
-      },
-      {
-        "from_node": "SpecAmount_AI58_001_metal_blackV002",
-        "from_socket": "Result",
-        "to_node": "Principled BSDF",
-        "to_socket": "Specular IOR Level"
-      },
-      {
-        "from_node": "Principled BSDF",
-        "from_socket": "BSDF",
-        "to_node": "Material Output",
-        "to_socket": "Surface"
-      }
-    ]
-  },
-  "AI58_001_MetalV001": {
-    "nodes": {
-      "Material Output": {
-        "type": "ShaderNodeOutputMaterial",
-        "cycles_type": "material_output",
-        "params": {},
-        "location": [
-          600.0,
-          0.0
-        ]
-      },
-      "Principled BSDF": {
-        "type": "ShaderNodeBsdfPrincipled",
-        "cycles_type": "principled_bsdf",
-        "params": {
-          "Metallic": 0.0,
-          "Alpha": 1.0,
-          "Weight": 0.0,
-          "Diffuse Roughness": 0.0,
-          "Subsurface Weight": 0.0,
-          "Subsurface Radius": [
-            1.0,
-            0.20000000298023224,
-            0.10000000149011612
-          ],
-          "Subsurface Scale": 0.05000000074505806,
-          "Subsurface IOR": 1.399999976158142,
-          "Subsurface Anisotropy": 0.0,
-          "Specular Tint": 1.0,
-          "Anisotropic": 0.0,
-          "Anisotropic Rotation": 0.0,
-          "Tangent": 0.0,
-          "Transmission Weight": 0.0,
-          "Coat Weight": 0.0,
-          "Coat Roughness": 0.029999999329447746,
-          "Coat IOR": 1.5,
-          "Coat Tint": 1.0,
-          "Coat Normal": 0.0,
-          "Sheen Weight": 0.0,
-          "Sheen Roughness": 0.5,
-          "Sheen Tint": 1.0,
-          "Emission Color": [
-            0.0,
-            0.0,
-            0.0,
-            1.0
-          ],
-          "Emission Strength": 1.0,
-          "Thin Film Thickness": 0.0,
-          "Thin Film IOR": 1.3300000429153442
-        },
-        "location": null
-      },
-      "DiffAmount_AI58_001_MetalV001": {
-        "type": "ShaderNodeMix",
-        "cycles_type": "mix",
-        "params": {
-          "Factor": 0.5,
-          "A": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "B": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
-        "location": null
-      },
-      "Diff_AI58_001_MetalV001": {
-        "type": "ShaderNodeTexImage",
-        "cycles_type": "image_texture",
-        "params": {
-          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_MetalV001_Diffuse.png",
-          "image_color_space": "sRGB",
-          "alpha_mode": "STRAIGHT",
-          "use_view_as_render": false,
-          "interpolation": "Linear",
-          "projection": "FLAT",
-          "extension": "REPEAT"
-        },
-        "location": null
-      },
-      "Mapping": {
-        "type": "ShaderNodeMapping",
-        "cycles_type": "mapping",
-        "params": {
-          "Location": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "Rotation": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "Scale": [
-            1.0,
-            1.0,
-            1.0
-          ]
-        },
-        "location": null
-      },
-      "Texture Coordinate": {
-        "type": "ShaderNodeTexCoord",
-        "cycles_type": "texture_coordinate",
-        "params": {},
-        "location": null
-      },
-      "GlossAmount_AI58_001_MetalV001": {
-        "type": "ShaderNodeMix",
-        "cycles_type": "mix",
-        "params": {
-          "Factor": 0.5,
-          "A": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "B": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
-        "location": null
-      },
-      "Invert": {
-        "type": "ShaderNodeInvert",
-        "cycles_type": "invert",
-        "params": {
-          "Fac": 1.0
-        },
-        "location": null
-      },
-      "Gloss_AI58_001_MetalV001": {
-        "type": "ShaderNodeTexImage",
-        "cycles_type": "image_texture",
-        "params": {
-          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_MetalV001_Glossiness.png",
-          "image_color_space": "Linear Rec.709",
-          "alpha_mode": "STRAIGHT",
-          "use_view_as_render": false,
-          "interpolation": "Linear",
-          "projection": "FLAT",
-          "extension": "REPEAT"
-        },
-        "location": null
-      },
-      "IOR_AI58_001_MetalV001": {
-        "type": "ShaderNodeTexImage",
-        "cycles_type": "image_texture",
-        "params": {
-          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_MetalV001_ior.png",
-          "image_color_space": "Linear Rec.709",
-          "alpha_mode": "STRAIGHT",
-          "use_view_as_render": false,
-          "interpolation": "Linear",
-          "projection": "FLAT",
-          "extension": "REPEAT"
-        },
-        "location": null
-      },
-      "Normal Map": {
-        "type": "ShaderNodeNormalMap",
-        "cycles_type": "normal_map",
-        "params": {
-          "Strength": 1.0
-        },
-        "location": null
-      },
-      "Normal_AI58_001_MetalV001": {
-        "type": "ShaderNodeTexImage",
-        "cycles_type": "image_texture",
-        "params": {
-          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_MetalV001_Normal.png",
-          "image_color_space": "Linear Rec.709",
-          "alpha_mode": "STRAIGHT",
-          "use_view_as_render": false,
-          "interpolation": "Linear",
-          "projection": "FLAT",
-          "extension": "REPEAT"
-        },
-        "location": null
-      },
-      "SpecAmount_AI58_001_MetalV001": {
-        "type": "ShaderNodeMix",
-        "cycles_type": "mix",
-        "params": {
-          "Factor": 0.5,
-          "A": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "B": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        },
-        "location": null
-      },
-      "Spec_AI58_001_MetalV001": {
-        "type": "ShaderNodeTexImage",
-        "cycles_type": "image_texture",
-        "params": {
-          "image": "C:\\tmp\\Gaffer\\BlenderInterop\\[Blender] Archinteriors vol  58\\[Blender] Archinteriors vol. 58 (Blender)\\AI58_001\\textures\\AI58_001_MetalV001_Reflection.png",
-          "image_color_space": "sRGB",
-          "alpha_mode": "STRAIGHT",
-          "use_view_as_render": false,
-          "interpolation": "Linear",
-          "projection": "FLAT",
-          "extension": "REPEAT"
-        },
-        "location": null
-      }
-    },
-    "links": [
-      {
-        "from_node": "Texture Coordinate",
-        "from_socket": "UV",
-        "to_node": "Mapping",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "Mapping",
-        "from_socket": "Vector",
-        "to_node": "Diff_AI58_001_MetalV001",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "Diff_AI58_001_MetalV001",
-        "from_socket": "Color",
-        "to_node": "DiffAmount_AI58_001_MetalV001",
-        "to_socket": "B"
-      },
-      {
-        "from_node": "DiffAmount_AI58_001_MetalV001",
-        "from_socket": "Result",
-        "to_node": "Principled BSDF",
-        "to_socket": "Base Color"
-      },
-      {
-        "from_node": "Mapping",
-        "from_socket": "Vector",
-        "to_node": "Gloss_AI58_001_MetalV001",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "Gloss_AI58_001_MetalV001",
-        "from_socket": "Color",
-        "to_node": "Invert",
-        "to_socket": "Color"
-      },
-      {
-        "from_node": "Invert",
-        "from_socket": "Color",
-        "to_node": "GlossAmount_AI58_001_MetalV001",
-        "to_socket": "B"
-      },
-      {
-        "from_node": "GlossAmount_AI58_001_MetalV001",
-        "from_socket": "Result",
-        "to_node": "Principled BSDF",
-        "to_socket": "Roughness"
-      },
-      {
-        "from_node": "Mapping",
-        "from_socket": "Vector",
-        "to_node": "IOR_AI58_001_MetalV001",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "IOR_AI58_001_MetalV001",
-        "from_socket": "Color",
-        "to_node": "Principled BSDF",
-        "to_socket": "IOR"
-      },
-      {
-        "from_node": "Mapping",
-        "from_socket": "Vector",
-        "to_node": "Normal_AI58_001_MetalV001",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "Normal_AI58_001_MetalV001",
-        "from_socket": "Color",
-        "to_node": "Normal Map",
-        "to_socket": "Color"
-      },
-      {
-        "from_node": "Normal Map",
-        "from_socket": "Normal",
-        "to_node": "Principled BSDF",
-        "to_socket": "Normal"
-      },
-      {
-        "from_node": "Mapping",
-        "from_socket": "Vector",
-        "to_node": "Spec_AI58_001_MetalV001",
-        "to_socket": "Vector"
-      },
-      {
-        "from_node": "Spec_AI58_001_MetalV001",
-        "from_socket": "Color",
-        "to_node": "SpecAmount_AI58_001_MetalV001",
-        "to_socket": "B"
-      },
-      {
-        "from_node": "SpecAmount_AI58_001_MetalV001",
-        "from_socket": "Result",
-        "to_node": "Principled BSDF",
-        "to_socket": "Specular IOR Level"
-      },
-      {
-        "from_node": "Principled BSDF",
-        "from_socket": "BSDF",
-        "to_node": "Material Output",
-        "to_socket": "Surface"
-      }
-    ]
-  },
-  "Material2": {
-    "nodes": {
-      "Material Output": {
-        "type": "ShaderNodeOutputMaterial",
-        "cycles_type": "material_output",
-        "params": {},
-        "location": [
-          300.0,
-          300.0
-        ]
-      },
-      "Principled BSDF": {
-        "type": "ShaderNodeBsdfPrincipled",
-        "cycles_type": "principled_bsdf",
-        "params": {
-          "Metallic": 0.0,
-          "Roughness": 0.5,
-          "IOR": 1.5,
-          "Alpha": 1.0,
-          "Normal": 0.0,
           "Weight": 0.0,
           "Diffuse Roughness": 0.0,
           "Subsurface Weight": 0.0,
@@ -1012,23 +29,1523 @@
           "Subsurface IOR": 1.399999976158142,
           "Subsurface Anisotropy": 0.0,
           "Specular IOR Level": 0.5,
-          "Specular Tint": 1.0,
+          "Specular Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
           "Anisotropic": 0.0,
           "Anisotropic Rotation": 0.0,
-          "Tangent": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
           "Transmission Weight": 0.0,
           "Coat Weight": 0.0,
           "Coat Roughness": 0.029999999329447746,
           "Coat IOR": 1.5,
-          "Coat Tint": 1.0,
-          "Coat Normal": 0.0,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
           "Sheen Weight": 0.0,
           "Sheen Roughness": 0.5,
-          "Sheen Tint": 1.0,
-          "Emission Color": 1.0,
+          "Sheen Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
           "Emission Strength": 0.0,
           "Thin Film Thickness": 0.0,
           "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "DiffAmount_AI48_001_eurosofa_a": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Diff_AI48_001_eurosofa_a": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_an_Diffuse.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      },
+      "GlossAmount_AI48_001_eurosofa_a": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Gloss_AI48_001_eurosofa_a": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_an_Glossiness.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0
+        },
+        "location": null
+      },
+      "Normal_AI48_001_eurosofa_a": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_an_Normal.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI48_001_eurosofa_a",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI48_001_eurosofa_a",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI48_001_eurosofa_a",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_eurosofa_a",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI48_001_eurosofa_a",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI48_001_eurosofa_a",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI48_001_eurosofa_a",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI48_001_eurosofa_a",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Normal_AI48_001_eurosofa_a",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Normal_AI48_001_eurosofa_a",
+        "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI48_001_eurosofa_b": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Metallic": 0.0,
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular IOR Level": 0.5,
+          "Specular Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "DiffAmount_AI48_001_eurosofa_b": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Diff_AI48_001_eurosofa_b": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_bn_Diffuse.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      },
+      "GlossAmount_AI48_001_eurosofa_b": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Gloss_AI48_001_eurosofa_b": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_bn_Glossiness.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "IOR_AI48_001_eurosofa_b": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_bn_Ior.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0
+        },
+        "location": null
+      },
+      "Normal_AI48_001_eurosofa_b": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_bn_Normal.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI48_001_eurosofa_b",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI48_001_eurosofa_b",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI48_001_eurosofa_b",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_eurosofa_b",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI48_001_eurosofa_b",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI48_001_eurosofa_b",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI48_001_eurosofa_b",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI48_001_eurosofa_b",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "IOR_AI48_001_eurosofa_b",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "IOR_AI48_001_eurosofa_b",
+        "from_socket": "Color",
+        "to_node": "Principled BSDF",
+        "to_socket": "IOR"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Normal_AI48_001_eurosofa_b",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Normal_AI48_001_eurosofa_b",
+        "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI48_001_eurosofa_c": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Metallic": 0.0,
+          "IOR": 1.4500000476837158,
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular IOR Level": 0.501960813999176,
+          "Specular Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 0.19607843458652496,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "DiffAmount_AI48_001_eurosofa_cloth_a": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Diff_AI48_001_eurosofa_cloth_a": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_cn_Diffuse.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Diff_AI48_001_eurosofa_cloth_a.001": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_cn_Glossiness.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0
+        },
+        "location": null
+      },
+      "Diff_AI48_001_eurosofa_cloth_a.002": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_cn_Normal.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI48_001_eurosofa_cloth_a",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI48_001_eurosofa_cloth_a",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI48_001_eurosofa_cloth_a",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_eurosofa_cloth_a",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI48_001_eurosofa_cloth_a.001",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI48_001_eurosofa_cloth_a.001",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI48_001_eurosofa_cloth_a.002",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI48_001_eurosofa_cloth_a.002",
+        "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI48_001_eurosofa_cloth_a": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Metallic": 0.0,
+          "Roughness": 0.4000000059604645,
+          "IOR": 1.4500000476837158,
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular IOR Level": 0.501960813999176,
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Weight": 0.20000000298023224,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "DiffAmount_AI48_001_eurosofa_cloth_a": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Diff_AI48_001_eurosofa_cloth_a": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_cloth_a_Diffuse.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      },
+      "Bump": {
+        "type": "ShaderNodeBump",
+        "cycles_type": "bump",
+        "params": {
+          "Strength": 0.3163636326789856,
+          "Distance": 1.0,
+          "Filter Width": 1.0,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Diff_AI48_001_eurosofa_cloth_a.001": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_cloth_a_Displace.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mix": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI48_001_eurosofa_cloth_a",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI48_001_eurosofa_cloth_a",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI48_001_eurosofa_cloth_a",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_eurosofa_cloth_a",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
+      },
+      {
+        "from_node": "Diff_AI48_001_eurosofa_cloth_a.001",
+        "from_socket": "Color",
+        "to_node": "Bump",
+        "to_socket": "Height"
+      },
+      {
+        "from_node": "Bump",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_eurosofa_cloth_a",
+        "from_socket": "Result",
+        "to_node": "Mix",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "Mix",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular Tint"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI48_001_eurosofa_glass": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Base Color": [
+            0.9774019122123718,
+            1.0,
+            0.9977924227714539,
+            1.0
+          ],
+          "Metallic": 0.0,
+          "IOR": 1.0099999904632568,
+          "Alpha": 1.0,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular IOR Level": 0.10000000149011612,
+          "Specular Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 1.0,
+          "Coat Weight": 0.25,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "GlossAmount_AI48_001_eurosofa_glass": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Gloss_AI48_001_eurosofa_glass": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_glass_Glossiness.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI48_001_eurosofa_glass",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI48_001_eurosofa_glass",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI48_001_eurosofa_glass",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI48_001_eurosofa_glass",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI48_001_eurosofa_mattress_a": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          993.7918090820312,
+          -7.355916500091553
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Metallic": 0.0,
+          "IOR": 20.0,
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 1.0,
+          "Subsurface Radius": [
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.5,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 0.0,
+          "Coat Roughness": 0.4000000059604645,
+          "Coat IOR": 1.2000000476837158,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "Mix": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "DiffAmount_AI48_001_eurosofa_mattress_a": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Diff_AI48_001_eurosofa_mattress_a": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_mattress_a_Diffuse.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      },
+      "GlossAmount_AI48_001_eurosofa_mattress_a": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Gloss_AI48_001_eurosofa_mattress_a": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_mattress_a_Glossiness.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 0.0
+        },
+        "location": null
+      },
+      "Normal_AI48_001_eurosofa_mattress_a": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_mattress_a_Normal.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "DiffAmount_AI48_001_eurosofa_mattress_a.001": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
         },
         "location": null
       },
@@ -1040,50 +1557,3637 @@
         },
         "location": null
       },
-      "Gamma": {
-        "type": "ShaderNodeGamma",
-        "cycles_type": "gamma",
+      "Layer Weight": {
+        "type": "ShaderNodeLayerWeight",
+        "cycles_type": "layer_weight",
+        "params": {
+          "Blend": 0.5,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "ColorRamp": {
+        "type": "ShaderNodeValToRGB",
+        "cycles_type": "color_ramp",
         "params": {},
         "location": null
       },
-      "RGB": {
-        "type": "ShaderNodeRGB",
-        "cycles_type": "color",
-        "params": {},
+      "SpecAmount_AI48_001_eurosofa_mattress_a": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
         "location": null
       },
-      "Value": {
-        "type": "ShaderNodeValue",
-        "cycles_type": "value",
-        "params": {},
+      "Spec_AI48_001_eurosofa_mattress_a": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_mattress_a_reflection.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
         "location": null
       }
     },
     "links": [
       {
-        "from_node": "RGB",
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI48_001_eurosofa_mattress_a",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI48_001_eurosofa_mattress_a",
         "from_socket": "Color",
-        "to_node": "Gamma",
+        "to_node": "DiffAmount_AI48_001_eurosofa_mattress_a",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_eurosofa_mattress_a",
+        "from_socket": "Result",
+        "to_node": "Mix",
+        "to_socket": "A"
+      },
+      {
+        "from_node": "Mix",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI48_001_eurosofa_mattress_a",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI48_001_eurosofa_mattress_a",
+        "from_socket": "Color",
+        "to_node": "Invert",
         "to_socket": "Color"
       },
       {
-        "from_node": "Value",
-        "from_socket": "Value",
-        "to_node": "Gamma",
-        "to_socket": "Gamma"
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI48_001_eurosofa_mattress_a",
+        "to_socket": "B"
       },
       {
-        "from_node": "Gamma",
+        "from_node": "GlossAmount_AI48_001_eurosofa_mattress_a",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Normal_AI48_001_eurosofa_mattress_a",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Normal_AI48_001_eurosofa_mattress_a",
         "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Layer Weight",
+        "from_socket": "Facing",
         "to_node": "RGB Curves",
         "to_socket": "Color"
       },
       {
         "from_node": "RGB Curves",
         "from_socket": "Color",
+        "to_node": "DiffAmount_AI48_001_eurosofa_mattress_a.001",
+        "to_socket": "A"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Spec_AI48_001_eurosofa_mattress_a",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Spec_AI48_001_eurosofa_mattress_a",
+        "from_socket": "Color",
+        "to_node": "SpecAmount_AI48_001_eurosofa_mattress_a",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "SpecAmount_AI48_001_eurosofa_mattress_a",
+        "from_socket": "Result",
+        "to_node": "ColorRamp",
+        "to_socket": "Fac"
+      },
+      {
+        "from_node": "ColorRamp",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI48_001_eurosofa_mattress_a.001",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_eurosofa_mattress_a.001",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular IOR Level"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_eurosofa_mattress_a.001",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Coat Weight"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_eurosofa_mattress_a.001",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Sheen Weight"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI48_001_eurosofa_mattress_b": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          1204.7615966796875,
+          -23.68855857849121
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Metallic": 0.0,
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 1.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.5,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 0.0,
+          "Coat Roughness": 0.4000000059604645,
+          "Coat IOR": 1.2000000476837158,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "Mix": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "DiffAmount_AI48_001_eurosofa_mattress_b": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Diff_AI48_001_eurosofa_mattress_b": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_mattress_b_Diffuse.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      },
+      "GlossAmount_AI48_001_eurosofa_mattress_b": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Gloss_AI48_001_eurosofa_mattress_b": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_mattress_b_Glossiness.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "IOR_AI48_001_eurosofa_mattress_b": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_mattress_b_Ior.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0
+        },
+        "location": null
+      },
+      "Normal_AI48_001_eurosofa_mattress_b": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_mattress_b_Normal.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "DiffAmount_AI48_001_eurosofa_mattress_a.001": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "RGB Curves": {
+        "type": "ShaderNodeRGBCurve",
+        "cycles_type": "rgb_curves",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Layer Weight": {
+        "type": "ShaderNodeLayerWeight",
+        "cycles_type": "layer_weight",
+        "params": {
+          "Blend": 0.5,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "ColorRamp": {
+        "type": "ShaderNodeValToRGB",
+        "cycles_type": "color_ramp",
+        "params": {},
+        "location": null
+      },
+      "SpecAmount_AI48_001_eurosofa_mattress_b": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Spec_AI48_001_eurosofa_mattress_b": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_mattress_b_reflection.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI48_001_eurosofa_mattress_b",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI48_001_eurosofa_mattress_b",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI48_001_eurosofa_mattress_b",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_eurosofa_mattress_b",
+        "from_socket": "Result",
+        "to_node": "Mix",
+        "to_socket": "A"
+      },
+      {
+        "from_node": "Mix",
+        "from_socket": "Result",
         "to_node": "Principled BSDF",
         "to_socket": "Base Color"
       },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI48_001_eurosofa_mattress_b",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI48_001_eurosofa_mattress_b",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI48_001_eurosofa_mattress_b",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI48_001_eurosofa_mattress_b",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "IOR_AI48_001_eurosofa_mattress_b",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "IOR_AI48_001_eurosofa_mattress_b",
+        "from_socket": "Color",
+        "to_node": "Principled BSDF",
+        "to_socket": "IOR"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Normal_AI48_001_eurosofa_mattress_b",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Normal_AI48_001_eurosofa_mattress_b",
+        "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Layer Weight",
+        "from_socket": "Facing",
+        "to_node": "RGB Curves",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "RGB Curves",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI48_001_eurosofa_mattress_a.001",
+        "to_socket": "A"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Spec_AI48_001_eurosofa_mattress_b",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Spec_AI48_001_eurosofa_mattress_b",
+        "from_socket": "Color",
+        "to_node": "SpecAmount_AI48_001_eurosofa_mattress_b",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "SpecAmount_AI48_001_eurosofa_mattress_b",
+        "from_socket": "Result",
+        "to_node": "ColorRamp",
+        "to_socket": "Fac"
+      },
+      {
+        "from_node": "ColorRamp",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI48_001_eurosofa_mattress_a.001",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_eurosofa_mattress_a.001",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular IOR Level"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_eurosofa_mattress_a.001",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Coat Weight"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_eurosofa_mattress_a.001",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Sheen Weight"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI48_001_eurosofa_pillows_a": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Metallic": 0.0,
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "DiffAmount_AI48_001_eurosofa_pillows_a": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Diff_AI48_001_eurosofa_pillows_a": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_pillows_a_Diffuse.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      },
+      "GlossAmount_AI48_001_eurosofa_pillows_a": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Gloss_AI48_001_eurosofa_pillows_a": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_pillows_a_Glossiness.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "IOR_AI48_001_eurosofa_pillows_a": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_pillows_a_Ior.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0
+        },
+        "location": null
+      },
+      "Normal_AI48_001_eurosofa_pillows_a": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_pillows_a_Normal.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "SpecAmount_AI48_001_eurosofa_pillows_a": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Spec_AI48_001_eurosofa_pillows_a": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_pillows_a_reflection.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI48_001_eurosofa_pillows_a",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI48_001_eurosofa_pillows_a",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI48_001_eurosofa_pillows_a",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_eurosofa_pillows_a",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI48_001_eurosofa_pillows_a",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI48_001_eurosofa_pillows_a",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI48_001_eurosofa_pillows_a",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI48_001_eurosofa_pillows_a",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "IOR_AI48_001_eurosofa_pillows_a",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "IOR_AI48_001_eurosofa_pillows_a",
+        "from_socket": "Color",
+        "to_node": "Principled BSDF",
+        "to_socket": "IOR"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Normal_AI48_001_eurosofa_pillows_a",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Normal_AI48_001_eurosofa_pillows_a",
+        "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Spec_AI48_001_eurosofa_pillows_a",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Spec_AI48_001_eurosofa_pillows_a",
+        "from_socket": "Color",
+        "to_node": "SpecAmount_AI48_001_eurosofa_pillows_a",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "SpecAmount_AI48_001_eurosofa_pillows_a",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular IOR Level"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI48_001_eurosofa_pillows_b": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Metallic": 0.0,
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "DiffAmount_AI48_001_eurosofa_pillows_b": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Diff_AI48_001_eurosofa_pillows_b": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_pillows_b_Diffuse.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      },
+      "GlossAmount_AI48_001_eurosofa_pillows_b": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Gloss_AI48_001_eurosofa_pillows_b": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_pillows_b_Glossiness.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "IOR_AI48_001_eurosofa_pillows_b": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_pillows_b_Ior.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0
+        },
+        "location": null
+      },
+      "Normal_AI48_001_eurosofa_pillows_b": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_pillows_b_Normal.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "SpecAmount_AI48_001_eurosofa_pillows_b": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Spec_AI48_001_eurosofa_pillows_b": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_pillows_b_reflection.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI48_001_eurosofa_pillows_b",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI48_001_eurosofa_pillows_b",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI48_001_eurosofa_pillows_b",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_eurosofa_pillows_b",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI48_001_eurosofa_pillows_b",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI48_001_eurosofa_pillows_b",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI48_001_eurosofa_pillows_b",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI48_001_eurosofa_pillows_b",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "IOR_AI48_001_eurosofa_pillows_b",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "IOR_AI48_001_eurosofa_pillows_b",
+        "from_socket": "Color",
+        "to_node": "Principled BSDF",
+        "to_socket": "IOR"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Normal_AI48_001_eurosofa_pillows_b",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Normal_AI48_001_eurosofa_pillows_b",
+        "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Spec_AI48_001_eurosofa_pillows_b",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Spec_AI48_001_eurosofa_pillows_b",
+        "from_socket": "Color",
+        "to_node": "SpecAmount_AI48_001_eurosofa_pillows_b",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "SpecAmount_AI48_001_eurosofa_pillows_b",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular IOR Level"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI48_001_eurosofa_wheel": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "DiffAmount_AI48_001_eurosofa_wheel": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "ColorRamp": {
+        "type": "ShaderNodeValToRGB",
+        "cycles_type": "color_ramp",
+        "params": {},
+        "location": null
+      },
+      "Invert.001": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "IOR_AI48_001_eurosofa_wheel": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_wheel_Ior.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      },
+      "Diff_AI48_001_eurosofa_wheel": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_wheel_Diffuse.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "SpecAmount_AI48_001_eurosofa_wheel": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Spec_AI48_001_eurosofa_wheel": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_wheel_reflection.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "GlossAmount_AI48_001_eurosofa_wheel": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Gloss_AI48_001_eurosofa_wheel": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_wheel_Glossiness.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0
+        },
+        "location": null
+      },
+      "Normal_AI48_001_eurosofa_wheel": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_eurosofa_wheel_Normal.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mix.001": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Mix": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "IOR_AI48_001_eurosofa_wheel",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "IOR_AI48_001_eurosofa_wheel",
+        "from_socket": "Color",
+        "to_node": "Invert.001",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert.001",
+        "from_socket": "Color",
+        "to_node": "ColorRamp",
+        "to_socket": "Fac"
+      },
+      {
+        "from_node": "ColorRamp",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI48_001_eurosofa_wheel",
+        "to_socket": "Factor"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI48_001_eurosofa_wheel",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI48_001_eurosofa_wheel",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI48_001_eurosofa_wheel",
+        "to_socket": "A"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Spec_AI48_001_eurosofa_wheel",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Spec_AI48_001_eurosofa_wheel",
+        "from_socket": "Color",
+        "to_node": "SpecAmount_AI48_001_eurosofa_wheel",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "SpecAmount_AI48_001_eurosofa_wheel",
+        "from_socket": "Result",
+        "to_node": "DiffAmount_AI48_001_eurosofa_wheel",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_eurosofa_wheel",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
+      },
+      {
+        "from_node": "ColorRamp",
+        "from_socket": "Color",
+        "to_node": "Principled BSDF",
+        "to_socket": "Metallic"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI48_001_eurosofa_wheel",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI48_001_eurosofa_wheel",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI48_001_eurosofa_wheel",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI48_001_eurosofa_wheel",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "IOR_AI48_001_eurosofa_wheel",
+        "from_socket": "Color",
+        "to_node": "Principled BSDF",
+        "to_socket": "IOR"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Normal_AI48_001_eurosofa_wheel",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Normal_AI48_001_eurosofa_wheel",
+        "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "SpecAmount_AI48_001_eurosofa_wheel",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular IOR Level"
+      },
+      {
+        "from_node": "ColorRamp",
+        "from_socket": "Color",
+        "to_node": "Mix",
+        "to_socket": "Factor"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_eurosofa_wheel",
+        "from_socket": "Result",
+        "to_node": "Mix",
+        "to_socket": "A"
+      },
+      {
+        "from_node": "Mix",
+        "from_socket": "Result",
+        "to_node": "Mix.001",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "Mix.001",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular Tint"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI48_001_liquid": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Base Color": [
+            0.9257256984710693,
+            0.9257256984710693,
+            0.9257256984710693,
+            1.0
+          ],
+          "Metallic": 0.0,
+          "Roughness": 0.0,
+          "IOR": 1.3300000429153442,
+          "Alpha": 1.0,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular IOR Level": 1.0,
+          "Specular Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 0.9882352948188782,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI48_001_plate": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Base Color": [
+            0.21488726139068604,
+            0.21488726139068604,
+            0.21488726139068604,
+            1.0
+          ],
+          "Metallic": 0.20000000298023224,
+          "IOR": 1.4500000476837158,
+          "Alpha": 1.0,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular Tint": [
+            0.3719097971916199,
+            0.3719097971916199,
+            0.3719097971916199,
+            1.0
+          ],
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "GlossAmount_AI48_001_plate": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Gloss_AI48_001_plate": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_plate_Glossiness.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      },
+      "SpecAmount_AI48_001_plate": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Spec_AI48_001_plate": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_plate_reflection.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI48_001_plate",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI48_001_plate",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI48_001_plate",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI48_001_plate",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Spec_AI48_001_plate",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Spec_AI48_001_plate",
+        "from_socket": "Color",
+        "to_node": "SpecAmount_AI48_001_plate",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "SpecAmount_AI48_001_plate",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular IOR Level"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI48_001_wool1": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Metallic": 0.10000000149011612,
+          "IOR": 1.399999976158142,
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 1.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "Mix": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "DiffAmount_AI48_001_wool1": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Diff_AI48_001_wool1": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_wool1_Color.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      },
+      "GlossAmount_AI48_001_wool1": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Gloss_AI48_001_wool1": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_wool1_ReflectGloss.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0
+        },
+        "location": null
+      },
+      "Normal_AI48_001_wool1": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_wool1_Normal.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "SpecAmount_AI48_001_wool1": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Spec_AI48_001_wool1": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_wool1_Reflection.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI48_001_wool1",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI48_001_wool1",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI48_001_wool1",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_wool1",
+        "from_socket": "Result",
+        "to_node": "Mix",
+        "to_socket": "Factor"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_wool1",
+        "from_socket": "Result",
+        "to_node": "Mix",
+        "to_socket": "A"
+      },
+      {
+        "from_node": "Mix",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI48_001_wool1",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI48_001_wool1",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI48_001_wool1",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI48_001_wool1",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Normal_AI48_001_wool1",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Normal_AI48_001_wool1",
+        "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_wool1",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Subsurface Scale"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Spec_AI48_001_wool1",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Spec_AI48_001_wool1",
+        "from_socket": "Color",
+        "to_node": "SpecAmount_AI48_001_wool1",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "SpecAmount_AI48_001_wool1",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular IOR Level"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI48_001_wool1_glass": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Base Color": [
+            0.9904963970184326,
+            0.9969296455383301,
+            0.9970508813858032,
+            1.0
+          ],
+          "Metallic": 0.10000000149011612,
+          "IOR": 1.600000023841858,
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 1.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "GlossAmount_AI48_001_wool1": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Gloss_AI48_001_wool1": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_wool1_ReflectGloss.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0
+        },
+        "location": null
+      },
+      "Normal_AI48_001_wool1": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_wool1_Normal.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "SpecAmount_AI48_001_wool1": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Spec_AI48_001_wool1": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_wool1_Reflection.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI48_001_wool1",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI48_001_wool1",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI48_001_wool1",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI48_001_wool1",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Normal_AI48_001_wool1",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Normal_AI48_001_wool1",
+        "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Spec_AI48_001_wool1",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Spec_AI48_001_wool1",
+        "from_socket": "Color",
+        "to_node": "SpecAmount_AI48_001_wool1",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "SpecAmount_AI48_001_wool1",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular IOR Level"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI48_001_wool2_glass": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Base Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Metallic": 0.0,
+          "IOR": 1.399999976158142,
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 1.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "GlossAmount_AI48_001_wool2": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Gloss_AI48_001_wool2": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_wool2_ReflectGloss.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0
+        },
+        "location": null
+      },
+      "Normal_AI48_001_wool2": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_wool2_Normal.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "SpecAmount_AI48_001_wool2": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Spec_AI48_001_wool2": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_wool2_Reflection.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI48_001_wool2",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI48_001_wool2",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI48_001_wool2",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI48_001_wool2",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Normal_AI48_001_wool2",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Normal_AI48_001_wool2",
+        "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Spec_AI48_001_wool2",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Spec_AI48_001_wool2",
+        "from_socket": "Color",
+        "to_node": "SpecAmount_AI48_001_wool2",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "SpecAmount_AI48_001_wool2",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular IOR Level"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "AI48_001_wool2_rest": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          600.0,
+          0.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Metallic": 0.0,
+          "IOR": 1.399999976158142,
+          "Alpha": 1.0,
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 1.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      },
+      "Mix": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "DiffAmount_AI48_001_wool2": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Diff_AI48_001_wool2": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_wool2_Color.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "location": null
+      },
+      "Texture Coordinate": {
+        "type": "ShaderNodeTexCoord",
+        "cycles_type": "texture_coordinate",
+        "params": {},
+        "location": null
+      },
+      "GlossAmount_AI48_001_wool2": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Invert": {
+        "type": "ShaderNodeInvert",
+        "cycles_type": "invert",
+        "params": {
+          "Fac": 1.0
+        },
+        "location": null
+      },
+      "Gloss_AI48_001_wool2": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_wool2_ReflectGloss.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0
+        },
+        "location": null
+      },
+      "Normal_AI48_001_wool2": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_wool2_Normal.jpg",
+          "image_color_space": "Non-Color",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      },
+      "SpecAmount_AI48_001_wool2": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "Factor": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "A": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "location": null
+      },
+      "Spec_AI48_001_wool2": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_wool2_Reflection.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": null
+      }
+    },
+    "links": [
+      {
+        "from_node": "Texture Coordinate",
+        "from_socket": "UV",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Diff_AI48_001_wool2",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Diff_AI48_001_wool2",
+        "from_socket": "Color",
+        "to_node": "DiffAmount_AI48_001_wool2",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_wool2",
+        "from_socket": "Result",
+        "to_node": "Mix",
+        "to_socket": "Factor"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_wool2",
+        "from_socket": "Result",
+        "to_node": "Mix",
+        "to_socket": "A"
+      },
+      {
+        "from_node": "Mix",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Gloss_AI48_001_wool2",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gloss_AI48_001_wool2",
+        "from_socket": "Color",
+        "to_node": "Invert",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Invert",
+        "from_socket": "Color",
+        "to_node": "GlossAmount_AI48_001_wool2",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "GlossAmount_AI48_001_wool2",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Roughness"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Normal_AI48_001_wool2",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Normal_AI48_001_wool2",
+        "from_socket": "Color",
+        "to_node": "Normal Map",
+        "to_socket": "Color"
+      },
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Principled BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "DiffAmount_AI48_001_wool2",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Subsurface Scale"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Spec_AI48_001_wool2",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Spec_AI48_001_wool2",
+        "from_socket": "Color",
+        "to_node": "SpecAmount_AI48_001_wool2",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "SpecAmount_AI48_001_wool2",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Specular IOR Level"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      }
+    ]
+  },
+  "Material": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          200.0,
+          100.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Base Color": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            1.0
+          ],
+          "Metallic": 0.0,
+          "Roughness": 0.5,
+          "IOR": 1.4500000476837158,
+          "Alpha": 1.0,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular IOR Level": 0.5,
+          "Specular Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442
+        },
+        "location": null
+      }
+    },
+    "links": [
       {
         "from_node": "Principled BSDF",
         "from_socket": "BSDF",
