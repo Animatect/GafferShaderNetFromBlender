@@ -128,6 +128,47 @@ def handle_special_cases(node):
             specials["To Min"] = to_serializable(node.inputs[9])
             specials["To Max"] = to_serializable(node.inputs[10])
             specials["Steps"] = to_serializable(node.inputs[11])
+    elif node.bl_idname == "ShaderNodeFloatCurve":
+        specials["Factor"] = node.inputs["Factor"].default_value
+        specials["Value"] = node.inputs["Value"].default_value
+        curve = node.mapping.curves[0]
+        points = [[point.location[0], point.location[1], point.handle_type] for point in curve.points]
+        specials["curve"] = points
+    elif node.bl_idname in ("ShaderNodeVectorCurve", "ShaderNodeRGBCurve"):
+        specials["Factor"] = node.inputs["Fac"].default_value
+        labels = []
+        if node.bl_idname =="ShaderNodeVectorCurve":
+            specials["Vector"] = to_serializable(node.inputs["Vector"])
+            labels = ['x','y','z']
+        if node.bl_idname =="ShaderNodeRGBCurve":
+            specials["Color"] = to_serializable(node.inputs["Color"])
+            labels = ['c','r','g','b']
+        curves = node.mapping.curves
+        index = 0
+        for curve in curves:
+            specials[labels[index]] = [[point.location[0], point.location[1], point.handle_type] for point in curve.points]
+    elif node.bl_idname == "ShaderNodeValToRGB": # ColorRamp
+        specials["Factor"] = node.inputs["Fac"].default_value
+        ramp = node.color_ramp
+        specials["color_mode"] = ramp.color_mode
+        specials["interpolation"] = ramp.interpolation
+        elements = node.color_ramp.elements
+        specials["ramp_elements"] = [{"pos":element.position, "color":list(element.color)} for element in elements]
+    elif node.bl_idname in ("ShaderNodeMath", "ShaderNodeVectorMath"):
+        # Common properties
+        if hasattr(node, "operation"):
+            specials["operation"] = node.operation
+        if hasattr(node, "use_clamp"):
+            specials["use_clamp"] = node.use_clamp
+
+        # Capture all default values from unconnected inputs
+        for idx, input_socket in enumerate(node.inputs):
+            if not input_socket.is_linked:
+                try:
+                    val = to_serializable(input_socket)
+                    specials[input_socket.name] = val
+                except Exception:
+                    specials[input_socket.name] = str(input_socket.default_value)
 
     return specials
 
