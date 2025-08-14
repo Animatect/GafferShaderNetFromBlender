@@ -8,6 +8,21 @@ script_dir = r"C:\GitHub\GafferShaderNetFromBlender\InProgressScripts"#os.path.d
 mapping_path = os.path.join(script_dir, "blender_shader_class_to_cycles_name.json")
 with open(mapping_path, "r") as f:
     BLENDER_TO_CYCLES_SHADER_MAP = json.load(f)
+#####################################
+#-------------HIERARCHY-------------#
+#####################################
+
+def get_parent_path(obj):
+    path = [obj.name]
+    while obj.parent:
+        obj = obj.parent
+        path.append(obj.name)
+    return "/".join(reversed(path))
+
+
+#########################################
+#-------------NODE HANDLING-------------#
+#########################################
 
 def blender_node_to_cycles(node):
     cycles_name = BLENDER_TO_CYCLES_SHADER_MAP.get(node.bl_idname)
@@ -18,7 +33,11 @@ def blender_node_to_cycles(node):
     
 def to_serializable(socket):
     try:
-        val = socket.default_value
+        # is socket or value
+        if hasattr(socket, "default_value"):
+            val = socket.default_value
+        else:
+            val = socket
     except AttributeError:
         return None
 
@@ -44,24 +63,23 @@ def extract_node_extras(node):
         "bl_idname", "bl_label", "bl_description", "bl_icon", "bl_static_type",
         "name", "label", "type", "location", "select", "color_tag", "color",
         "width", "height", "bl_width_min", "bl_width_max", "bl_width_default",
-        "bl_height_min", "bl_height_max", "bl_height_default",
+        "bl_height_min", "bl_height_max", "bl_height_default", "inputs", "internal_links",
         "show_options", "show_preview", "show_texture", "use_custom_color",
-        "parent", "hide", "mute", "warning_propagation"
+        "parent", "hide", "mute", "warning_propagation", "debug_zone_body_lazy_function_graph",
+        "debug_zone_lazy_function_graph", "dimensions", "draw_buttons", "draw_buttons_ext", 
+        "input_template", "is_registered_node_type", "location_absolute", "output_template",
+        "outputs", "poll", "poll_instance", "rna_type", "socket_value_update", "update"
     }
-
     for attr in dir(node):
-        if attr.startswith("_") or attr in socket_names or attr in skip_exact:
+        if attr.startswith("_") or attr.startswith("bl_") or attr in socket_names or attr in skip_exact:
             continue
-        try:
-            val = getattr(node, attr)
-            if inspect.ismethod(val) or inspect.isfunction(val):
-                continue
-            if hasattr(val, "bl_rna"):
-                continue
-            if is_serializable(val):
-                extras[attr] = val
-        except Exception:
-            continue
+        
+        val = getattr(node, attr)
+        #print(f"{attr} : {val}")
+        if hasattr(node, attr):
+            extras[attr] = to_serializable(val)
+            
+            
     return extras
 
 # Handles the whole object
@@ -169,6 +187,16 @@ def handle_special_cases(node):
                 name = name+str(idx+1)
             val = to_serializable(input_socket)
             specials[name] = val
+    elif node.bl_idname == "ShaderNodeValue":
+        specials["Value"] = node.outputs['Value'].default_value
+    elif node.bl_idname == "ShaderNodeRGB":
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        specials["Color"] = to_serializable(node.outputs['Color'])
+        print(specials["Color"])
+    elif node.bl_idname == "ShaderNodeTexCoord":
+        if node.object is not None:
+            specials["Object"] = get_parent_path(node.object)
+        specials["from_instancer"] = node.from_instancer
 
     return specials
 
@@ -192,7 +220,7 @@ def trace_shader_network(material):
     tree = material.node_tree
     nodes = tree.nodes
 
-    output_node = next((n for n in nodes if n.type == 'OUTPUT_MATERIAL'), None)
+    output_node = next((n for n in nodes if n.type == 'OUTPUT_MATERIAL' and n.is_active_output), None)
     if output_node is None:
         print(f"No Material Output found in {material.name}")
         return None
@@ -218,13 +246,15 @@ def trace_shader_network(material):
                 cycles_type = blender_node_to_cycles(from_node)
                 if cycles_type == "unknown":
                     print("On ",material.name, " the node ", from_node.name, " of Type: ", from_node.bl_idname, " mapped to unknown.")
+                
                 # We check for special handling and if the is not we proceed with regular node handling.
-                params = handle_special_cases(from_node)
+                params = handle_special_cases(from_node)                
                 if len(params)==0:
                     params = {
                         inp.name: to_serializable(inp)
                         for inp in from_node.inputs
-                        if not inp.is_linked and hasattr(inp, "default_value")
+                        #if not inp.is_linked and hasattr(inp, "default_value")
+                        if hasattr(inp, "default_value")
                     }
                     params.update(extract_node_extras(from_node))
                     params.update(handle_ui_params(from_node))
