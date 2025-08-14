@@ -41,7 +41,7 @@ def get_image_filepath(img):
 def handle_image_nodes(node):
     uiparams = {}
     if node.image:
-        uiparams["image"] = get_image_filepath(node.image)
+        uiparams["image"] = get_image_filepath(node.image).replace("\\", "/")
         uiparams["Source"] = node.image.source
         uiparams["frame_duration"] = node.image_user.frame_duration
         uiparams["frame_offset"] = node.image_user.frame_offset
