@@ -64,6 +64,7 @@ def extract_node_extras(node):
             continue
     return extras
 
+# Handles the whole object
 def handle_special_cases(node):
     specials = {}
     if node.bl_idname == "ShaderNodeTexImage":
@@ -147,6 +148,7 @@ def handle_special_cases(node):
         index = 0
         for curve in curves:
             specials[labels[index]] = [[point.location[0], point.location[1], point.handle_type] for point in curve.points]
+            index += 1
     elif node.bl_idname == "ShaderNodeValToRGB": # ColorRamp
         specials["Factor"] = node.inputs["Fac"].default_value
         ramp = node.color_ramp
@@ -160,17 +162,27 @@ def handle_special_cases(node):
             specials["operation"] = node.operation
         if hasattr(node, "use_clamp"):
             specials["use_clamp"] = node.use_clamp
-
         # Capture all default values from unconnected inputs
         for idx, input_socket in enumerate(node.inputs):
-            if not input_socket.is_linked:
-                try:
-                    val = to_serializable(input_socket)
-                    specials[input_socket.name] = val
-                except Exception:
-                    specials[input_socket.name] = str(input_socket.default_value)
+            name = input_socket.name
+            if input_socket.name.lower() in ("value", "vector"):
+                name = name+str(idx+1)
+            val = to_serializable(input_socket)
+            specials[name] = val
 
     return specials
+
+# Handles Only the extra Params and adds to the auto inputs
+def handle_ui_params(node):
+    uiparams = {}
+    if node.bl_idname in ("ShaderNodeVertexColor", "ShaderNodeAttribute", "ShaderNodeUVMap", "ShaderNodeVectorTransform"):
+        attrs=["layer_name", "attribute_name", "attribute_type", "uv_map", "from_instancer"]
+        attrs.extend(["vector_type", "convert_from", "convert_to"])
+        for attr in attrs:
+            if hasattr(node, attr):
+                uiparams[attr] = getattr(node, attr, "")
+
+    return uiparams
 
 def trace_shader_network(material):
     if not material.use_nodes:
@@ -214,8 +226,8 @@ def trace_shader_network(material):
                         for inp in from_node.inputs
                         if not inp.is_linked and hasattr(inp, "default_value")
                     }
-                    extras = extract_node_extras(from_node)
-                    params.update(extras)
+                    params.update(extract_node_extras(from_node))
+                    params.update(handle_ui_params(from_node))
 
                 node_info[from_node.name] = {
                     "type": from_node.bl_idname,
