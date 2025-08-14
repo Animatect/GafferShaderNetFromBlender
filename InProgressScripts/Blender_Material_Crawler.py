@@ -30,7 +30,30 @@ def blender_node_to_cycles(node):
         print(f"⚠️ No mapping for {node.bl_idname}")
         return "unknown"
     return cycles_name
-    
+
+def get_image_filepath(img):
+    imgpath = img.filepath.replace("\\", "/")
+    imgpath = bpy.path.abspath(imgpath)
+    imgpath = os.path.realpath(imgpath)
+
+    return imgpath
+
+def handle_image_nodes(node):
+    uiparams = {}
+    if node.image:
+        uiparams["image"] = get_image_filepath(node.image)
+        uiparams["Source"] = node.image.source
+        uiparams["frame_duration"] = node.image_user.frame_duration
+        uiparams["frame_offset"] = node.image_user.frame_offset
+        uiparams["frame_start"] = node.image_user.frame_start
+        uiparams["frame_current"] = node.image_user.frame_current
+        uiparams["use_auto_refresh"] = node.image_user.use_auto_refresh
+        uiparams["use_cyclic"] = node.image_user.use_cyclic
+        uiparams["alpha_mode"] = node.image.alpha_mode
+        uiparams["image_color_space"] = node.image.colorspace_settings.name
+
+    return uiparams
+
 def to_serializable(socket):
     try:
         # is socket or value
@@ -68,10 +91,18 @@ def extract_node_extras(node):
         "parent", "hide", "mute", "warning_propagation", "debug_zone_body_lazy_function_graph",
         "debug_zone_lazy_function_graph", "dimensions", "draw_buttons", "draw_buttons_ext", 
         "input_template", "is_registered_node_type", "location_absolute", "output_template",
-        "outputs", "poll", "poll_instance", "rna_type", "socket_value_update", "update"
+        "outputs", "poll", "poll_instance", "rna_type", "socket_value_update", "update",
+        "color_mapping", "texture_mapping"
+        
     }
+    skip_specific ={}
+    if node.bl_idname == "ShaderNodeTexPointDensity":
+        skip_specific = {"cache_point_density", "calc_point_density", "calc_point_density_minmax", "object"}
+    if node.bl_idname in ("ShaderNodeTexImage", "ShaderNodeTexEnvironment"):
+        skip_specific = {"image", "image_user"}
+
     for attr in dir(node):
-        if attr.startswith("_") or attr.startswith("bl_") or attr in socket_names or attr in skip_exact:
+        if attr.startswith("_") or attr.startswith("bl_") or attr in socket_names or attr in skip_exact or attr in skip_specific:
             continue
         
         val = getattr(node, attr)
@@ -82,34 +113,31 @@ def extract_node_extras(node):
             
     return extras
 
+# Handles Only the extra Params and adds to the auto inputs
+def handle_ui_params(node):
+    uiparams = {}
+    if node.bl_idname in ("ShaderNodeVertexColor", "ShaderNodeAttribute", "ShaderNodeUVMap", "ShaderNodeVectorTransform"):
+        attrs=["layer_name", "attribute_name", "attribute_type", "uv_map", "from_instancer"]
+        attrs.extend(["vector_type", "convert_from", "convert_to"])
+        for attr in attrs:
+            if hasattr(node, attr):
+                uiparams[attr] = getattr(node, attr, "")
+
+    if node.bl_idname == "ShaderNodeTexPointDensity":
+        if node.object is not None:
+            uiparams["Object"] = get_parent_path(node.object)
+    #if node.bl_idname == "ShaderNodeTexImage":
+
+    if node.bl_idname in ("ShaderNodeTexImage", "ShaderNodeTexEnvironment"):        
+        uiparams.update(handle_image_nodes(node))
+
+    return uiparams
+
+
 # Handles the whole object
 def handle_special_cases(node):
     specials = {}
-    if node.bl_idname == "ShaderNodeTexImage":
-        if node.image:
-            img = node.image
-            imgpath = img.filepath.replace("\\", "/")
-            imgpath = bpy.path.abspath(imgpath)
-            imgpath = os.path.realpath(imgpath)
-            specials["image"] = imgpath
-            if hasattr(img, "colorspace_settings"):
-                specials["image_color_space"] = img.colorspace_settings.name
-            if hasattr(img, "alpha_mode"):
-                specials["alpha_mode"] = img.alpha_mode
-            if hasattr(img, "use_view_as_render"):
-                specials["use_view_as_render"] = img.use_view_as_render
-            if hasattr(img, "use_alpha"):
-                specials["use_alpha"] = img.use_alpha
-
-        if hasattr(node, "color_space"):
-            specials["color_space"] = node.color_space
-        if hasattr(node, "interpolation"):
-            specials["interpolation"] = node.interpolation
-        if hasattr(node, "projection"):
-            specials["projection"] = node.projection
-        if hasattr(node, "extension"):
-            specials["extension"] = node.extension
-    elif node.bl_idname == "ShaderNodeMix":
+    if node.bl_idname == "ShaderNodeMix":
         specials["data_type"] = node.data_type
         specials["clamp_factor"] = node.clamp_factor
         specials["clamp_result"] = node.clamp_result
@@ -197,18 +225,6 @@ def handle_special_cases(node):
         specials["from_instancer"] = node.from_instancer
 
     return specials
-
-# Handles Only the extra Params and adds to the auto inputs
-def handle_ui_params(node):
-    uiparams = {}
-    if node.bl_idname in ("ShaderNodeVertexColor", "ShaderNodeAttribute", "ShaderNodeUVMap", "ShaderNodeVectorTransform"):
-        attrs=["layer_name", "attribute_name", "attribute_type", "uv_map", "from_instancer"]
-        attrs.extend(["vector_type", "convert_from", "convert_to"])
-        for attr in attrs:
-            if hasattr(node, attr):
-                uiparams[attr] = getattr(node, attr, "")
-
-    return uiparams
 
 def trace_shader_network(material):
     if not material.use_nodes:

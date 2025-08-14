@@ -1342,8 +1342,8 @@
             0.0
           ],
           "Weight": 0.0,
-          "Diffuse Roughness": 0.0,
-          "Subsurface Weight": 0.0,
+          "Diffuse Roughness": 0.2393617033958435,
+          "Subsurface Weight": 0.43617022037506104,
           "Subsurface Radius": [
             1.0,
             0.20000000298023224,
@@ -1366,8 +1366,8 @@
             0.0,
             0.0
           ],
-          "Transmission Weight": 0.0,
-          "Coat Weight": 0.0,
+          "Transmission Weight": 0.18617022037506104,
+          "Coat Weight": 0.5797872543334961,
           "Coat Roughness": 0.029999999329447746,
           "Coat IOR": 1.5,
           "Coat Tint": [
@@ -1381,7 +1381,7 @@
             0.0,
             0.0
           ],
-          "Sheen Weight": 0.0,
+          "Sheen Weight": 0.7446808218955994,
           "Sheen Roughness": 0.5,
           "Sheen Tint": [
             1.0,
@@ -1395,15 +1395,15 @@
             1.0,
             1.0
           ],
-          "Emission Strength": 0.0,
+          "Emission Strength": 8.299999237060547,
           "Thin Film Thickness": 0.0,
           "Thin Film IOR": 1.3300000429153442,
-          "distribution": "MULTI_GGX",
-          "subsurface_method": "RANDOM_WALK"
+          "distribution": "GGX",
+          "subsurface_method": "RANDOM_WALK_SKIN"
         },
         "location": [
-          -960.0,
-          920.0
+          -1221.1646728515625,
+          960.0
         ]
       },
       "Emission": {
@@ -1476,8 +1476,8 @@
           "distribution": "MULTI_GGX"
         },
         "location": [
-          -740.0,
-          460.0
+          -760.0,
+          560.0
         ]
       },
       "Holdout": {
@@ -1842,8 +1842,8 @@
           "Weight": 0.0
         },
         "location": [
-          -20.0,
-          -640.0
+          40.0,
+          -660.0
         ]
       }
     },
@@ -2182,8 +2182,6 @@
           ],
           "Scale": 5.0,
           "Distortion": 1.0,
-          "color_mapping": "<bpy_struct, ColorMapping at 0x000002276761A498>",
-          "texture_mapping": "<bpy_struct, TexMapping at 0x000002276761A408>",
           "turbulence_depth": 2
         },
         "location": [
@@ -2212,9 +2210,7 @@
             0.20000000298023224,
             1.0
           ],
-          "Scale": 5.0,
-          "color_mapping": "<bpy_struct, ColorMapping at 0x00000227035DF498>",
-          "texture_mapping": "<bpy_struct, TexMapping at 0x00000227035DF408>"
+          "Scale": 5.0
         },
         "location": [
           -1320.0,
@@ -2254,12 +2250,10 @@
           "Bias": 0.0,
           "Brick Width": 0.5,
           "Row Height": 0.25,
-          "color_mapping": "<bpy_struct, ColorMapping at 0x00000227547E0898>",
           "offset": 0.5,
           "offset_frequency": 2,
           "squash": 1.0,
-          "squash_frequency": 2,
-          "texture_mapping": "<bpy_struct, TexMapping at 0x00000227547E0808>"
+          "squash_frequency": 2
         },
         "location": [
           -1580.0,
@@ -2276,9 +2270,9 @@
             0.0
           ],
           "Strength": 1.0,
-          "filepath": "",
+          "filepath": "X:\\tmp\\058351205c93d4255807d0de95d59544.ies",
           "ies": "None",
-          "mode": "INTERNAL"
+          "mode": "EXTERNAL"
         },
         "location": [
           -1900.0,
@@ -2301,9 +2295,7 @@
           "Detail Roughness": 0.5,
           "Phase Offset": 0.0,
           "bands_direction": "X",
-          "color_mapping": "<bpy_struct, ColorMapping at 0x000002270335F898>",
           "rings_direction": "X",
-          "texture_mapping": "<bpy_struct, TexMapping at 0x000002270335F808>",
           "wave_profile": "SIN",
           "wave_type": "BANDS"
         },
@@ -2346,11 +2338,9 @@
           "Offset": 0.0,
           "Gain": 1.0,
           "Distortion": 0.0,
-          "color_mapping": "<bpy_struct, ColorMapping at 0x0000022703ADA898>",
           "noise_dimensions": "3D",
           "noise_type": "FBM",
-          "normalize": true,
-          "texture_mapping": "<bpy_struct, TexMapping at 0x0000022703ADA808>"
+          "normalize": true
         },
         "location": [
           -1060.0,
@@ -2366,9 +2356,7 @@
             0.0,
             0.0
           ],
-          "color_mapping": "<bpy_struct, ColorMapping at 0x00000227037AE098>",
-          "gradient_type": "LINEAR",
-          "texture_mapping": "<bpy_struct, TexMapping at 0x00000227037AE008>"
+          "gradient_type": "LINEAR"
         },
         "location": [
           -1320.0,
@@ -2386,7 +2374,6 @@
           ],
           "air_density": 1.0,
           "altitude": 0.0,
-          "color_mapping": "<bpy_struct, ColorMapping at 0x0000022703767298>",
           "dust_density": 1.0,
           "ground_albedo": 0.30000001192092896,
           "ozone_density": 1.0,
@@ -2401,7 +2388,6 @@
           "sun_intensity": 1.0,
           "sun_rotation": 0.0,
           "sun_size": 0.009512044489383698,
-          "texture_mapping": "<bpy_struct, TexMapping at 0x0000022703767208>",
           "turbidity": 2.200000047683716
         },
         "location": [
@@ -2418,19 +2404,16 @@
             0.0,
             0.0
           ],
-          "cache_point_density": "<bpy_func ShaderNodeTexPointDensity.cache_point_density()>",
-          "calc_point_density": "<bpy_func ShaderNodeTexPointDensity.calc_point_density()>",
-          "calc_point_density_minmax": "<bpy_func ShaderNodeTexPointDensity.calc_point_density_minmax()>",
-          "interpolation": "Linear",
-          "object": "None",
-          "particle_color_source": "PARTICLE_AGE",
+          "interpolation": "Cubic",
+          "particle_color_source": "PARTICLE_VELOCITY",
           "particle_system": "None",
           "point_source": "PARTICLE_SYSTEM",
           "radius": 0.30000001192092896,
           "resolution": 100,
           "space": "OBJECT",
           "vertex_attribute_name": "",
-          "vertex_color_source": "VERTEX_COLOR"
+          "vertex_color_source": "VERTEX_COLOR",
+          "Object": "Empty/Camera"
         },
         "location": [
           -1080.0,
@@ -2446,12 +2429,18 @@
             0.0,
             0.0
           ],
-          "color_mapping": "<bpy_struct, ColorMapping at 0x000002270399EC98>",
-          "image": "<bpy_struct, Image(\"AI48_001_172_10_roof_NM.jpg\") at 0x0000022703616B08>",
-          "image_user": "<bpy_struct, ImageUser at 0x000002270399EFC8>",
           "interpolation": "Linear",
           "projection": "EQUIRECTANGULAR",
-          "texture_mapping": "<bpy_struct, TexMapping at 0x000002270399EC08>"
+          "image": "D:\\rnd\\AI48_001\\textures\\AI48_001_172_10_facade_NM.jpg",
+          "Source": "FILE",
+          "frame_duration": 1,
+          "frame_offset": 9,
+          "frame_start": 1,
+          "frame_current": 0,
+          "use_auto_refresh": false,
+          "use_cyclic": false,
+          "alpha_mode": "STRAIGHT",
+          "image_color_space": "sRGB"
         },
         "location": [
           -1360.0,
@@ -2475,11 +2464,9 @@
           "Smoothness": 1.0,
           "Exponent": 0.5,
           "Randomness": 1.0,
-          "color_mapping": "<bpy_struct, ColorMapping at 0x0000022703527098>",
           "distance": "EUCLIDEAN",
           "feature": "F1",
           "normalize": false,
-          "texture_mapping": "<bpy_struct, TexMapping at 0x0000022703527008>",
           "voronoi_dimensions": "3D"
         },
         "location": [
@@ -2504,9 +2491,7 @@
             1.4142135381698608,
             0.0
           ],
-          "color_mapping": "<bpy_struct, ColorMapping at 0x0000022770205C98>",
-          "gabor_type": "2D",
-          "texture_mapping": "<bpy_struct, TexMapping at 0x0000022770205C08>"
+          "gabor_type": "2D"
         },
         "location": [
           -1800.0,
@@ -2536,13 +2521,25 @@
         "type": "ShaderNodeTexImage",
         "cycles_type": "image_texture",
         "params": {
-          "image": "C:\\Users\\mhartist\\Desktop\\images.jpg",
-          "image_color_space": "sRGB",
-          "alpha_mode": "STRAIGHT",
-          "use_view_as_render": false,
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "extension": "EXTEND",
           "interpolation": "Linear",
-          "projection": "FLAT",
-          "extension": "REPEAT"
+          "projection": "BOX",
+          "projection_blend": 0.0,
+          "image": "C:\\Users\\mhartist\\Desktop\\images.jpg",
+          "Source": "FILE",
+          "frame_duration": 1,
+          "frame_offset": -1,
+          "frame_start": 1,
+          "frame_current": 0,
+          "use_auto_refresh": false,
+          "use_cyclic": false,
+          "alpha_mode": "STRAIGHT",
+          "image_color_space": "sRGB"
         },
         "location": [
           -620.0,
@@ -2753,9 +2750,9 @@
         "cycles_type": "normal",
         "params": {
           "Normal": [
-            0.0,
-            0.0,
-            1.0
+            0.7166666984558105,
+            -0.2083333432674408,
+            0.6655720472335815
           ]
         },
         "location": [
@@ -2778,8 +2775,8 @@
           "uv_map": "UVMap"
         },
         "location": [
-          -1020.0,
-          540.0
+          -1060.0,
+          520.0
         ]
       },
       "Vector Transform": {
@@ -3068,13 +3065,25 @@
         "type": "ShaderNodeTexImage",
         "cycles_type": "image_texture",
         "params": {
-          "image": "C:\\Users\\mhartist\\Downloads\\Captura de pantalla 2025-07-15 a la(s) 8.30.23\u202fa.m..png",
-          "image_color_space": "sRGB",
-          "alpha_mode": "STRAIGHT",
-          "use_view_as_render": false,
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "extension": "REPEAT",
           "interpolation": "Linear",
           "projection": "FLAT",
-          "extension": "REPEAT"
+          "projection_blend": 0.0,
+          "image": "C:\\Users\\mhartist\\Downloads\\Captura de pantalla 2025-07-15 a la(s) 8.30.23\u202fa.m..png",
+          "Source": "FILE",
+          "frame_duration": 100,
+          "frame_offset": 0,
+          "frame_start": 1,
+          "frame_current": 0,
+          "use_auto_refresh": false,
+          "use_cyclic": false,
+          "alpha_mode": "STRAIGHT",
+          "image_color_space": "sRGB"
         },
         "location": [
           -1107.899658203125,
