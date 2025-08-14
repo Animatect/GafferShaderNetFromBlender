@@ -673,7 +673,7 @@
           "Value": 1.0,
           "Min": 0.0,
           "Max": 1.0,
-          "clamp_type": "MINMAX"
+          "clamp_type": "RANGE"
         },
         "location": [
           -1920.0,
@@ -1209,6 +1209,1754 @@
         "from_socket": "Shader",
         "to_node": "Material Output",
         "to_socket": "Surface"
+      }
+    ]
+  },
+  "evalShader": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          1220.0001220703125,
+          80.0
+        ]
+      },
+      "Mix Shader.011": {
+        "type": "ShaderNodeMixShader",
+        "cycles_type": "mix_shader",
+        "params": {
+          "Fac": 0.5
+        },
+        "location": [
+          1039.9998779296875,
+          220.0
+        ]
+      },
+      "Mix Shader.010": {
+        "type": "ShaderNodeMixShader",
+        "cycles_type": "mix_shader",
+        "params": {
+          "Fac": 0.5
+        },
+        "location": [
+          860.0,
+          240.0
+        ]
+      },
+      "Mix Shader.009": {
+        "type": "ShaderNodeMixShader",
+        "cycles_type": "mix_shader",
+        "params": {
+          "Fac": 0.5
+        },
+        "location": [
+          580.0,
+          360.0
+        ]
+      },
+      "Mix Shader.005": {
+        "type": "ShaderNodeMixShader",
+        "cycles_type": "mix_shader",
+        "params": {
+          "Fac": 0.5
+        },
+        "location": [
+          240.0,
+          380.0
+        ]
+      },
+      "Mix Shader.004": {
+        "type": "ShaderNodeMixShader",
+        "cycles_type": "mix_shader",
+        "params": {
+          "Fac": 0.5
+        },
+        "location": [
+          80.0,
+          500.0
+        ]
+      },
+      "Mix Shader.003": {
+        "type": "ShaderNodeMixShader",
+        "cycles_type": "mix_shader",
+        "params": {
+          "Fac": 0.5
+        },
+        "location": [
+          -80.0,
+          620.0
+        ]
+      },
+      "Mix Shader.002": {
+        "type": "ShaderNodeMixShader",
+        "cycles_type": "mix_shader",
+        "params": {
+          "Fac": 0.5
+        },
+        "location": [
+          -280.0,
+          680.0
+        ]
+      },
+      "Mix Shader.001": {
+        "type": "ShaderNodeMixShader",
+        "cycles_type": "mix_shader",
+        "params": {
+          "Fac": 0.5
+        },
+        "location": [
+          -500.0,
+          780.0
+        ]
+      },
+      "Mix Shader": {
+        "type": "ShaderNodeMixShader",
+        "cycles_type": "mix_shader",
+        "params": {
+          "Fac": 0.5
+        },
+        "location": [
+          -680.0,
+          860.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Base Color": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            1.0
+          ],
+          "Metallic": 0.0,
+          "Roughness": 0.5,
+          "IOR": 1.5,
+          "Alpha": 1.0,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular IOR Level": 0.5,
+          "Specular Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442,
+          "distribution": "MULTI_GGX",
+          "subsurface_method": "RANDOM_WALK"
+        },
+        "location": [
+          -960.0,
+          920.0
+        ]
+      },
+      "Emission": {
+        "type": "ShaderNodeEmission",
+        "cycles_type": "emission",
+        "params": {
+          "Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Strength": 1.0,
+          "Weight": 0.0
+        },
+        "location": [
+          -940.0,
+          780.0
+        ]
+      },
+      "Glass BSDF": {
+        "type": "ShaderNodeBsdfGlass",
+        "cycles_type": "glass_bsdf",
+        "params": {
+          "Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Roughness": 0.0,
+          "IOR": 1.5,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Weight": 0.0,
+          "distribution": "MULTI_GGX"
+        },
+        "location": [
+          -740.0,
+          660.0
+        ]
+      },
+      "Glossy BSDF": {
+        "type": "ShaderNodeBsdfAnisotropic",
+        "cycles_type": "glossy_bsdf",
+        "params": {
+          "Color": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            1.0
+          ],
+          "Roughness": 0.5,
+          "Anisotropy": 0.0,
+          "Rotation": 0.0,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Weight": 0.0,
+          "distribution": "MULTI_GGX"
+        },
+        "location": [
+          -740.0,
+          460.0
+        ]
+      },
+      "Holdout": {
+        "type": "ShaderNodeHoldout",
+        "cycles_type": "holdout",
+        "params": {
+          "Weight": 0.0
+        },
+        "location": [
+          -320.0,
+          460.0
+        ]
+      },
+      "Metallic BSDF": {
+        "type": "ShaderNodeBsdfMetallic",
+        "cycles_type": "metallic_bsdf",
+        "params": {
+          "Base Color": [
+            0.6169999837875366,
+            0.5770000219345093,
+            0.5400000214576721,
+            1.0
+          ],
+          "Edge Tint": [
+            0.6949999928474426,
+            0.7260000109672546,
+            0.7699999809265137,
+            1.0
+          ],
+          "IOR": [
+            2.756999969482422,
+            2.513000011444092,
+            2.2309999465942383
+          ],
+          "Extinction": [
+            3.867000102996826,
+            3.4040000438690186,
+            3.009000062942505
+          ],
+          "Roughness": 0.5,
+          "Anisotropy": 0.0,
+          "Rotation": 0.0,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Weight": 0.0,
+          "distribution": "MULTI_GGX",
+          "fresnel_type": "F82"
+        },
+        "location": [
+          -561.405029296875,
+          400.0
+        ]
+      },
+      "Mix Shader.007": {
+        "type": "ShaderNodeMixShader",
+        "cycles_type": "mix_shader",
+        "params": {
+          "Fac": 0.5
+        },
+        "location": [
+          140.0,
+          160.0
+        ]
+      },
+      "Specular BSDF": {
+        "type": "ShaderNodeEeveeSpecular",
+        "cycles_type": "specular_bsdf",
+        "params": {
+          "Base Color": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            1.0
+          ],
+          "Specular": [
+            0.029999999329447746,
+            0.029999999329447746,
+            0.029999999329447746,
+            1.0
+          ],
+          "Roughness": 0.20000000298023224,
+          "Emissive Color": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "Transparency": 0.0,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Clear Coat": 0.0,
+          "Clear Coat Roughness": 0.0,
+          "Clear Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Weight": 0.0
+        },
+        "location": [
+          -220.0,
+          300.0
+        ]
+      },
+      "Refraction BSDF": {
+        "type": "ShaderNodeBsdfRefraction",
+        "cycles_type": "refraction_bsdf",
+        "params": {
+          "Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Roughness": 0.0,
+          "IOR": 1.4500000476837158,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Weight": 0.0,
+          "distribution": "BECKMANN"
+        },
+        "location": [
+          -80.0,
+          80.0
+        ]
+      },
+      "Mix Shader.008": {
+        "type": "ShaderNodeMixShader",
+        "cycles_type": "mix_shader",
+        "params": {
+          "Fac": 0.5
+        },
+        "location": [
+          740.0,
+          80.0
+        ]
+      },
+      "Subsurface Scattering": {
+        "type": "ShaderNodeSubsurfaceScattering",
+        "cycles_type": "subsurface_scattering",
+        "params": {
+          "Color": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            1.0
+          ],
+          "Scale": 0.05000000074505806,
+          "Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "IOR": 1.399999976158142,
+          "Roughness": 1.0,
+          "Anisotropy": 0.0,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Weight": 0.0,
+          "falloff": "RANDOM_WALK"
+        },
+        "location": [
+          340.0,
+          260.0
+        ]
+      },
+      "Translucent BSDF": {
+        "type": "ShaderNodeBsdfTranslucent",
+        "cycles_type": "translucent_bsdf",
+        "params": {
+          "Color": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            1.0
+          ],
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Weight": 0.0
+        },
+        "location": [
+          300.0,
+          -60.0
+        ]
+      },
+      "Transparent BSDF": {
+        "type": "ShaderNodeBsdfTransparent",
+        "cycles_type": "transparent_bsdf",
+        "params": {
+          "Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Weight": 0.0
+        },
+        "location": [
+          600.0,
+          -80.0
+        ]
+      },
+      "Add Shader.001": {
+        "type": "ShaderNodeAddShader",
+        "cycles_type": "add_shader",
+        "params": {},
+        "location": [
+          460.0,
+          -200.0
+        ]
+      },
+      "Add Shader": {
+        "type": "ShaderNodeAddShader",
+        "cycles_type": "add_shader",
+        "params": {},
+        "location": [
+          40.0,
+          -140.0
+        ]
+      },
+      "Principled Volume": {
+        "type": "ShaderNodeVolumePrincipled",
+        "cycles_type": "principled_volume",
+        "params": {
+          "Color": [
+            0.5,
+            0.5,
+            0.5,
+            1.0
+          ],
+          "Color Attribute": "",
+          "Density": 1.0,
+          "Density Attribute": "density",
+          "Anisotropy": 0.0,
+          "Absorption Color": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Blackbody Intensity": 0.0,
+          "Blackbody Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Temperature": 1000.0,
+          "Temperature Attribute": "temperature",
+          "Weight": 0.0
+        },
+        "location": [
+          -500.0,
+          -100.0
+        ]
+      },
+      "Volume Scatter": {
+        "type": "ShaderNodeVolumeScatter",
+        "cycles_type": "volume_scatter",
+        "params": {
+          "Color": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            1.0
+          ],
+          "Density": 1.0,
+          "Anisotropy": 0.0,
+          "IOR": 1.3300000429153442,
+          "Backscatter": 0.10000000149011612,
+          "Alpha": 0.5,
+          "Diameter": 20.0,
+          "Weight": 0.0,
+          "phase": "HENYEY_GREENSTEIN"
+        },
+        "location": [
+          -240.0,
+          -260.0
+        ]
+      },
+      "Mix Shader.006": {
+        "type": "ShaderNodeMixShader",
+        "cycles_type": "mix_shader",
+        "params": {
+          "Fac": 0.5
+        },
+        "location": [
+          200.0,
+          -420.0
+        ]
+      },
+      "Volume Coefficients": {
+        "type": "ShaderNodeVolumeCoefficients",
+        "cycles_type": "unknown",
+        "params": {
+          "Weight": 0.0,
+          "Absorption Coefficients": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Scatter Coefficients": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Anisotropy": 0.0,
+          "IOR": 1.3300000429153442,
+          "Backscatter": 0.10000000149011612,
+          "Alpha": 0.5,
+          "Diameter": 20.0,
+          "Emission Coefficients": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "phase": "HENYEY_GREENSTEIN"
+        },
+        "location": [
+          -220.0,
+          -440.0
+        ]
+      },
+      "Volume Absorption": {
+        "type": "ShaderNodeVolumeAbsorption",
+        "cycles_type": "volume_absorption",
+        "params": {
+          "Color": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            1.0
+          ],
+          "Density": 1.0,
+          "Weight": 0.0
+        },
+        "location": [
+          -20.0,
+          -640.0
+        ]
+      }
+    },
+    "links": [
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Mix Shader",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Emission",
+        "from_socket": "Emission",
+        "to_node": "Mix Shader",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Mix Shader",
+        "from_socket": "Shader",
+        "to_node": "Mix Shader.001",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Glass BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Mix Shader.001",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Mix Shader.001",
+        "from_socket": "Shader",
+        "to_node": "Mix Shader.002",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Glossy BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Mix Shader.002",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Mix Shader.002",
+        "from_socket": "Shader",
+        "to_node": "Mix Shader.003",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Holdout",
+        "from_socket": "Holdout",
+        "to_node": "Mix Shader.003",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Mix Shader.003",
+        "from_socket": "Shader",
+        "to_node": "Mix Shader.004",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Metallic BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Mix Shader.004",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Mix Shader.004",
+        "from_socket": "Shader",
+        "to_node": "Mix Shader.005",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Mix Shader.005",
+        "from_socket": "Shader",
+        "to_node": "Mix Shader.009",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Specular BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Mix Shader.007",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Refraction BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Mix Shader.007",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Mix Shader.007",
+        "from_socket": "Shader",
+        "to_node": "Mix Shader.009",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Mix Shader.009",
+        "from_socket": "Shader",
+        "to_node": "Mix Shader.010",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Subsurface Scattering",
+        "from_socket": "BSSRDF",
+        "to_node": "Mix Shader.008",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Translucent BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Mix Shader.008",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Mix Shader.008",
+        "from_socket": "Shader",
+        "to_node": "Mix Shader.010",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Mix Shader.010",
+        "from_socket": "Shader",
+        "to_node": "Mix Shader.011",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Transparent BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Mix Shader.011",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Mix Shader.011",
+        "from_socket": "Shader",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      },
+      {
+        "from_node": "Principled Volume",
+        "from_socket": "Volume",
+        "to_node": "Add Shader",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Volume Scatter",
+        "from_socket": "Volume",
+        "to_node": "Add Shader",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Add Shader",
+        "from_socket": "Shader",
+        "to_node": "Add Shader.001",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Volume Coefficients",
+        "from_socket": "Volume",
+        "to_node": "Mix Shader.006",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Volume Absorption",
+        "from_socket": "Volume",
+        "to_node": "Mix Shader.006",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Mix Shader.006",
+        "from_socket": "Shader",
+        "to_node": "Add Shader.001",
+        "to_socket": "Shader"
+      },
+      {
+        "from_node": "Add Shader.001",
+        "from_socket": "Shader",
+        "to_node": "Material Output",
+        "to_socket": "Volume"
+      }
+    ]
+  },
+  "evalTexture": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          200.0,
+          100.0
+        ]
+      },
+      "Principled BSDF": {
+        "type": "ShaderNodeBsdfPrincipled",
+        "cycles_type": "principled_bsdf",
+        "params": {
+          "Base Color": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            1.0
+          ],
+          "Metallic": 0.0,
+          "Roughness": 0.5,
+          "IOR": 1.5,
+          "Alpha": 1.0,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Weight": 0.0,
+          "Diffuse Roughness": 0.0,
+          "Subsurface Weight": 0.0,
+          "Subsurface Radius": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ],
+          "Subsurface Scale": 0.05000000074505806,
+          "Subsurface IOR": 1.399999976158142,
+          "Subsurface Anisotropy": 0.0,
+          "Specular IOR Level": 0.5,
+          "Specular Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Anisotropic": 0.0,
+          "Anisotropic Rotation": 0.0,
+          "Tangent": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Transmission Weight": 0.0,
+          "Coat Weight": 0.0,
+          "Coat Roughness": 0.029999999329447746,
+          "Coat IOR": 1.5,
+          "Coat Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Coat Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Sheen Weight": 0.0,
+          "Sheen Roughness": 0.5,
+          "Sheen Tint": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Thin Film Thickness": 0.0,
+          "Thin Film IOR": 1.3300000429153442,
+          "distribution": "MULTI_GGX",
+          "subsurface_method": "RANDOM_WALK"
+        },
+        "location": [
+          -180.0,
+          100.0
+        ]
+      },
+      "Mix.001": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "data_type": "RGBA",
+          "clamp_factor": true,
+          "clamp_result": false,
+          "Factor": 0.5,
+          "A": [
+            0.5,
+            0.5,
+            0.5,
+            1.0
+          ],
+          "B": [
+            0.5,
+            0.5,
+            0.5,
+            1.0
+          ]
+        },
+        "location": [
+          -440.0,
+          140.0
+        ]
+      },
+      "Mix": {
+        "type": "ShaderNodeMix",
+        "cycles_type": "mix",
+        "params": {
+          "data_type": "RGBA",
+          "clamp_factor": true,
+          "clamp_result": false,
+          "Factor": 0.5,
+          "A": [
+            0.5,
+            0.5,
+            0.5,
+            1.0
+          ],
+          "B": [
+            0.5,
+            0.5,
+            0.5,
+            1.0
+          ]
+        },
+        "location": [
+          -820.0,
+          280.0
+        ]
+      },
+      "Magic Texture": {
+        "type": "ShaderNodeTexMagic",
+        "cycles_type": "magic_texture",
+        "params": {
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": 5.0,
+          "Distortion": 1.0,
+          "color_mapping": "<bpy_struct, ColorMapping at 0x000002276761A498>",
+          "texture_mapping": "<bpy_struct, TexMapping at 0x000002276761A408>",
+          "turbulence_depth": 2
+        },
+        "location": [
+          -1060.0,
+          340.0
+        ]
+      },
+      "Checker Texture": {
+        "type": "ShaderNodeTexChecker",
+        "cycles_type": "checker_texture",
+        "params": {
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Color1": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            1.0
+          ],
+          "Color2": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            1.0
+          ],
+          "Scale": 5.0,
+          "color_mapping": "<bpy_struct, ColorMapping at 0x00000227035DF498>",
+          "texture_mapping": "<bpy_struct, TexMapping at 0x00000227035DF408>"
+        },
+        "location": [
+          -1320.0,
+          340.0
+        ]
+      },
+      "Brick Texture": {
+        "type": "ShaderNodeTexBrick",
+        "cycles_type": "brick_texture",
+        "params": {
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Color1": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            1.0
+          ],
+          "Color2": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            1.0
+          ],
+          "Mortar": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "Scale": 5.0,
+          "Mortar Size": 0.019999999552965164,
+          "Mortar Smooth": 0.10000000149011612,
+          "Bias": 0.0,
+          "Brick Width": 0.5,
+          "Row Height": 0.25,
+          "color_mapping": "<bpy_struct, ColorMapping at 0x00000227547E0898>",
+          "offset": 0.5,
+          "offset_frequency": 2,
+          "squash": 1.0,
+          "squash_frequency": 2,
+          "texture_mapping": "<bpy_struct, TexMapping at 0x00000227547E0808>"
+        },
+        "location": [
+          -1580.0,
+          600.0
+        ]
+      },
+      "IES Texture": {
+        "type": "ShaderNodeTexIES",
+        "cycles_type": "ies_texture",
+        "params": {
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Strength": 1.0,
+          "filepath": "",
+          "ies": "None",
+          "mode": "INTERNAL"
+        },
+        "location": [
+          -1900.0,
+          320.0
+        ]
+      },
+      "Wave Texture": {
+        "type": "ShaderNodeTexWave",
+        "cycles_type": "wave_texture",
+        "params": {
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": 5.0,
+          "Distortion": 0.0,
+          "Detail": 2.0,
+          "Detail Scale": 1.0,
+          "Detail Roughness": 0.5,
+          "Phase Offset": 0.0,
+          "bands_direction": "X",
+          "color_mapping": "<bpy_struct, ColorMapping at 0x000002270335F898>",
+          "rings_direction": "X",
+          "texture_mapping": "<bpy_struct, TexMapping at 0x000002270335F808>",
+          "wave_profile": "SIN",
+          "wave_type": "BANDS"
+        },
+        "location": [
+          -1580.0,
+          160.0
+        ]
+      },
+      "White Noise Texture": {
+        "type": "ShaderNodeTexWhiteNoise",
+        "cycles_type": "white_noise_texture",
+        "params": {
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "W": 0.0,
+          "noise_dimensions": "3D"
+        },
+        "location": [
+          -1900.0,
+          80.0
+        ]
+      },
+      "Noise Texture": {
+        "type": "ShaderNodeTexNoise",
+        "cycles_type": "noise_texture",
+        "params": {
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "W": 0.0,
+          "Scale": 5.0,
+          "Detail": 2.0,
+          "Roughness": 0.5,
+          "Lacunarity": 2.0,
+          "Offset": 0.0,
+          "Gain": 1.0,
+          "Distortion": 0.0,
+          "color_mapping": "<bpy_struct, ColorMapping at 0x0000022703ADA898>",
+          "noise_dimensions": "3D",
+          "noise_type": "FBM",
+          "normalize": true,
+          "texture_mapping": "<bpy_struct, TexMapping at 0x0000022703ADA808>"
+        },
+        "location": [
+          -1060.0,
+          120.0
+        ]
+      },
+      "Gradient Texture": {
+        "type": "ShaderNodeTexGradient",
+        "cycles_type": "gradient_texture",
+        "params": {
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "color_mapping": "<bpy_struct, ColorMapping at 0x00000227037AE098>",
+          "gradient_type": "LINEAR",
+          "texture_mapping": "<bpy_struct, TexMapping at 0x00000227037AE008>"
+        },
+        "location": [
+          -1320.0,
+          -160.0
+        ]
+      },
+      "Sky Texture": {
+        "type": "ShaderNodeTexSky",
+        "cycles_type": "sky_texture",
+        "params": {
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "air_density": 1.0,
+          "altitude": 0.0,
+          "color_mapping": "<bpy_struct, ColorMapping at 0x0000022703767298>",
+          "dust_density": 1.0,
+          "ground_albedo": 0.30000001192092896,
+          "ozone_density": 1.0,
+          "sky_type": "NISHITA",
+          "sun_direction": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "sun_disc": true,
+          "sun_elevation": 0.2617993950843811,
+          "sun_intensity": 1.0,
+          "sun_rotation": 0.0,
+          "sun_size": 0.009512044489383698,
+          "texture_mapping": "<bpy_struct, TexMapping at 0x0000022703767208>",
+          "turbidity": 2.200000047683716
+        },
+        "location": [
+          -1580.0,
+          -200.0
+        ]
+      },
+      "Point Density": {
+        "type": "ShaderNodeTexPointDensity",
+        "cycles_type": "point_density",
+        "params": {
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "cache_point_density": "<bpy_func ShaderNodeTexPointDensity.cache_point_density()>",
+          "calc_point_density": "<bpy_func ShaderNodeTexPointDensity.calc_point_density()>",
+          "calc_point_density_minmax": "<bpy_func ShaderNodeTexPointDensity.calc_point_density_minmax()>",
+          "interpolation": "Linear",
+          "object": "None",
+          "particle_color_source": "PARTICLE_AGE",
+          "particle_system": "None",
+          "point_source": "PARTICLE_SYSTEM",
+          "radius": 0.30000001192092896,
+          "resolution": 100,
+          "space": "OBJECT",
+          "vertex_attribute_name": "",
+          "vertex_color_source": "VERTEX_COLOR"
+        },
+        "location": [
+          -1080.0,
+          -520.0
+        ]
+      },
+      "Environment Texture": {
+        "type": "ShaderNodeTexEnvironment",
+        "cycles_type": "environment_texture",
+        "params": {
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "color_mapping": "<bpy_struct, ColorMapping at 0x000002270399EC98>",
+          "image": "<bpy_struct, Image(\"AI48_001_172_10_roof_NM.jpg\") at 0x0000022703616B08>",
+          "image_user": "<bpy_struct, ImageUser at 0x000002270399EFC8>",
+          "interpolation": "Linear",
+          "projection": "EQUIRECTANGULAR",
+          "texture_mapping": "<bpy_struct, TexMapping at 0x000002270399EC08>"
+        },
+        "location": [
+          -1360.0,
+          -760.0
+        ]
+      },
+      "Voronoi Texture": {
+        "type": "ShaderNodeTexVoronoi",
+        "cycles_type": "voronoi_texture",
+        "params": {
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "W": 0.0,
+          "Scale": 5.0,
+          "Detail": 0.0,
+          "Roughness": 0.5,
+          "Lacunarity": 2.0,
+          "Smoothness": 1.0,
+          "Exponent": 0.5,
+          "Randomness": 1.0,
+          "color_mapping": "<bpy_struct, ColorMapping at 0x0000022703527098>",
+          "distance": "EUCLIDEAN",
+          "feature": "F1",
+          "normalize": false,
+          "texture_mapping": "<bpy_struct, TexMapping at 0x0000022703527008>",
+          "voronoi_dimensions": "3D"
+        },
+        "location": [
+          -1560.0,
+          -700.0
+        ]
+      },
+      "Gabor Texture": {
+        "type": "ShaderNodeTexGabor",
+        "cycles_type": "gabor_texture",
+        "params": {
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": 5.0,
+          "Frequency": 2.0,
+          "Anisotropy": 1.0,
+          "Orientation": [
+            1.4142135381698608,
+            1.4142135381698608,
+            0.0
+          ],
+          "color_mapping": "<bpy_struct, ColorMapping at 0x0000022770205C98>",
+          "gabor_type": "2D",
+          "texture_mapping": "<bpy_struct, TexMapping at 0x0000022770205C08>"
+        },
+        "location": [
+          -1800.0,
+          -720.0
+        ]
+      },
+      "Displacement": {
+        "type": "ShaderNodeDisplacement",
+        "cycles_type": "displacement",
+        "params": {
+          "Height": 0.0,
+          "Midlevel": 0.5,
+          "Scale": 0.009999999776482582,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "space": "OBJECT"
+        },
+        "location": [
+          -80.0,
+          -340.0
+        ]
+      },
+      "Image Texture": {
+        "type": "ShaderNodeTexImage",
+        "cycles_type": "image_texture",
+        "params": {
+          "image": "C:\\Users\\mhartist\\Desktop\\images.jpg",
+          "image_color_space": "sRGB",
+          "alpha_mode": "STRAIGHT",
+          "use_view_as_render": false,
+          "interpolation": "Linear",
+          "projection": "FLAT",
+          "extension": "REPEAT"
+        },
+        "location": [
+          -620.0,
+          -380.0
+        ]
+      }
+    },
+    "links": [
+      {
+        "from_node": "IES Texture",
+        "from_socket": "Fac",
+        "to_node": "Brick Texture",
+        "to_socket": "Bias"
+      },
+      {
+        "from_node": "Brick Texture",
+        "from_socket": "Color",
+        "to_node": "Checker Texture",
+        "to_socket": "Color1"
+      },
+      {
+        "from_node": "White Noise Texture",
+        "from_socket": "Value",
+        "to_node": "Wave Texture",
+        "to_socket": "Scale"
+      },
+      {
+        "from_node": "Wave Texture",
+        "from_socket": "Color",
+        "to_node": "Checker Texture",
+        "to_socket": "Color2"
+      },
+      {
+        "from_node": "Checker Texture",
+        "from_socket": "Color",
+        "to_node": "Magic Texture",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Magic Texture",
+        "from_socket": "Color",
+        "to_node": "Mix",
+        "to_socket": "A"
+      },
+      {
+        "from_node": "Sky Texture",
+        "from_socket": "Color",
+        "to_node": "Gradient Texture",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Gradient Texture",
+        "from_socket": "Color",
+        "to_node": "Noise Texture",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Noise Texture",
+        "from_socket": "Color",
+        "to_node": "Mix",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "Mix",
+        "from_socket": "Result",
+        "to_node": "Mix.001",
+        "to_socket": "A"
+      },
+      {
+        "from_node": "Gabor Texture",
+        "from_socket": "Value",
+        "to_node": "Voronoi Texture",
+        "to_socket": "Scale"
+      },
+      {
+        "from_node": "Voronoi Texture",
+        "from_socket": "Position",
+        "to_node": "Environment Texture",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Environment Texture",
+        "from_socket": "Color",
+        "to_node": "Point Density",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Point Density",
+        "from_socket": "Color",
+        "to_node": "Mix.001",
+        "to_socket": "B"
+      },
+      {
+        "from_node": "Mix.001",
+        "from_socket": "Result",
+        "to_node": "Principled BSDF",
+        "to_socket": "Base Color"
+      },
+      {
+        "from_node": "Principled BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      },
+      {
+        "from_node": "Image Texture",
+        "from_socket": "Color",
+        "to_node": "Displacement",
+        "to_socket": "Height"
+      },
+      {
+        "from_node": "Displacement",
+        "from_socket": "Displacement",
+        "to_node": "Material Output",
+        "to_socket": "Displacement"
+      }
+    ]
+  },
+  "evalVector": {
+    "nodes": {
+      "Material Output": {
+        "type": "ShaderNodeOutputMaterial",
+        "cycles_type": "material_output",
+        "params": {},
+        "location": [
+          200.0,
+          100.0
+        ]
+      },
+      "Diffuse BSDF": {
+        "type": "ShaderNodeBsdfDiffuse",
+        "cycles_type": "diffuse_bsdf",
+        "params": {
+          "Color": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            1.0
+          ],
+          "Roughness": 0.0,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Weight": 0.0
+        },
+        "location": [
+          -60.0,
+          140.0
+        ]
+      },
+      "Vector Rotate": {
+        "type": "ShaderNodeVectorRotate",
+        "cycles_type": "vector_rotate",
+        "params": {
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Axis": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "Angle": 0.0,
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "invert": false,
+          "rotation_type": "AXIS_ANGLE"
+        },
+        "location": [
+          -280.0,
+          120.0
+        ]
+      },
+      "Bump": {
+        "type": "ShaderNodeBump",
+        "cycles_type": "bump",
+        "params": {
+          "Strength": 1.0,
+          "Distance": 0.0010000000474974513,
+          "Filter Width": 0.10000000149011612,
+          "Height": 1.0,
+          "Normal": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "invert": false
+        },
+        "location": [
+          -640.0,
+          540.0
+        ]
+      },
+      "Normal": {
+        "type": "ShaderNodeNormal",
+        "cycles_type": "normal",
+        "params": {
+          "Normal": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "location": [
+          -820.0,
+          540.0
+        ]
+      },
+      "Normal Map": {
+        "type": "ShaderNodeNormalMap",
+        "cycles_type": "normal_map",
+        "params": {
+          "Strength": 1.0,
+          "Color": [
+            0.5,
+            0.5,
+            1.0,
+            1.0
+          ],
+          "space": "TANGENT",
+          "uv_map": "UVMap"
+        },
+        "location": [
+          -1020.0,
+          540.0
+        ]
+      },
+      "Vector Transform": {
+        "type": "ShaderNodeVectorTransform",
+        "cycles_type": "vector_transform",
+        "params": {
+          "Vector": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "convert_from": "WORLD",
+          "convert_to": "OBJECT",
+          "vector_type": "VECTOR"
+        },
+        "location": [
+          -620.0,
+          -60.0
+        ]
+      },
+      "Mapping": {
+        "type": "ShaderNodeMapping",
+        "cycles_type": "mapping",
+        "params": {
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Location": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "Scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "vector_type": "POINT"
+        },
+        "location": [
+          -880.0,
+          60.0
+        ]
+      },
+      "Vector Curves": {
+        "type": "ShaderNodeVectorCurve",
+        "cycles_type": "vector_curves",
+        "params": {
+          "Factor": 1.0,
+          "Vector": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "x": [
+            [
+              -1.0,
+              -1.0,
+              "AUTO"
+            ],
+            [
+              1.0,
+              1.0,
+              "AUTO"
+            ]
+          ],
+          "y": [
+            [
+              -1.0,
+              -1.0,
+              "AUTO"
+            ],
+            [
+              1.0,
+              1.0,
+              "AUTO"
+            ]
+          ],
+          "z": [
+            [
+              -1.0,
+              -1.0,
+              "AUTO"
+            ],
+            [
+              1.0,
+              1.0,
+              "AUTO"
+            ]
+          ]
+        },
+        "location": [
+          -1320.0,
+          40.0
+        ]
+      },
+      "Vector Displacement": {
+        "type": "ShaderNodeVectorDisplacement",
+        "cycles_type": "vector_displacement",
+        "params": {
+          "Vector": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            1.0
+          ],
+          "Midlevel": 0.0,
+          "Scale": 0.009999999776482582,
+          "space": "TANGENT"
+        },
+        "location": [
+          -100.0,
+          -300.0
+        ]
+      }
+    },
+    "links": [
+      {
+        "from_node": "Normal Map",
+        "from_socket": "Normal",
+        "to_node": "Normal",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Normal",
+        "from_socket": "Normal",
+        "to_node": "Bump",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Bump",
+        "from_socket": "Normal",
+        "to_node": "Vector Rotate",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Vector Curves",
+        "from_socket": "Vector",
+        "to_node": "Mapping",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Mapping",
+        "from_socket": "Vector",
+        "to_node": "Vector Transform",
+        "to_socket": "Vector"
+      },
+      {
+        "from_node": "Vector Transform",
+        "from_socket": "Vector",
+        "to_node": "Vector Rotate",
+        "to_socket": "Axis"
+      },
+      {
+        "from_node": "Vector Rotate",
+        "from_socket": "Vector",
+        "to_node": "Diffuse BSDF",
+        "to_socket": "Normal"
+      },
+      {
+        "from_node": "Diffuse BSDF",
+        "from_socket": "BSDF",
+        "to_node": "Material Output",
+        "to_socket": "Surface"
+      },
+      {
+        "from_node": "Vector Displacement",
+        "from_socket": "Displacement",
+        "to_node": "Material Output",
+        "to_socket": "Displacement"
       }
     ]
   },

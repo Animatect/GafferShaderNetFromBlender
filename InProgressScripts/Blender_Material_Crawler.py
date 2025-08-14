@@ -190,9 +190,7 @@ def handle_special_cases(node):
     elif node.bl_idname == "ShaderNodeValue":
         specials["Value"] = node.outputs['Value'].default_value
     elif node.bl_idname == "ShaderNodeRGB":
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!")
         specials["Color"] = to_serializable(node.outputs['Color'])
-        print(specials["Color"])
     elif node.bl_idname == "ShaderNodeTexCoord":
         if node.object is not None:
             specials["Object"] = get_parent_path(node.object)
@@ -225,16 +223,13 @@ def trace_shader_network(material):
         print(f"No Material Output found in {material.name}")
         return None
 
-    surface_input = output_node.inputs.get("Surface")
-    if not surface_input or not surface_input.is_linked:
-        print(f"Material Output in {material.name} is not connected.")
-        return None
-
+    
     visited = set()
     node_info = {}
     links = []
 
     def walk(socket):
+        print("socket: ", socket)
         for link in socket.links:
             from_node = link.from_node
             from_socket = link.from_socket
@@ -278,7 +273,7 @@ def trace_shader_network(material):
                 "to_socket": to_socket.name
             })
 
-    # Start from surface input
+    # Start from Surface / Displacement / Volume
     visited.add(output_node.name)
     node_info[output_node.name] = {
         "type": output_node.bl_idname,
@@ -287,8 +282,10 @@ def trace_shader_network(material):
         "location": list(output_node.location)
     }
 
-    walk(surface_input)
-
+    for socket_name in ("Surface", "Displacement", "Volume"):
+        if socket_name in output_node.inputs and output_node.inputs[socket_name].is_linked:
+            for link in output_node.inputs[socket_name].links:
+                walk(link.from_socket)
     return {
         material.name: {
             "nodes": node_info,
@@ -310,3 +307,5 @@ with open(output_path, 'w') as f:
     json.dump(all_materials_data, f, indent=2)
 
 print(f"\n✅ Shader network exported to {output_path}")
+
+for i in range(5): print("+++++++++++++++++++++++++++++++++++++++")
