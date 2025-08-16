@@ -21,6 +21,10 @@ SPECIAL_CASES = [
     "image_texture"
 ]
 
+SHADER_TYPE_REMAP = {
+    "hue/saturation/value":'hsv',
+}
+
 label_map_path = os.path.join("C:\\GitHub\\GafferShaderNetFromBlender\\InProgressScripts", "cycles_label_map.json")
 with open(label_map_path, "r", encoding="utf-8") as f:
     LABEL_MAP = json.load(f)
@@ -52,30 +56,16 @@ def resolve_plug_name(socket_label, gaffer_node, io="parameters", shader_type=No
 
     return None
 
-def to_iecore_data(value):
-    if isinstance(value, bool):
-        return IECore.BoolData(value)
-    elif isinstance(value, int):
-        return IECore.IntData(value)
-    elif isinstance(value, float):
-        return IECore.FloatData(value)
-    elif isinstance(value, str):
-        return IECore.StringData(value)
-    elif isinstance(value, imath.V3f):
-        return IECore.V3fData(value)
-    elif isinstance(value, imath.Color3f):
-        return IECore.Color3fData(value)
-    elif isinstance(value, list) and all(isinstance(x, float) for x in value):
-        if len(value) == 3:
-            return IECore.V3fData(imath.V3f(*value))
-        elif len(value) == 4:
-            return IECore.Color3fData(imath.Color3f(*value[:3]))  # ignore alpha
-        else:
-            return IECore.FloatVectorData(value)
-    elif isinstance(value, list) and all(isinstance(x, int) for x in value):
-        return IECore.IntVectorData(value)
-    else:
-        raise TypeError(f"Unsupported value type for IECore conversion: {type(value)} → {value}")
+def shader_safe_type(shadertype:str):
+    if SHADER_TYPE_REMAP.get(shadertype):
+        shadertype = SHADER_TYPE_REMAP.get(shadertype)
+    safeShadertype = re.sub(r'\W|^(?=\d)', '_', shadertype)
+    
+    print(safeShadertype)
+
+    return safeShadertype
+    
+
 def process_values(value):
     if isinstance(value, list) and all(isinstance(x, float) for x in value):
         if len(value) == 3:
@@ -228,7 +218,7 @@ def load_materials_from_json(json_path, parent):
 
         for node_name, node_info in nodes.items():
             node_type = node_info.get("type", "")
-            shader_type = node_info.get("cycles_type", "")
+            shader_type = shader_safe_type(node_info.get("cycles_type", ""))
             params = node_info.get("params", {})
 
             if node_type == "ShaderNodeOutputMaterial":
