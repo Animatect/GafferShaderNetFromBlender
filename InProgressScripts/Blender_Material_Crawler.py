@@ -228,6 +228,15 @@ def handle_special_cases(node):
 
     return specials
 
+# def safe_socket_name(node, socket):
+#     # handle cases where sockets have repeating names:
+#     if node.bl_idname == "ShaderNodeAddShader":
+#         if 
+#     else:
+#         return socket.name
+
+
+
 def trace_shader_network(material):
     if not material.use_nodes:
         print(f"{material.name} has no nodes.")
@@ -285,9 +294,9 @@ def trace_shader_network(material):
             # Always store the link
             links.append({
                 "from_node": from_node.name,
-                "from_socket": from_socket.name,
+                "from_socket": from_socket.identifier,
                 "to_node": to_node.name,
-                "to_socket": to_socket.name
+                "to_socket": to_socket.identifier
             })
             return "SUCCESS"
 

@@ -1,4 +1,12 @@
 {
+  "add_closure":{
+    "shader":"closure1",
+    "shader_001":"closure2"
+  },
+  "mix_closure":{
+    "shader":"closure1",
+    "shader_001":"closure2"
+  },
   "principled_bsdf": {
     "base color": "base_color",
     "diffuse roughness":"roughness",
@@ -214,6 +222,7 @@
   "rgb_ramp": {
     "ramp alpha": "ramp_alpha"
   },
+
   "glass_bsdf": {},
   "toon_bsdf": {},
   "glossy_bsdf": {},

@@ -98,15 +98,16 @@ def set_shader_specialCases(shader_node, params_dict, shader_type):
 def set_shader_parameters(shader_node, params_dict, shader_type):
     print(params_dict)
     if shader_type in SPECIAL_CASES:
-        # print("#### - ",shader_type, " is special case 💼. - ####")
-        # print("params: \n", params_dict)
-        # print("⚾")
         set_shader_specialCases(shader_node, params_dict, shader_type)
         return 
+    
     for param_label, value in params_dict.items():
         plug_name = resolve_plug_name(param_label, shader_node, io="parameters", shader_type=shader_type)
-
+        
         if not plug_name:
+            if param_label.lower() == 'weight':
+                # ignore the weight parameter that comes in every node and is irrelevant for translation.
+                continue
             print(f"⚠️ Could not resolve param '{param_label}' for shader type '{shader_type}'")
             continue
 
