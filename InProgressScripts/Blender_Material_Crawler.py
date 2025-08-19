@@ -305,7 +305,7 @@ def trace_shader_network(material):
             for link in output_node.inputs[socket_name].links:
                 success = walk(link.from_socket)
                 if not success:
-                    print(f"{material.name} encountered an error and the process will halt")
+                    print(f"{material.name} encountered an error and the Matiral won't be processed")
                     return None
     return {
         material.name: {
@@ -320,8 +320,6 @@ for mat in bpy.data.materials:
     data = trace_shader_network(mat)
     if data:
         all_materials_data.update(data)
-    else:
-        break
 
 # Save to JSON file
 #output_path = bpy.path.abspath("//shader_export.json")
