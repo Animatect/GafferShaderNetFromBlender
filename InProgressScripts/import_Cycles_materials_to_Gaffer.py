@@ -23,6 +23,18 @@ SPECIAL_CASES = [
 
 SHADER_TYPE_REMAP = {
     "hue/saturation/value":'hsv',
+    "color_ramp":"rgb_ramp",
+    "add_shader":"add_closure",
+    "curves_info":"hair_info",
+    "camera_data":"camera_info",
+    "mix_shader":"mix_closure",
+    "volume_scatter":"scatter_volume",
+    "volume_absorption":"absorption_volume",
+    "ies_texture":"ies_light",
+    "point_density":"point_density_texture",
+    "uv_map":"uvmap",
+    "color_attribute":"vertex_color",
+    
 }
 
 label_map_path = os.path.join("C:\\GitHub\\GafferShaderNetFromBlender\\InProgressScripts", "cycles_label_map.json")
@@ -171,8 +183,9 @@ def create_basecheck_shader(mainShaderbox, paths):
     shassignnode['filter'].setInput(pathFilter["out"])
 
     newpaths = IECore.StringVectorData()
-    for v in paths:
-        newpaths.append(v if v.endswith("/...") else v.rstrip("/") + "/...")
+    # for v in paths:
+    #     newpaths.append(v if v.endswith("/...") else v.rstrip("/") + "/...")
+    newpaths.append('*')
     pathFilter["paths"].setValue(newpaths)
 
     return shassignnode

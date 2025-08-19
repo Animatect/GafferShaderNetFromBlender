@@ -29,7 +29,6 @@
   "ShaderNodeCombineXYZ": "combine_xyz",
   "ShaderNodeCustomGroup": "shader_custom_group",
   "ShaderNodeDisplacement": "displacement",
-  "ShaderNodeEeveeSpecular": "specular_bsdf",
   "ShaderNodeEmission": "emission",
   "ShaderNodeFloatCurve": "float_curve",
   "ShaderNodeFresnel": "fresnel",
@@ -67,7 +66,6 @@
   "ShaderNodeSeparateHSV": "separate_hsv",
   "ShaderNodeSeparateRGB": "separate_rgb",
   "ShaderNodeSeparateXYZ": "separate_xyz",
-  "ShaderNodeShaderToRGB": "shader_to_rgb",
   "ShaderNodeSqueeze": "squeeze_value_(legacy)",
   "ShaderNodeSubsurfaceScattering": "subsurface_scattering",
   "ShaderNodeTangent": "tangent",
@@ -102,5 +100,6 @@
   "ShaderNodeVolumePrincipled": "principled_volume",
   "ShaderNodeVolumeScatter": "volume_scatter",
   "ShaderNodeWavelength": "wavelength",
-  "ShaderNodeWireframe": "wireframe"
+  "ShaderNodeWireframe": "wireframe",
+  "ShaderNodeVolumeCoefficients": "Volume_Coefficients"
 }

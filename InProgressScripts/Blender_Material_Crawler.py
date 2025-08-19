@@ -8,6 +8,8 @@ script_dir = r"C:\GitHub\GafferShaderNetFromBlender\InProgressScripts"#os.path.d
 mapping_path = os.path.join(script_dir, "blender_shader_class_to_cycles_name.json")
 with open(mapping_path, "r") as f:
     BLENDER_TO_CYCLES_SHADER_MAP = json.load(f)
+
+
 #####################################
 #-------------HIERARCHY-------------#
 #####################################
@@ -245,18 +247,17 @@ def trace_shader_network(material):
     links = []
 
     def walk(socket):
-        print("socket: ", socket)
         for link in socket.links:
             from_node = link.from_node
             from_socket = link.from_socket
             to_node = link.to_socket.node
             to_socket = link.to_socket
-
             if from_node.name not in visited:
                 visited.add(from_node.name)
                 cycles_type = blender_node_to_cycles(from_node)
                 if cycles_type == "unknown":
                     print("On ",material.name, " the node ", from_node.name, " of Type: ", from_node.bl_idname, " mapped to unknown.")
+                    return None
                 
                 # We check for special handling and if the is not we proceed with regular node handling.
                 params = handle_special_cases(from_node)                
@@ -288,6 +289,7 @@ def trace_shader_network(material):
                 "to_node": to_node.name,
                 "to_socket": to_socket.name
             })
+            return "SUCCESS"
 
     # Start from Surface / Displacement / Volume
     visited.add(output_node.name)
@@ -301,7 +303,10 @@ def trace_shader_network(material):
     for socket_name in ("Surface", "Displacement", "Volume"):
         if socket_name in output_node.inputs and output_node.inputs[socket_name].is_linked:
             for link in output_node.inputs[socket_name].links:
-                walk(link.from_socket)
+                success = walk(link.from_socket)
+                if not success:
+                    print(f"{material.name} encountered an error and the process will halt")
+                    return None
     return {
         material.name: {
             "nodes": node_info,
@@ -315,6 +320,8 @@ for mat in bpy.data.materials:
     data = trace_shader_network(mat)
     if data:
         all_materials_data.update(data)
+    else:
+        break
 
 # Save to JSON file
 #output_path = bpy.path.abspath("//shader_export.json")
