@@ -34,7 +34,7 @@ SHADER_TYPE_REMAP = {
     "point_density":"point_density_texture",
     "uv_map":"uvmap",
     "color_attribute":"vertex_color",
-    
+
 }
 
 label_map_path = os.path.join("C:\\GitHub\\GafferShaderNetFromBlender\\InProgressScripts", "cycles_label_map.json")
@@ -228,6 +228,12 @@ def load_materials_from_json(json_path, parent):
         nodes = material["nodes"]
         links = material.get("links", [])
         created_nodes = {}
+        
+        if len(links) == 0:
+            print(f"Material {mat_name} does not have a valid Network, probably has 0 connections.")
+            Gaffer.Metadata.registerValue( mat_box, 'annotation:user:text', 'EMPTY MATERIAL\n' )
+            Gaffer.Metadata.registerValue( mat_box, 'nodeGadget:color', imath.Color3f( 1, 0, 0 ) )
+            continue
 
         for node_name, node_info in nodes.items():
             node_type = node_info.get("type", "")
