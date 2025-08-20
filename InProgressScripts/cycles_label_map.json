@@ -74,9 +74,39 @@
     "result": "color"
   },
   "mix_color": {
-    "blending mode": "blend_type",
-    "clamp result": "use_clamp_result",
-    "clamp factor": "use_clamp"
+    "blending_mode": "blend_type",
+    "clamp_result": "use_clamp_result",
+    "clamp_factor": "use_clamp",
+    "factor_float":"fac",
+    "a_color": "a",
+    "b_color": "b",
+    "result_color":"result"
+    
+  },
+  "mix_float": {
+    "clamp_result": "use_clamp_result",
+    "clamp_factor": "use_clamp",
+    "factor_float":"fac",
+    "a_float": "a",
+    "b_float": "b",
+    "result_float":"result"
+    
+  },
+  "mix_vector": {
+    "clamp_result": "use_clamp_result",
+    "clamp_factor": "use_clamp",
+    "factor_float":"fac",
+    "a_vector": "a",
+    "b_vector": "b",
+    "result_vector":"result"    
+  },
+  "mix_vector_non_uniform": {
+    "clamp_result": "use_clamp_result",
+    "clamp_factor": "use_clamp",
+    "factor_vector":"fac",
+    "a_vector": "a",
+    "b_vector": "b",
+    "result_vector":"result"    
   },
   "float_curve": {
     "min x": "min_x",
@@ -104,15 +134,7 @@
   },
   "clamp": {
     "clamp type": "clamp_type"
-  },
-  "mix_float": {
-    "clamp": "use_clamp"
-  },
-  "mix_vector": {
-    "clamp": "use_clamp"
-  },
-  "mix_vector_non_uniform": {
-    "clamp": "use_clamp"
+
   },
   "brightness_contrast": {
     "brightness": "bright"
@@ -222,7 +244,9 @@
   "rgb_ramp": {
     "ramp alpha": "ramp_alpha"
   },
-
+  "color":{
+    "color":"value"
+  },
   "glass_bsdf": {},
   "toon_bsdf": {},
   "glossy_bsdf": {},

@@ -31,6 +31,18 @@ def blender_node_to_cycles(node):
     if cycles_name is None:
         print(f"⚠️ No mapping for {node.bl_idname}")
         return "unknown"
+    # Special Cases.
+    if node.bl_idname == 'ShaderNodeMix':
+        if node.data_type == 'FLOAT':
+           cycles_name = 'mix_float'
+        elif node.data_type == 'VECTOR':
+            if node.factor_mode == 'UNIFORM':
+                cycles_name = 'mix_vector'
+            else:
+               cycles_name = 'mix_vector_non_uniform'
+        elif node.data_type == 'RGBA':
+           cycles_name = 'mix_color'
+
     return cycles_name
 
 def get_image_filepath(img):
@@ -142,22 +154,23 @@ def handle_special_cases(node):
     if node.bl_idname == "ShaderNodeMix":
         specials["data_type"] = node.data_type
         specials["clamp_factor"] = node.clamp_factor
-        specials["clamp_result"] = node.clamp_result
         if node.data_type == 'RGBA':
-            specials["Factor"] = node.inputs[0].default_value
-            specials["A"] = to_serializable(node.inputs[6])
-            specials["B"] = to_serializable(node.inputs[7])
+            specials["blending_mode"] = node.blend_type
+            specials["clamp_result"] = node.clamp_result
+            specials["Factor_Float"] = node.inputs[0].default_value
+            specials["A_Color"] = to_serializable(node.inputs[6])
+            specials["B_Color"] = to_serializable(node.inputs[7])
         elif node.data_type == 'VECTOR':
             if node.factor_mode == 'UNIFORM':
-                specials["Factor"] = node.inputs[0].default_value
+                specials["Factor_Float"] = node.inputs[0].default_value
             else:
-                specials["Factor"] = to_serializable(node.inputs[1])
-            specials["A"] = to_serializable(node.inputs[4])
-            specials["B"] = to_serializable(node.inputs[5])
+                specials["Factor_Vector"] = to_serializable(node.inputs[1])
+            specials["A_Vector"] = to_serializable(node.inputs[4])
+            specials["B_Vector"] = to_serializable(node.inputs[5])
         elif node.data_type == 'FLOAT':
-            specials["Factor"] = node.inputs[0].default_value
-            specials["A"] = node.inputs[2].default_value
-            specials["B"] = node.inputs[3].default_value
+            specials["Factor_Float"] = node.inputs[0].default_value
+            specials["A_Float"] = node.inputs[2].default_value
+            specials["B_Float"] = node.inputs[3].default_value
     elif node.bl_idname == "ShaderNodeMapRange":
         specials["data_type"] = node.data_type
         specials["interpolation_type"] = node.interpolation_type
@@ -272,7 +285,7 @@ def trace_shader_network(material):
                 params = handle_special_cases(from_node)                
                 if len(params)==0:
                     params = {
-                        inp.name: to_serializable(inp)
+                        inp.identifier: to_serializable(inp)
                         for inp in from_node.inputs
                         #if not inp.is_linked and hasattr(inp, "default_value")
                         if hasattr(inp, "default_value")

@@ -1,0 +1,8 @@
+blender_shader_class_to_cycles_name
+Is used to generate a Json map of all nodes UInames
+
+CheckSerialization
+Has Scripts to check serialization but mostly exports all nodes with parameters organized by UIGroup
+
+CheckTypeConversion
+Scene to test if type conversion is being done correctly

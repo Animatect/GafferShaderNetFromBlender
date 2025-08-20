@@ -73,8 +73,6 @@ def shader_safe_type(shadertype:str):
         shadertype = SHADER_TYPE_REMAP.get(shadertype)
     safeShadertype = re.sub(r'\W|^(?=\d)', '_', shadertype)
     
-    print(safeShadertype)
-
     return safeShadertype
     
 
@@ -94,6 +92,14 @@ def process_values(value):
 def set_shader_specialCases(shader_node, params_dict, shader_type):
     if shader_type == "image_texture":        
         shader_node["parameters"]["filename"].setValue((params_dict["image"].replace("\\", "/")))
+    elif shader_type == "mix":
+        if params_dict["data_type"] == "RGBA":
+            pass
+        elif params_dict["data_type"] == "FLOAT":
+            pass
+        elif params_dict["data_type"] == "VECTOR":
+            pass
+    
 
 def set_shader_parameters(shader_node, params_dict, shader_type):
     print(params_dict)
@@ -108,6 +114,9 @@ def set_shader_parameters(shader_node, params_dict, shader_type):
             if param_label.lower() == 'weight':
                 # ignore the weight parameter that comes in every node and is irrelevant for translation.
                 continue
+            if 'mix' in shader_type:
+                if param_label.lower() in ['data_type']:
+                    continue
             print(f"⚠️ Could not resolve param '{param_label}' for shader type '{shader_type}'")
             continue
 
@@ -126,10 +135,8 @@ def safe_connect(parent, src_node_name, src_socket_label, dst_node_name, dst_soc
         dst_node = parent[dst_node_name]
 
         # Try to guess shader types from node names
-        src_shader_type = src_node['name'].getValue()#getattr(src_node, "shaderType", None)
-        dst_shader_type = dst_node['name'].getValue()#getattr(dst_node, "shaderType", None)
-        # print("dst_node: ", dst_node)
-        # print("dst_shader_type: ", dst_shader_type)
+        src_shader_type = src_node['name'].getValue()
+        dst_shader_type = dst_node['name'].getValue()
 
         src_plug_name = resolve_plug_name(src_socket_label, src_node, io="out", shader_type=src_shader_type)
         dst_plug_name = resolve_plug_name(dst_socket_label, dst_node, io="parameters", shader_type=dst_shader_type)
@@ -143,7 +150,6 @@ def safe_connect(parent, src_node_name, src_socket_label, dst_node_name, dst_soc
 
         if dst_plug.typeName() == src_plug.typeName():
             dst_plug.setInput(src_plug)
-            # print(f"🔗 Connected {src_node_name}.{src_plug_name} → {dst_node_name}.{dst_plug_name}")
         else:
             from_type = PLUG_TYPE_MAP.get(src_plug.typeName())
             to_type = PLUG_TYPE_MAP.get(dst_plug.typeName())
@@ -162,7 +168,7 @@ def safe_connect(parent, src_node_name, src_socket_label, dst_node_name, dst_soc
 
             converter["parameters"][inplugname].setInput(src_plug)
             dst_plug.setInput(converter["out"][outplugname])
-            #print(f"🔀 Inserted converter: {converter_name} between {src_node_name}.{src_plug_name} → {dst_node_name}.{dst_plug_name}")
+            Gaffer.Metadata.registerValue( converter, 'nodeGadget:color', imath.Color3f( 0.234999999, 0.234999999, 0.314999998 ) )
 
     except Exception as e:
         print(f"❌ Failed to connect {src_node_name}.{src_socket_label} → {dst_node_name}.{dst_socket_label}: {e}")
