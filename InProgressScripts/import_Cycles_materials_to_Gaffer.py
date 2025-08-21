@@ -51,24 +51,25 @@ def safe_plug_name(plugname):
 def normalize_name(name):
     return re.sub(r'[^a-z0-9]', '', name.lower())
 
-def resolve_plug_name(socket_label, gaffer_node, io="parameters", shader_type=None):
-    # 1. Try safe plug name directly
+def resolve_plug_name(socket_label, gaffer_node, io="parameters", shader_type=None, isBox=False):
     validIo = gaffer_node.getChild(io)
     candidate = safe_plug_name(socket_label)
+    #BoxNodes
+    if isBox:
+        if shader_type in ["rgb_curves", "vector_curves"]:
+            if io == "out":
+                return "value"
+            else:
+                return candidate
+
+    # 1. Try safe plug name directly
     if validIo and io in gaffer_node and candidate in gaffer_node[io]:
         return candidate
-    #BoxNode
-    if candidate in gaffer_node:
-        if not gaffer_node[candidate].getInput(): # repeating names in boxnodes live in same domain, check that a name is not plugged
-            return candidate
     
     # 2. Try label map fallback
     if shader_type:
         remap = LABEL_MAP.get(shader_type, {}).get(socket_label.lower())
         if validIo and remap and remap in gaffer_node[io]:
-            return remap
-        #BoxNode
-        if remap and remap in gaffer_node:
             return remap
 
     # 3. Try fuzzy match
@@ -130,7 +131,170 @@ def translate_interpolation(curvelist:list):
     if curvelist[0][2] == "VECTOR":
         interpolation = 0
     return interpolation
-        
+def build_rgb_curves_box(shader_node, params_dict):
+    oldNodeName = shader_node.getName()
+    parent = shader_node.parent()
+
+    # Create the box
+    box = Gaffer.Box("Box1")
+    parent.addChild(box)
+
+    # Name plug for safe_connect algo
+    string_plug = Gaffer.StringPlug(
+        "name",
+        Gaffer.Plug.Direction.In,
+        shader_node['name'].getValue(),
+        Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic
+    )
+    box.addChild(string_plug)
+    Gaffer.Metadata.registerValue(box["name"], 'plugValueWidget:type', '')
+
+    # Nodes inside box
+    cshdr = GafferCycles.CyclesShader("c");  cshdr.loadShader("rgb_curves");   box.addChild(cshdr)
+    splitshader = GafferCycles.CyclesShader("split"); splitshader.loadShader("separate_rgb"); box.addChild(splitshader)
+    rshdr = GafferCycles.CyclesShader("r"); rshdr.loadShader("float_curve");   box.addChild(rshdr)
+    gshdr = GafferCycles.CyclesShader("g"); gshdr.loadShader("float_curve");   box.addChild(gshdr)
+    bshdr = GafferCycles.CyclesShader("b"); bshdr.loadShader("float_curve");   box.addChild(bshdr)
+    combineshader = GafferCycles.CyclesShader("join"); combineshader.loadShader("combine_rgb"); box.addChild(combineshader)
+
+    # Wiring
+    rshdr["parameters"]["value"].setInput(splitshader["out"]["r"])
+    gshdr["parameters"]["value"].setInput(splitshader["out"]["g"])
+    bshdr["parameters"]["value"].setInput(splitshader["out"]["b"])
+    combineshader["parameters"]["r"].setInput(rshdr["out"]["value"])
+    combineshader["parameters"]["g"].setInput(gshdr["out"]["value"])
+    combineshader["parameters"]["b"].setInput(bshdr["out"]["value"])
+    cshdr["parameters"]["value"].setInput(combineshader['out']['image'])
+
+    # BoxIO plugs
+    boxInPlugA = Gaffer.BoxIO.promote(splitshader["parameters"]["color"])
+    boxInPlugB = Gaffer.BoxIO.promote(cshdr['parameters']['fac'])
+    boxOutPlug = Gaffer.BoxIO.promote(cshdr['out']['value'])
+
+    # passthrough
+    boxOutNode = boxOutPlug.getInput().node()
+    boxInNodeA = boxInPlugA.outputs()[0].node()
+    boxInNodeB = boxInPlugB.outputs()[0].node()
+    boxOutNode["passThrough"].setInput(boxInNodeA["out"])
+
+    # Names
+    boxInNodeA['name'].setValue("color")
+    boxInNodeB['name'].setValue("fac")
+    boxOutNode['name'].setValue("value")
+    rshdr["parameters"]["fac"].setInput(boxInNodeB["out"])
+    gshdr["parameters"]["fac"].setInput(boxInNodeB["out"])
+    bshdr["parameters"]["fac"].setInput(boxInNodeB["out"])
+
+    # Reconnect old inputs
+    colorinput = shader_node['parameters']['value'].getInput()
+    factorinput = shader_node["parameters"]["fac"].getInput()
+
+    box["fac"].setValue(params_dict["Factor"])
+    box["color"].setValue(process_values(params_dict["Color"]))
+
+    if colorinput:
+        box['value'].setInput(colorinput)
+    if factorinput:
+        box['fac'].setInput(factorinput)
+
+    # Cleanup and rename
+    parent.removeChild(shader_node)
+    box.setName(oldNodeName)
+
+    # Curves
+    process_curve(rshdr['parameters']['curve'], params_dict["r"])
+    process_curve(gshdr['parameters']['curve'], params_dict["g"])
+    process_curve(bshdr['parameters']['curve'], params_dict["b"])
+    process_curve(cshdr['parameters']['curves'], params_dict["c"], signature='RGBA')
+
+    # Interpolation
+    cshdr['parameters']['curves']["interpolation"].setValue(translate_interpolation(params_dict["c"]))
+    rshdr['parameters']['curve']["interpolation"].setValue(translate_interpolation(params_dict["r"]))
+    gshdr['parameters']['curve']["interpolation"].setValue(translate_interpolation(params_dict["g"]))
+    bshdr['parameters']['curve']["interpolation"].setValue(translate_interpolation(params_dict["b"]))
+
+    return box
+
+def build_vector_curves_box(shader_node, params_dict):
+    oldNodeName = shader_node.getName()
+    parent = shader_node.parent()
+
+    # Create the box
+    box = Gaffer.Box("Box1")
+    parent.addChild(box)
+
+    # Name plug for safe_connect algo
+    string_plug = Gaffer.StringPlug(
+        "name",
+        Gaffer.Plug.Direction.In,
+        shader_node['name'].getValue(),
+        Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic
+    )
+    box.addChild(string_plug)
+    Gaffer.Metadata.registerValue(box["name"], 'plugValueWidget:type', '')
+
+    # Nodes inside box
+    splitshader = GafferCycles.CyclesShader("split"); splitshader.loadShader("separate_xyz"); box.addChild(splitshader)
+    rshdr = GafferCycles.CyclesShader("x"); rshdr.loadShader("float_curve");   box.addChild(rshdr)
+    gshdr = GafferCycles.CyclesShader("y"); gshdr.loadShader("float_curve");   box.addChild(gshdr)
+    bshdr = GafferCycles.CyclesShader("z"); bshdr.loadShader("float_curve");   box.addChild(bshdr)
+    combineshader = GafferCycles.CyclesShader("join"); combineshader.loadShader("combine_xyz"); box.addChild(combineshader)
+
+    # Wiring
+    rshdr["parameters"]["value"].setInput(splitshader["out"]["x"])
+    gshdr["parameters"]["value"].setInput(splitshader["out"]["y"])
+    bshdr["parameters"]["value"].setInput(splitshader["out"]["z"])
+    combineshader["parameters"]["x"].setInput(rshdr["out"]["value"])
+    combineshader["parameters"]["y"].setInput(gshdr["out"]["value"])
+    combineshader["parameters"]["z"].setInput(bshdr["out"]["value"])
+
+    # BoxIO plugs
+    boxInPlugA = Gaffer.BoxIO.promote(splitshader["parameters"]["vector"])
+    boxInPlugB = Gaffer.BoxIO.promote(rshdr['parameters']['fac'])
+    boxOutPlug = Gaffer.BoxIO.promote(combineshader['out']['vector'])
+
+    # passthrough
+    boxOutNode = boxOutPlug.getInput().node()
+    boxInNodeA = boxInPlugA.outputs()[0].node()
+    boxInNodeB = boxInPlugB.outputs()[0].node()
+    boxOutNode["passThrough"].setInput(boxInNodeA["out"])
+
+    # Names
+    boxInNodeA['name'].setValue("vector")
+    boxInNodeB['name'].setValue("fac")
+    boxOutNode['name'].setValue("value")
+    rshdr["parameters"]["fac"].setInput(boxInNodeB["out"])
+    gshdr["parameters"]["fac"].setInput(boxInNodeB["out"])
+    bshdr["parameters"]["fac"].setInput(boxInNodeB["out"])
+
+    # Reconnect old inputs
+    colorinput = shader_node['parameters']['value'].getInput()
+    factorinput = shader_node["parameters"]["fac"].getInput()
+
+    box["fac"].setValue(params_dict["Factor"])
+    box["vector"].setValue(process_values(params_dict["Vector"]))
+
+    if colorinput:
+        box['value'].setInput(colorinput)
+    if factorinput:
+        box['fac'].setInput(factorinput)
+
+    # Cleanup and rename
+    parent.removeChild(shader_node)
+    box.setName(oldNodeName)
+
+    # Curves
+    process_curve(rshdr['parameters']['curve'], params_dict["x"])
+    process_curve(gshdr['parameters']['curve'], params_dict["y"])
+    process_curve(bshdr['parameters']['curve'], params_dict["z"])
+
+    # Interpolation
+    rshdr['parameters']['curve']["interpolation"].setValue(translate_interpolation(params_dict["x"]))
+    gshdr['parameters']['curve']["interpolation"].setValue(translate_interpolation(params_dict["y"]))
+    bshdr['parameters']['curve']["interpolation"].setValue(translate_interpolation(params_dict["z"]))
+
+    return box
+
 def set_shader_specialCases(shader_node, params_dict, shader_type):
     if shader_type == "image_texture":        
         shader_node["parameters"]["filename"].setValue((params_dict["image"].replace("\\", "/")))
@@ -141,83 +305,9 @@ def set_shader_specialCases(shader_node, params_dict, shader_type):
         shader_node['parameters']['curve']["interpolation"].setValue(translate_interpolation(params_dict["curve"]))
         process_curve(shader_node['parameters']['curve'], params_dict["curve"])
     elif shader_type == "rgb_curves":
-        oldNodeName = shader_node.getName()
-        parent = shader_node.parent()
-        box = Gaffer.Box( "Box1" )
-        parent.addChild(box)
-        # add name plug to work well with the safe_connect algo
-        string_plug = Gaffer.StringPlug("name", Gaffer.Plug.Direction.In, shader_node['name'].getValue(), Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic)
-        box.addChild(string_plug)
-        Gaffer.Metadata.registerValue( box["name"], 'plugValueWidget:type', '' )
-        cshdr = GafferCycles.CyclesShader( "c" )
-        cshdr.loadShader( "rgb_curves" )
-        box.addChild(cshdr)
-        splitshader = GafferCycles.CyclesShader( "split" )
-        splitshader.loadShader( "separate_rgb" )
-        box.addChild(splitshader)
-        rshdr = GafferCycles.CyclesShader( "r" )
-        rshdr.loadShader( "float_curve" )
-        box.addChild(rshdr)
-        gshdr = GafferCycles.CyclesShader( "g" )
-        gshdr.loadShader( "float_curve" )
-        box.addChild(gshdr)
-        bshdr = GafferCycles.CyclesShader( "b" )
-        bshdr.loadShader( "float_curve" )
-        box.addChild(bshdr)
-        combineshader = GafferCycles.CyclesShader( "join" )
-        combineshader.loadShader( "combine_rgb" )
-        box.addChild(combineshader)
-        splitshader["parameters"]["color"].setInput( cshdr["out"]["value"] )        
-        rshdr["parameters"]["value"].setInput( splitshader["out"]["r"] )
-        gshdr["parameters"]["value"].setInput( splitshader["out"]["g"] )
-        bshdr["parameters"]["value"].setInput( splitshader["out"]["b"] )
-        combineshader["parameters"]["r"].setInput( rshdr["out"]["value"] )
-        combineshader["parameters"]["g"].setInput( gshdr["out"]["value"] )
-        combineshader["parameters"]["b"].setInput( bshdr["out"]["value"] )
-        
-        boxInPlugA = Gaffer.BoxIO.promote( cshdr['parameters']['value'] )
-        boxInPlugB = Gaffer.BoxIO.promote( cshdr['parameters']['fac'] )
-        boxOutPlug = Gaffer.BoxIO.promote( combineshader['out']['image'] )
-        # Add a passthrough
-        boxOutNode = boxOutPlug.getInput().node()
-        boxInNodeA = boxInPlugA.outputs()[0].node()
-        boxInNodeB = boxInPlugB.outputs()[0].node()
-        boxOutNode["passThrough"].setInput( boxInNodeA["out"] )
-        #Names
-        boxInNodeA['name'].setValue("color")
-        boxInNodeB['name'].setValue("fac")
-        boxOutNode['name'].setValue("value")
-        rshdr["parameters"]["fac"].setInput( boxInNodeB["out"] )
-        gshdr["parameters"]["fac"].setInput( boxInNodeB["out"] )
-        bshdr["parameters"]["fac"].setInput( boxInNodeB["out"] )
-        colorinput = shader_node['parameters']['value'].getInput()
-        factorinput = shader_node["parameters"]["fac"].getInput()
-
-        # Set Params        
-        box["fac"].setValue(params_dict["Factor"])
-        box["color"].setValue(process_values(params_dict["Color"]))
-
-        # connect previously connected Inputs
-        if colorinput:
-            box['value'].setInput( colorinput )
-        if factorinput:
-            box['fac'].setInput( factorinput )
-
-        #Cleanup
-        parent.removeChild( shader_node )
-        box.setName( oldNodeName )
-
-        #Process Curves
-        process_curve(rshdr['parameters']['curve'], params_dict["r"])
-        process_curve(gshdr['parameters']['curve'], params_dict["g"])
-        process_curve(bshdr['parameters']['curve'], params_dict["b"])
-        process_curve(cshdr['parameters']['curves'], params_dict["c"],signature='RGBA')
-        #Interpolation
-        cshdr['parameters']['curves']["interpolation"].setValue(translate_interpolation(params_dict["c"]))
-        rshdr['parameters']['curve']["interpolation"].setValue(translate_interpolation(params_dict["r"]))
-        gshdr['parameters']['curve']["interpolation"].setValue(translate_interpolation(params_dict["g"]))
-        bshdr['parameters']['curve']["interpolation"].setValue(translate_interpolation(params_dict["b"]))
-
+        build_rgb_curves_box(shader_node, params_dict)
+    elif shader_type == "vector_curves":
+        build_vector_curves_box(shader_node, params_dict)
 
     
 
@@ -258,8 +348,8 @@ def safe_connect(parent, src_node_name, src_socket_label, dst_node_name, dst_soc
         # Try to guess shader types from node names
         src_shader_type = src_node['name'].getValue()
         dst_shader_type = dst_node['name'].getValue()
-        src_plug_name = resolve_plug_name(src_socket_label, src_node, io="out", shader_type=src_shader_type)
-        dst_plug_name = resolve_plug_name(dst_socket_label, dst_node, io="parameters", shader_type=dst_shader_type)
+        src_plug_name = resolve_plug_name(src_socket_label, src_node, io="out", shader_type=src_shader_type, isBox=isSrcBox)
+        dst_plug_name = resolve_plug_name(dst_socket_label, dst_node, io="parameters", shader_type=dst_shader_type, isBox=isDstBox)
 
         if not src_plug_name or not dst_plug_name:
             print(f"❌ Could not resolve {src_node_name}.{src_socket_label} → {dst_node_name}.{dst_socket_label}")

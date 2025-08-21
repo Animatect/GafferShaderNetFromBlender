@@ -120,6 +120,8 @@
     "max x": "max_x"
   },
   "vector_curves": {
+    "vector":"value",
+    "factor":"fac",
     "min x": "min_x",
     "max x": "max_x"
   },
