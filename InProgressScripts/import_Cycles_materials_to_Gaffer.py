@@ -60,20 +60,26 @@ def resolve_plug_name(socket_label, gaffer_node, io="parameters", shader_type=No
             if io == "out":
                 return "value"
             else:
-                return candidate
-
-    # 1. Try safe plug name directly
+                return candidat
+    
+    # 1. Try label map fallback
+    if shader_type:
+        remap = LABEL_MAP.get(shader_type, {}).get(socket_label.lower())
+        # special cases
+        if shader_type == "mix_closure":
+            if io == "out":
+                return "closure"
+        if validIo and remap and remap in gaffer_node[io]:
+            return remap
+        
+        # unsupported plugs
+        elif remap == 'UNSUPPORTED':
+            return 'UNSUPPORTED'
+        
+    # 2. Try safe plug name directly
     if validIo and io in gaffer_node and candidate in gaffer_node[io]:
         return candidate
     
-    # 2. Try label map fallback
-    if shader_type:
-        remap = LABEL_MAP.get(shader_type, {}).get(socket_label.lower())
-        if validIo and remap and remap in gaffer_node[io]:
-            return remap
-        elif remap == 'UNSUPPORTED':
-            return 'UNSUPPORTED'
-
     # 3. Try fuzzy match
     norm_target = normalize_name(socket_label)
     if validIo:
