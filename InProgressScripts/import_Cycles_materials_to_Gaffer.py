@@ -71,6 +71,8 @@ def resolve_plug_name(socket_label, gaffer_node, io="parameters", shader_type=No
         remap = LABEL_MAP.get(shader_type, {}).get(socket_label.lower())
         if validIo and remap and remap in gaffer_node[io]:
             return remap
+        elif remap == 'UNSUPPORTED':
+            return 'UNSUPPORTED'
 
     # 3. Try fuzzy match
     norm_target = normalize_name(socket_label)
@@ -260,22 +262,24 @@ def set_shader_specialCases(shader_node, params_dict, shader_type):
         build_curves_box(shader_node, params_dict, mode="rgb")
     elif shader_type == "vector_curves":
         build_curves_box(shader_node, params_dict, mode="vector")
-
     
 
 def set_shader_parameters(shader_node, params_dict, shader_type):
-    print(params_dict)
+    print(f"!!!! 🎈ShaderType: {shader_type} !!!!!")
     if shader_type in SPECIAL_CASES:
         set_shader_specialCases(shader_node, params_dict, shader_type)
         return 
     
     for param_label, value in params_dict.items():
         plug_name = resolve_plug_name(param_label, shader_node, io="parameters", shader_type=shader_type)
-        
+        if plug_name == "UNSUPPORTED":
+            print( f"😞 the parameter: {plug_name} on shader: {shader_type}, is unsupported by CyclesGaffer.")
+            continue
         if not plug_name:
             if param_label.lower() == 'weight':
                 # ignore the weight parameter that comes in every node and is irrelevant for translation.
-                continue
+                continue                
+            # Special Cases
             if 'mix' in shader_type:
                 if param_label.lower() in ['data_type']:
                     continue
@@ -432,7 +436,6 @@ def load_materials_from_json(json_path, parent):
             # print(f"➕ Created shader node: {node_name} as {safe_name}")
             set_shader_parameters(shader, params, shader_type)
 
-        print("cn: \n", created_nodes)
         for link in links:
             #print("📦 Raw link:", link)
             if not isinstance(link, dict):

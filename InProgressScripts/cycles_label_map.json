@@ -156,7 +156,10 @@
     "layer name": "layer_name"
   },
   "vector_math": {
-    "operation": "math_type"
+    "operation": "math_type",
+    "vector":"vector1",
+    "vector_001":"vector2",
+    "vector_002":"vector3"
   },
   "texture_coordinate": {
     "from dupli": "from_dupli",
@@ -243,7 +246,10 @@
   },
   "math": {
     "operation": "math_type",
-    "clamp": "use_clamp"
+    "clamp": "use_clamp",
+    "value": "value1",
+    "value_001": "value2",
+    "value_002": "value3"
   },
   "rgb_ramp": {
     "ramp alpha": "ramp_alpha"
@@ -251,6 +257,26 @@
   "color":{
     "color":"value"
   },
+  "separate_color":{
+    "red":"r",
+    "green":"g",
+    "blue":"b"
+  },
+  "combine_color":{
+    "red":"r",
+    "green":"g",
+    "blue":"b"
+  },
+  "fresnel":{
+    "normal":"UNSUPPORTED"
+  },
+  "layer_weight":{
+    "normal":"UNSUPPORTED"
+  },
+  "bevel":{
+    "normal":"bevel"
+  },
+  "combine_xyz":{},
   "glass_bsdf": {},
   "toon_bsdf": {},
   "glossy_bsdf": {},
