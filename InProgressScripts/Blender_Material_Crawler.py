@@ -204,7 +204,7 @@ def handle_special_cases(node):
             labels = ['x','y','z']
         if node.bl_idname =="ShaderNodeRGBCurve":
             specials["Color"] = to_serializable(node.inputs["Color"])
-            labels = ['c','r','g','b']
+            labels = ['r','g','b','c']
         curves = node.mapping.curves
         index = 0
         for curve in curves:

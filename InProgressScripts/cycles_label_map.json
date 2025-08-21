@@ -110,10 +110,12 @@
   },
   "float_curve": {
     "min x": "min_x",
-    "max x": "max_x"
+    "max x": "max_x",
+    "factor":"fac"
   },
   "rgb_curves": {
     "color":"value",
+    "factor":"fac",
     "min x": "min_x",
     "max x": "max_x"
   },

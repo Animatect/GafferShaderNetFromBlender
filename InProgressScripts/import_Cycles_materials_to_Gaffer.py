@@ -18,7 +18,10 @@ PLUG_TYPE_MAP = {
 }
 
 SPECIAL_CASES = [
-    "image_texture"
+    "image_texture",
+    "float_curve",
+    "vector_curves",
+    "rgb_curves"
 ]
 
 SHADER_TYPE_REMAP = {
@@ -50,21 +53,30 @@ def normalize_name(name):
 
 def resolve_plug_name(socket_label, gaffer_node, io="parameters", shader_type=None):
     # 1. Try safe plug name directly
+    validIo = gaffer_node.getChild(io)
     candidate = safe_plug_name(socket_label)
-    if io in gaffer_node and candidate in gaffer_node[io]:
+    if validIo and io in gaffer_node and candidate in gaffer_node[io]:
         return candidate
-
+    #BoxNode
+    if candidate in gaffer_node:
+        if not gaffer_node[candidate].getInput(): # repeating names in boxnodes live in same domain, check that a name is not plugged
+            return candidate
+    
     # 2. Try label map fallback
     if shader_type:
         remap = LABEL_MAP.get(shader_type, {}).get(socket_label.lower())
-        if remap and remap in gaffer_node[io]:
+        if validIo and remap and remap in gaffer_node[io]:
+            return remap
+        #BoxNode
+        if remap and remap in gaffer_node:
             return remap
 
     # 3. Try fuzzy match
     norm_target = normalize_name(socket_label)
-    for name in gaffer_node[io].keys():
-        if normalize_name(name) == norm_target:
-            return name
+    if validIo:
+        for name in gaffer_node[io].keys():
+            if normalize_name(name) == norm_target:
+                return name
 
     return None
 
@@ -88,17 +100,125 @@ def process_values(value):
         return [int(v) for v in value]  # plain list of ints
     else:
         return value
+def process_curve(curve, curvedict, signature='FLOAT'):
+    curve.clearPoints()
+    for i in range(len(curvedict)):
+        ptnm:str = "p"+str(i)
+        x = curvedict[i][0]
+        y = None
+        if signature == 'FLOAT':
+            y = process_values(curvedict[i][1])
+        elif signature == 'RGBA':
+            val = curvedict[i][1]
+            y = imath.Color3f(val, val, val)
+        else:
+            pass
+        curve.addChild( Gaffer.ValuePlug( ptnm, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
+        curve[ptnm].addChild( Gaffer.FloatPlug( "x", defaultValue = x, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
+        if signature == 'FLOAT':
+            curve[ptnm].addChild( Gaffer.FloatPlug( "y", defaultValue = y, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
+        elif signature == 'RGBA':
+            curve[ptnm].addChild( Gaffer.Color3fPlug( "y", defaultValue = y, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
+        
 
+def is_curvelist_default(curvelist):
+    isdefault:bool = len(curvelist) == 2 and curvelist[0][0]==0.0 and curvelist[0][1]==0.0  and curvelist[1][0]==1.0 and curvelist[1][1]==1.0
+    return isdefault
+
+def translate_interpolation(curvelist:list):
+    interpolation = 1 # AUTO is translated to CatmullRom
+    if curvelist[0][2] == "VECTOR":
+        interpolation = 0
+    return interpolation
+        
 def set_shader_specialCases(shader_node, params_dict, shader_type):
     if shader_type == "image_texture":        
         shader_node["parameters"]["filename"].setValue((params_dict["image"].replace("\\", "/")))
-    elif shader_type == "mix":
-        if params_dict["data_type"] == "RGBA":
-            pass
-        elif params_dict["data_type"] == "FLOAT":
-            pass
-        elif params_dict["data_type"] == "VECTOR":
-            pass
+    # On Curves, interpolation is not 1:1 and takes the value of the first point on Blender.
+    elif shader_type == "float_curve":
+        shader_node["parameters"]["fac"].setValue(params_dict["Factor"])
+        shader_node["parameters"]["value"].setValue(params_dict["Value"])
+        shader_node['parameters']['curve']["interpolation"].setValue(translate_interpolation(params_dict["curve"]))
+        process_curve(shader_node['parameters']['curve'], params_dict["curve"])
+    elif shader_type == "rgb_curves":
+        oldNodeName = shader_node.getName()
+        parent = shader_node.parent()
+        box = Gaffer.Box( "Box1" )
+        parent.addChild(box)
+        # add name plug to work well with the safe_connect algo
+        string_plug = Gaffer.StringPlug("name", Gaffer.Plug.Direction.In, shader_node['name'].getValue(), Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic)
+        box.addChild(string_plug)
+        Gaffer.Metadata.registerValue( box["name"], 'plugValueWidget:type', '' )
+        cshdr = GafferCycles.CyclesShader( "c" )
+        cshdr.loadShader( "rgb_curves" )
+        box.addChild(cshdr)
+        splitshader = GafferCycles.CyclesShader( "split" )
+        splitshader.loadShader( "separate_rgb" )
+        box.addChild(splitshader)
+        rshdr = GafferCycles.CyclesShader( "r" )
+        rshdr.loadShader( "float_curve" )
+        box.addChild(rshdr)
+        gshdr = GafferCycles.CyclesShader( "g" )
+        gshdr.loadShader( "float_curve" )
+        box.addChild(gshdr)
+        bshdr = GafferCycles.CyclesShader( "b" )
+        bshdr.loadShader( "float_curve" )
+        box.addChild(bshdr)
+        combineshader = GafferCycles.CyclesShader( "join" )
+        combineshader.loadShader( "combine_rgb" )
+        box.addChild(combineshader)
+        splitshader["parameters"]["color"].setInput( cshdr["out"]["value"] )        
+        rshdr["parameters"]["value"].setInput( splitshader["out"]["r"] )
+        gshdr["parameters"]["value"].setInput( splitshader["out"]["g"] )
+        bshdr["parameters"]["value"].setInput( splitshader["out"]["b"] )
+        combineshader["parameters"]["r"].setInput( rshdr["out"]["value"] )
+        combineshader["parameters"]["g"].setInput( gshdr["out"]["value"] )
+        combineshader["parameters"]["b"].setInput( bshdr["out"]["value"] )
+        
+        boxInPlugA = Gaffer.BoxIO.promote( cshdr['parameters']['value'] )
+        boxInPlugB = Gaffer.BoxIO.promote( cshdr['parameters']['fac'] )
+        boxOutPlug = Gaffer.BoxIO.promote( combineshader['out']['image'] )
+        # Add a passthrough
+        boxOutNode = boxOutPlug.getInput().node()
+        boxInNodeA = boxInPlugA.outputs()[0].node()
+        boxInNodeB = boxInPlugB.outputs()[0].node()
+        boxOutNode["passThrough"].setInput( boxInNodeA["out"] )
+        #Names
+        boxInNodeA['name'].setValue("color")
+        boxInNodeB['name'].setValue("fac")
+        boxOutNode['name'].setValue("value")
+        rshdr["parameters"]["fac"].setInput( boxInNodeB["out"] )
+        gshdr["parameters"]["fac"].setInput( boxInNodeB["out"] )
+        bshdr["parameters"]["fac"].setInput( boxInNodeB["out"] )
+        colorinput = shader_node['parameters']['value'].getInput()
+        factorinput = shader_node["parameters"]["fac"].getInput()
+
+        # Set Params        
+        box["fac"].setValue(params_dict["Factor"])
+        box["color"].setValue(process_values(params_dict["Color"]))
+
+        # connect previously connected Inputs
+        if colorinput:
+            box['value'].setInput( colorinput )
+        if factorinput:
+            box['fac'].setInput( factorinput )
+
+        #Cleanup
+        parent.removeChild( shader_node )
+        box.setName( oldNodeName )
+
+        #Process Curves
+        process_curve(rshdr['parameters']['curve'], params_dict["r"])
+        process_curve(gshdr['parameters']['curve'], params_dict["g"])
+        process_curve(bshdr['parameters']['curve'], params_dict["b"])
+        process_curve(cshdr['parameters']['curves'], params_dict["c"],signature='RGBA')
+        #Interpolation
+        cshdr['parameters']['curves']["interpolation"].setValue(translate_interpolation(params_dict["c"]))
+        rshdr['parameters']['curve']["interpolation"].setValue(translate_interpolation(params_dict["r"]))
+        gshdr['parameters']['curve']["interpolation"].setValue(translate_interpolation(params_dict["g"]))
+        bshdr['parameters']['curve']["interpolation"].setValue(translate_interpolation(params_dict["b"]))
+
+
     
 
 def set_shader_parameters(shader_node, params_dict, shader_type):
@@ -133,20 +253,29 @@ def safe_connect(parent, src_node_name, src_socket_label, dst_node_name, dst_soc
     try:
         src_node = parent[src_node_name]
         dst_node = parent[dst_node_name]
-
+        isSrcBox:bool = src_node.typeName() == "Gaffer::Box"
+        isDstBox:bool = dst_node.typeName() == "Gaffer::Box"
         # Try to guess shader types from node names
         src_shader_type = src_node['name'].getValue()
         dst_shader_type = dst_node['name'].getValue()
-
         src_plug_name = resolve_plug_name(src_socket_label, src_node, io="out", shader_type=src_shader_type)
         dst_plug_name = resolve_plug_name(dst_socket_label, dst_node, io="parameters", shader_type=dst_shader_type)
 
         if not src_plug_name or not dst_plug_name:
             print(f"❌ Could not resolve {src_node_name}.{src_socket_label} → {dst_node_name}.{dst_socket_label}")
             return
+        
+        # Handle Box Nodes that replace Imported nodes
+        if isSrcBox:
+            src_plug = src_node[src_plug_name]
+        else:
+            src_plug = src_node["out"][src_plug_name]
 
-        src_plug = src_node["out"][src_plug_name]
-        dst_plug = dst_node["parameters"][dst_plug_name]
+        if isDstBox:
+            dst_plug = dst_node[dst_plug_name]
+        else:     
+            dst_plug = dst_node["parameters"][dst_plug_name]
+
 
         if dst_plug.typeName() == src_plug.typeName():
             dst_plug.setInput(src_plug)
@@ -261,6 +390,7 @@ def load_materials_from_json(json_path, parent):
             # print(f"➕ Created shader node: {node_name} as {safe_name}")
             set_shader_parameters(shader, params, shader_type)
 
+        print("cn: \n", created_nodes)
         for link in links:
             #print("📦 Raw link:", link)
             if not isinstance(link, dict):
@@ -270,6 +400,7 @@ def load_materials_from_json(json_path, parent):
             to_node = link["to_node"]
             from_socket = link["from_socket"]
             to_socket = link["to_socket"]
+            
 
             if from_node == output_node_name:
                 continue
@@ -283,7 +414,13 @@ def load_materials_from_json(json_path, parent):
                 continue
 
             if from_node in created_nodes and to_node in created_nodes:
-                safe_connect(mat_box, created_nodes[from_node], from_socket, created_nodes[to_node], to_socket)
+                if False:#from_node == "RGB Curves":
+                    from_node = "Box1"
+                    from_socket = "out_value"
+                    safe_connect(mat_box, from_node, from_socket, created_nodes[to_node], to_socket)
+                #print(f"fn: {from_node}, tn: {to_node}, fs: {from_socket}, ts: {to_socket}")
+                else:
+                    safe_connect(mat_box, created_nodes[from_node], from_socket, created_nodes[to_node], to_socket)
 
         boxInOutHandling(sh_assign)
         # Connect in/out for box chaining
