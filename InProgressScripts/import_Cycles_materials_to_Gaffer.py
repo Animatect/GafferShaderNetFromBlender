@@ -273,7 +273,7 @@ def set_shader_parameters(shader_node, params_dict, shader_type):
     for param_label, value in params_dict.items():
         plug_name = resolve_plug_name(param_label, shader_node, io="parameters", shader_type=shader_type)
         if plug_name == "UNSUPPORTED":
-            print( f"😞 the parameter: {plug_name} on shader: {shader_type}, is unsupported by CyclesGaffer.")
+            print( f"😞 the parameter: '{param_label}' on shader: '{shader_type}', is unsupported by CyclesGaffer.")
             continue
         if not plug_name:
             if param_label.lower() == 'weight':
@@ -436,6 +436,7 @@ def load_materials_from_json(json_path, parent):
             # print(f"➕ Created shader node: {node_name} as {safe_name}")
             set_shader_parameters(shader, params, shader_type)
 
+        shaderAssignments:list = []
         for link in links:
             #print("📦 Raw link:", link)
             if not isinstance(link, dict):
@@ -452,22 +453,39 @@ def load_materials_from_json(json_path, parent):
             if to_node == output_node_name:
                 final_shader = created_nodes.get(from_node)
                 if final_shader:
-                    sh_assign = GafferScene.ShaderAssignment("ShaderAssignment")
+                    sh_assign = GafferScene.ShaderAssignment(f"ShaderAssign_{to_socket}")
                     mat_box.addChild(sh_assign)
                     sh_assign["shader"].setInput(mat_box[final_shader]["out"])
+                    shaderAssignments.append(sh_assign)
                     print(f"🎯 Created ShaderAssignment and connected final shader {final_shader}")
                 continue
 
             if from_node in created_nodes and to_node in created_nodes:
-                if False:#from_node == "RGB Curves":
-                    from_node = "Box1"
-                    from_socket = "out_value"
-                    safe_connect(mat_box, from_node, from_socket, created_nodes[to_node], to_socket)
-                #print(f"fn: {from_node}, tn: {to_node}, fs: {from_socket}, ts: {to_socket}")
-                else:
-                    safe_connect(mat_box, created_nodes[from_node], from_socket, created_nodes[to_node], to_socket)
+                safe_connect(mat_box, created_nodes[from_node], from_socket, created_nodes[to_node], to_socket)
+                           
+        # Promote boxIn/out to connect the material output shaders internally with the box flow
+        def sort_by_role(nodes):
+            order = ['ShaderAssign_Surface', 'ShaderAssign_Volume', 'ShaderAssign_Displacement']
+            order_map = {k: i for i, k in enumerate(order)}
+            def sort_key(node):
+                name = node.getName()
+                for k in order:
+                    if k in name:
+                        return order_map[k]
+                return len(order)  # fallback if no keyword matches
+            return sorted(nodes, key=sort_key)
+        
+        shaderAssignments = sort_by_role(shaderAssignments) # Reorder the list to have the Blender order
+        if len(shaderAssignments)==1:
+            boxInOutHandling(shaderAssignments[0])        
+        elif len(shaderAssignments)==2:
+            shaderAssignments[1]['in'].setInput(shaderAssignments[0]['out'])
+            boxInOutHandling(shaderAssignments[0],shaderAssignments[1])
+        else:
+            shaderAssignments[1]['in'].setInput(shaderAssignments[0]['out'])
+            shaderAssignments[2]['in'].setInput(shaderAssignments[1]['out'])
+            boxInOutHandling(shaderAssignments[0],shaderAssignments[2])
 
-        boxInOutHandling(sh_assign)
         # Connect in/out for box chaining
         mat_box["in"].setInput(last_out)
         last_out = mat_box["out"]
