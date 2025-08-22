@@ -126,15 +126,15 @@
     "max x": "max_x"
   },
   "vector_transform": {
-    "type": "transform_type",
+    "vector_type": "transform_type",
     "convert from": "convert_from",
     "mconvert to": "convert_to"
   },
   "mapping": {
-    "type": "mapping_type"
+    "vector_type": "mapping_type"
   },
   "vector_rotate": {
-    "type": "rotate_type"
+    "rotation_type": "rotate_type"
   },
   "clamp": {
     "clamp type": "clamp_type"
@@ -206,28 +206,37 @@
     "ozone": "ozone_density"
   },
   "noise_texture": {
-    "normalize": "use_normalize"
+    "normalize": "use_normalize",
+    "noise_dimensions":"dimensions",
+    "noise_type": "type"
   },
   "gradient_texture": {
     "gradient type": "gradient_type"
   },
   "voronoi_texture": {
-    "normalize": "use_normalize"
+    "normalize": "use_normalize",
+    "voronoi_dimensions": "dimensions",
+    "distance": "metric"
   },
   "ies_light": {
-    "ies": "ies"
+    "ies": "ies",
+    "filepath":"filename"
   },
   "musgrave_texture": {
     "musgrave type": "musgrave_type"
   },
   "checker_texture": {},
-  "magic_texture": {},
+  "magic_texture": {
+    "turbulence_depth":"depth"
+  },
   "wave_texture": {
     "wave type": "wave_type",
     "bands direction": "bands_direction",
     "rings direction": "rings_direction",
     "detail scale": "detail_scale",
-    "detail roughness": "detail_roughness"
+    "detail roughness": "detail_roughness",
+    "phase offset":"phase",
+    "wave_profile":"profile"
   },
   "brick_texture": {
     "offset frequency": "offset_frequency",
@@ -285,7 +294,12 @@
   "attribute":{
     "attribute_name":"attribute"
   },
-  "glass_bsdf": {},
+  "white_noise_texture":{
+    "noise_dimensions":"dimensions"
+  },
+  "normal_map": {
+    "uv_map":"attribute"
+  },
   "toon_bsdf": {},
   "glossy_bsdf": {},
   "refraction_bsdf": {},

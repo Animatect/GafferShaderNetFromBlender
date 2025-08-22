@@ -307,18 +307,22 @@ def set_shader_parameters(shader_node, params_dict, shader_type):
                 # ignore the weight parameter that comes in every node and is irrelevant for translation.
                 continue                
             # Special Cases
-            if 'mix' in shader_type or "map_range" in shader_type and param_label.lower() in ['data_type']:
-                continue
-            if shader_type in ["texture_coordinate", "uvmap"] and param_label.lower() in ['from_instancer']:
-                continue
-            if shader_type == "attribute" and param_label.lower() == "attribute_type":
+            specialcases = [
+                'mix' in shader_type or "map_range" in shader_type and param_label.lower() in ['data_type'],
+                shader_type in ["texture_coordinate", "uvmap"] and param_label.lower() in ['from_instancer'],
+                shader_type == "attribute" and param_label.lower() == "attribute_type",
+                shader_type == "ies_texture" and param_label.lower() == "mode"
+            ]
+            if True in specialcases:
                 continue
 
             print(f"⚠️ Could not resolve param '{param_label}' for shader type '{shader_type}'")
             continue
 
         try:
-            if isinstance(value, str):
+            if shader_type == "vector_rotate" and value == "AXIS_ANGLE":
+                value = "axis"
+            elif isinstance(value, str) and not value in ["1D","2D","3D","4D"]:
                 # Upercase labels and strings produce invalid results.
                 value = value.lower()
             plug = shader_node["parameters"][plug_name]
