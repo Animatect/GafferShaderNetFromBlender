@@ -42,6 +42,11 @@ def blender_node_to_cycles(node):
                cycles_name = 'mix_vector_non_uniform'
         elif node.data_type == 'RGBA':
            cycles_name = 'mix_color'
+    if node.bl_idname == 'ShaderNodeMapRange':
+        if node.data_type == 'FLOAT':
+           cycles_name = 'map_range'
+        elif node.data_type == 'VECTOR':
+           cycles_name = 'vector_map_range'
 
     return cycles_name
 

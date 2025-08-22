@@ -57,7 +57,7 @@
     "clamp": "use_clamp"
   },
   "map_range": {
-    "interpolation type": "range_type",
+    "interpolation_type": "range_type",
     "from min": "from_min",
     "from max": "from_max",
     "to min": "to_min",
@@ -260,12 +260,14 @@
   "separate_color":{
     "red":"r",
     "green":"g",
-    "blue":"b"
+    "blue":"b",
+    "mode":"color_type"
   },
   "combine_color":{
     "red":"r",
     "green":"g",
-    "blue":"b"
+    "blue":"b",
+    "mode":"color_type"
   },
   "fresnel":{
     "normal":"UNSUPPORTED"

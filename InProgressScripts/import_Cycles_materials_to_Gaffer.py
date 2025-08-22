@@ -21,7 +21,8 @@ SPECIAL_CASES = [
     "image_texture",
     "float_curve",
     "vector_curves",
-    "rgb_curves"
+    "rgb_curves",
+    "rgb_ramp"
 ]
 
 SHADER_TYPE_REMAP = {
@@ -109,6 +110,7 @@ def process_values(value):
         return [int(v) for v in value]  # plain list of ints
     else:
         return value
+
 def process_curve(curve, curvedict, signature='FLOAT'):
     curve.clearPoints()
     for i in range(len(curvedict)):
@@ -128,13 +130,28 @@ def process_curve(curve, curvedict, signature='FLOAT'):
             curve[ptnm].addChild( Gaffer.FloatPlug( "y", defaultValue = y, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
         elif signature == 'RGBA':
             curve[ptnm].addChild( Gaffer.Color3fPlug( "y", defaultValue = y, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
-        
 
-def is_curvelist_default(curvelist):
-    isdefault:bool = len(curvelist) == 2 and curvelist[0][0]==0.0 and curvelist[0][1]==0.0  and curvelist[1][0]==1.0 and curvelist[1][1]==1.0
-    return isdefault
+def process_ramp(ramp, rampdict):
+    ramp.clearPoints()
+    for i in range(len(rampdict)):
+        ptnm:str = "p"+str(i)
+        x = rampdict[i]["pos"]
+        y = process_values(rampdict[i]["color"])
+        ramp.addChild( Gaffer.ValuePlug( ptnm, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
+        ramp[ptnm].addChild( Gaffer.FloatPlug( "x", defaultValue = x, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
+        ramp[ptnm].addChild( Gaffer.Color3fPlug( "y", defaultValue = y, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
+                
+def convert_ramp_interpolation(interpolation:str):
+    translatdict:dict = {
+        "ease":3,
+        "cardinal":1,
+        "lineal":0,
+        "b_spline":2,
+        "constant":4
+    }
+    return translatdict[interpolation.lower()]
 
-def translate_interpolation(curvelist:list):
+def convert_curve_interpolation(curvelist:list):
     interpolation = 1 # AUTO is translated to CatmullRom
     if curvelist[0][2] == "VECTOR":
         interpolation = 0
@@ -243,13 +260,13 @@ def build_curves_box(shader_node, params_dict, mode="rgb"):
     for chName in curve_nodes.keys():
         process_curve(curve_nodes[chName]['parameters']['curve'], params_dict[chName])
         curve_nodes[chName]['parameters']['curve']["interpolation"].setValue(
-            translate_interpolation(params_dict[chName])
+            convert_curve_interpolation(params_dict[chName])
         )
 
     if mode == "rgb":
         # The additional composite curve
         process_curve(cshdr['parameters']['curves'], params_dict["c"], signature='RGBA')
-        cshdr['parameters']['curves']["interpolation"].setValue(translate_interpolation(params_dict["c"]))
+        cshdr['parameters']['curves']["interpolation"].setValue(convert_curve_interpolation(params_dict["c"]))
         cshdr['parameters']['value'].setInput(combineshader['out']['image'])
 
     return box
@@ -262,12 +279,16 @@ def set_shader_specialCases(shader_node, params_dict, shader_type):
     elif shader_type == "float_curve":
         shader_node["parameters"]["fac"].setValue(params_dict["Factor"])
         shader_node["parameters"]["value"].setValue(params_dict["Value"])
-        shader_node['parameters']['curve']["interpolation"].setValue(translate_interpolation(params_dict["curve"]))
+        shader_node['parameters']['curve']["interpolation"].setValue(convert_curve_interpolation(params_dict["curve"]))
         process_curve(shader_node['parameters']['curve'], params_dict["curve"])
     elif shader_type == "rgb_curves":
         build_curves_box(shader_node, params_dict, mode="rgb")
     elif shader_type == "vector_curves":
         build_curves_box(shader_node, params_dict, mode="vector")
+    elif shader_type == "rgb_ramp":
+        shader_node["parameters"]["fac"].setValue(params_dict["Factor"])
+        shader_node['parameters']['ramp']["interpolation"].setValue(convert_ramp_interpolation(params_dict["interpolation"]))
+        process_ramp(shader_node['parameters']['ramp'], params_dict["ramp_elements"])
     
 
 def set_shader_parameters(shader_node, params_dict, shader_type):
@@ -286,8 +307,11 @@ def set_shader_parameters(shader_node, params_dict, shader_type):
                 # ignore the weight parameter that comes in every node and is irrelevant for translation.
                 continue                
             # Special Cases
-            if 'mix' in shader_type:
+            if 'mix' in shader_type or "map_range" in shader_type:
                 if param_label.lower() in ['data_type']:
+                    continue
+            if shader_type in ["texture_coordinate"]:
+                if param_label.lower() in ['from_instancer']:
                     continue
             print(f"⚠️ Could not resolve param '{param_label}' for shader type '{shader_type}'")
             continue
