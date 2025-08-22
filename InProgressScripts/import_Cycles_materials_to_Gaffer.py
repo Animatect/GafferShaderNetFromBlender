@@ -294,6 +294,7 @@ def set_shader_parameters(shader_node, params_dict, shader_type):
 
         try:
             if isinstance(value, str):
+                # Upercase labels and strings produce invalid results.
                 value = value.lower()
             plug = shader_node["parameters"][plug_name]
             plug.setValue(process_values(value))
@@ -409,6 +410,8 @@ def load_materials_from_json(json_path, parent):
     shassignnode = create_basecheck_shader(fallback_box, paths)
     boxInOutHandling(shassignnode)
     last_out = fallback_box["out"]
+    # Assign a start value to last_mat_box
+    last_mat_box = fallback_box
 
     for mat_name, material in material_data.items():
         print(f"\n🧱 Loading material: {mat_name}")
@@ -499,7 +502,11 @@ def load_materials_from_json(json_path, parent):
         last_out = mat_box["out"]
     
     #Handle InOut for master box
-    boxInOutHandling(fallback_box, mat_box)
+    if mat_box.getChild("out"):
+        boxInOutHandling(fallback_box, mat_box)
+        last_mat_box = mat_box
+    else:
+        boxInOutHandling(fallback_box, last_mat_box)
 
 
 # Usage:
