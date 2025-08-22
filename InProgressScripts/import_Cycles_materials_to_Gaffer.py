@@ -60,9 +60,13 @@ def resolve_plug_name(socket_label, gaffer_node, io="parameters", shader_type=No
             if io == "out":
                 return "value"
             else:
-                return candidat
+                return candidate
+
+    # 1. Try safe plug name directly
+    if validIo and io in gaffer_node and candidate in gaffer_node[io]:
+        return candidate
     
-    # 1. Try label map fallback
+    # 2. Try label map fallback
     if shader_type:
         remap = LABEL_MAP.get(shader_type, {}).get(socket_label.lower())
         # special cases
@@ -75,11 +79,7 @@ def resolve_plug_name(socket_label, gaffer_node, io="parameters", shader_type=No
         # unsupported plugs
         elif remap == 'UNSUPPORTED':
             return 'UNSUPPORTED'
-        
-    # 2. Try safe plug name directly
-    if validIo and io in gaffer_node and candidate in gaffer_node[io]:
-        return candidate
-    
+
     # 3. Try fuzzy match
     norm_target = normalize_name(socket_label)
     if validIo:
@@ -293,6 +293,8 @@ def set_shader_parameters(shader_node, params_dict, shader_type):
             continue
 
         try:
+            if isinstance(value, str):
+                value = value.lower()
             plug = shader_node["parameters"][plug_name]
             plug.setValue(process_values(value))
             print(f"🔧 Set {shader_node.getName()}.{plug_name} = {value} => {value}")
