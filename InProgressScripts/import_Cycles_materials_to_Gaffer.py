@@ -71,7 +71,7 @@ def resolve_plug_name(socket_label, gaffer_node, io="parameters", shader_type=No
     if shader_type:
         remap = LABEL_MAP.get(shader_type, {}).get(socket_label.lower())
         # special cases
-        if shader_type == "mix_closure":
+        if shader_type in ["mix_closure", "add_closure"]:
             if io == "out":
                 return "closure"
         if validIo and remap and remap in gaffer_node[io]:
@@ -307,12 +307,13 @@ def set_shader_parameters(shader_node, params_dict, shader_type):
                 # ignore the weight parameter that comes in every node and is irrelevant for translation.
                 continue                
             # Special Cases
-            if 'mix' in shader_type or "map_range" in shader_type:
-                if param_label.lower() in ['data_type']:
-                    continue
-            if shader_type in ["texture_coordinate"]:
-                if param_label.lower() in ['from_instancer']:
-                    continue
+            if 'mix' in shader_type or "map_range" in shader_type and param_label.lower() in ['data_type']:
+                continue
+            if shader_type in ["texture_coordinate", "uvmap"] and param_label.lower() in ['from_instancer']:
+                continue
+            if shader_type == "attribute" and param_label.lower() == "attribute_type":
+                continue
+
             print(f"⚠️ Could not resolve param '{param_label}' for shader type '{shader_type}'")
             continue
 

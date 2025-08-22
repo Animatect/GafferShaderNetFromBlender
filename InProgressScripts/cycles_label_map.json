@@ -170,13 +170,15 @@
     "only local": "only_local"
   },
   "uvmap": {
-    "from dupli": "from_dupli"
+    "from dupli": "from_dupli",
+    "uv_map":"attribute"
   },
   "wireframe": {
     "use pixel size": "use_pixel_size"
   },
   "tangent": {
-    "direction": "direction_type"
+    "direction": "direction_type",
+    "uv_map":"attribute"
   },
   "point_density_texture": {
     "transform": "tfm"
@@ -242,7 +244,8 @@
   "subsurface_scattering": {
     "ior": "subsurface_ior",
     "roughness": "subsurface_roughness",
-    "anisotropy": "subsurface_anisotropy"
+    "anisotropy": "subsurface_anisotropy",
+    "falloff":"method"
   },
   "math": {
     "operation": "math_type",
@@ -279,6 +282,9 @@
     "normal":"bevel"
   },
   "combine_xyz":{},
+  "attribute":{
+    "attribute_name":"attribute"
+  },
   "glass_bsdf": {},
   "toon_bsdf": {},
   "glossy_bsdf": {},
