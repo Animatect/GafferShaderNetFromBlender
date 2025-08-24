@@ -421,6 +421,14 @@ def boxInOutHandling(innode, outnode=None):
     boxInNode = boxInPlug.outputs()[0].node()
     boxOutNode["passThrough"].setInput( boxInNode["out"] )
 
+def sanitize_name(name: str) -> str:
+    # Replace any non-alphanumeric or underscore with "_"
+    safe = re.sub(r'[^0-9a-zA-Z_]', '_', name)
+    # Optionally, avoid names starting with a digit
+    if safe and safe[0].isdigit():
+        safe = "_" + safe
+    return safe
+
 # --- Main material loader ---
 def load_materials_from_json(json_path, parent):
     with open(json_path, "r") as f:
@@ -443,6 +451,7 @@ def load_materials_from_json(json_path, parent):
     last_mat_box = fallback_box
 
     for mat_name, material in material_data.items():
+        mat_name = sanitize_name(mat_name)
         print(f"\n🧱 Loading material: {mat_name}")
         mat_box = Gaffer.Box(mat_name)
         materials_box.addChild(mat_box)

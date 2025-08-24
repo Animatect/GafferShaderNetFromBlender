@@ -274,6 +274,7 @@ def trace_shader_network(material):
     links = []
 
     def walk(socket):
+        # Go through all the links of the socket.
         for link in socket.links:
             from_node = link.from_node
             from_socket = link.from_socket
@@ -286,8 +287,9 @@ def trace_shader_network(material):
                     print("On ",material.name, " the node ", from_node.name, " of Type: ", from_node.bl_idname, " mapped to unknown.")
                     return None
                 
-                # We check for special handling and if the is not we proceed with regular node handling.
-                params = handle_special_cases(from_node)                
+                # PARAMETERS
+                # We check for special handling and if the params dict is not set, means was not special and we proceed with regular node handling.
+                params = handle_special_cases(from_node)            
                 if len(params)==0:
                     params = {
                         inp.identifier: to_serializable(inp)
@@ -298,6 +300,8 @@ def trace_shader_network(material):
                     params.update(extract_node_extras(from_node))
                     params.update(handle_ui_params(from_node))
 
+                # Set the dictionary to setrialize
+                
                 node_info[from_node.name] = {
                     "type": from_node.bl_idname,
                     "cycles_type": cycles_type,
@@ -305,18 +309,21 @@ def trace_shader_network(material):
                     "location": to_serializable(from_node.location)
                 }
 
+                # We do the navigation backwards to other nodes connected to this one's inputs
                 for input_socket in from_node.inputs:
                     if input_socket.is_linked:
                         walk(input_socket)
 
-            # Always store the link
-            links.append({
-                "from_node": from_node.name,
-                "from_socket": from_socket.identifier,
-                "to_node": to_node.name,
-                "to_socket": to_socket.identifier
-            })
-            return "SUCCESS"
+            # Only add link if the to_node (downstream) is already in visited
+            if to_node.name in visited:
+                links.append({
+                    "from_node": from_node.name,
+                    "from_socket": from_socket.identifier,
+                    "to_node": to_node.name,
+                    "to_socket": to_socket.identifier
+                })
+        
+        return "SUCCESS"
 
     # Start from Surface / Displacement / Volume
     visited.add(output_node.name)
@@ -326,7 +333,7 @@ def trace_shader_network(material):
         "params": {},
         "location": list(output_node.location)
     }
-
+    # Do the node net navigation.
     for socket_name in ("Surface", "Displacement", "Volume"):
         if socket_name in output_node.inputs and output_node.inputs[socket_name].is_linked:
             for link in output_node.inputs[socket_name].links:
