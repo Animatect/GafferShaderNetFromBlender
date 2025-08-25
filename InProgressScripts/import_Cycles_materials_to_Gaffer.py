@@ -429,6 +429,73 @@ def sanitize_name(name: str) -> str:
         safe = "_" + safe
     return safe
 
+#### MAIN LOGIC ####
+def create_material_network(mat_box, material):
+    nodes = material["nodes"]
+    links = material.get("links", [])
+    created_nodes = {}
+    
+    if len(links) == 0:
+        return "NOLINKS"
+    
+    ### NODE CREATION HANDLING ###
+    for node_name, node_info in nodes.items():
+        node_type = node_info.get("type", "")
+        shader_type = shader_safe_type(node_info.get("cycles_type", ""))
+        params = node_info.get("params", {})
+
+        if node_type == "ShaderNodeOutputMaterial":
+            output_node_name = node_name
+            continue
+
+        safe_name = re.sub(r'\W|^(?=\d)', '_', node_name)
+        
+        # HANDLE GROUP NODES
+        if node_type == "ShaderNodeGroup":
+            group_box = Gaffer.Box(safe_name)
+            mat_box.addChild(group_box)
+            
+        else:
+            shader = GafferCycles.CyclesShader(safe_name)
+            shader.loadShader(shader_type)
+            shader.shaderType = shader_type
+            mat_box.addChild(shader)
+            created_nodes[node_name] = safe_name
+
+            # print(f"➕ Created shader node: {node_name} as {safe_name}")
+            set_shader_parameters(shader, params, shader_type)
+
+    ### LINKS HANDLING ###
+    shaderAssignments:list = []
+    for link in links:
+        #print("📦 Raw link:", link)
+        if not isinstance(link, dict):
+            continue
+
+        from_node = link["from_node"]
+        to_node = link["to_node"]
+        from_socket = link["from_socket"]
+        to_socket = link["to_socket"]
+        
+        
+        if from_node == output_node_name: # Gaffer has no Output Node.
+            continue
+        if to_node == output_node_name:   # We replace the output node with a Shader Assignment.
+            final_shader = created_nodes.get(from_node)
+            if final_shader:
+                sh_assign = GafferScene.ShaderAssignment(f"ShaderAssign_{to_socket}")
+                mat_box.addChild(sh_assign)
+                sh_assign["shader"].setInput(mat_box[final_shader]["out"])
+                shaderAssignments.append(sh_assign)
+                print(f"🎯 Created ShaderAssignment and connected final shader {final_shader}")
+            continue
+        
+        # connect input and outputs for this node
+        if from_node in created_nodes and to_node in created_nodes:
+            safe_connect(mat_box, created_nodes[from_node], from_socket, created_nodes[to_node], to_socket)
+    
+    return shaderAssignments
+
 # --- Main material loader ---
 def load_materials_from_json(json_path, parent):
     with open(json_path, "r") as f:
@@ -455,85 +522,38 @@ def load_materials_from_json(json_path, parent):
         print(f"\n🧱 Loading material: {mat_name}")
         mat_box = Gaffer.Box(mat_name)
         materials_box.addChild(mat_box)
-
-        nodes = material["nodes"]
-        links = material.get("links", [])
-        created_nodes = {}
         
-        if len(links) == 0:
+        shaderAssignments = create_material_network(mat_box, material) # Create the Network
+
+        if isinstance(shaderAssignments,str) and shaderAssignments=="NOLINKS":
             print(f"Material {mat_name} does not have a valid Network, probably has 0 connections.")
             Gaffer.Metadata.registerValue( mat_box, 'annotation:user:text', 'EMPTY MATERIAL\n' )
             Gaffer.Metadata.registerValue( mat_box, 'nodeGadget:color', imath.Color3f( 1, 0, 0 ) )
             continue
 
-        for node_name, node_info in nodes.items():
-            node_type = node_info.get("type", "")
-            shader_type = shader_safe_type(node_info.get("cycles_type", ""))
-            params = node_info.get("params", {})
-
-            if node_type == "ShaderNodeOutputMaterial":
-                output_node_name = node_name
-                continue
-
-            safe_name = re.sub(r'\W|^(?=\d)', '_', node_name)
-            shader = GafferCycles.CyclesShader(safe_name)
-            shader.loadShader(shader_type)
-            shader.shaderType = shader_type
-            mat_box.addChild(shader)
-            created_nodes[node_name] = safe_name
-
-            # print(f"➕ Created shader node: {node_name} as {safe_name}")
-            set_shader_parameters(shader, params, shader_type)
-
-        shaderAssignments:list = []
-        for link in links:
-            #print("📦 Raw link:", link)
-            if not isinstance(link, dict):
-                continue
-
-            from_node = link["from_node"]
-            to_node = link["to_node"]
-            from_socket = link["from_socket"]
-            to_socket = link["to_socket"]
-            
-
-            if from_node == output_node_name:
-                continue
-            if to_node == output_node_name:
-                final_shader = created_nodes.get(from_node)
-                if final_shader:
-                    sh_assign = GafferScene.ShaderAssignment(f"ShaderAssign_{to_socket}")
-                    mat_box.addChild(sh_assign)
-                    sh_assign["shader"].setInput(mat_box[final_shader]["out"])
-                    shaderAssignments.append(sh_assign)
-                    print(f"🎯 Created ShaderAssignment and connected final shader {final_shader}")
-                continue
-
-            if from_node in created_nodes and to_node in created_nodes:
-                safe_connect(mat_box, created_nodes[from_node], from_socket, created_nodes[to_node], to_socket)
-                           
+        if isinstance(shaderAssignments,list):
         # Promote boxIn/out to connect the material output shaders internally with the box flow
-        def sort_by_role(nodes):
-            order = ['ShaderAssign_Surface', 'ShaderAssign_Volume', 'ShaderAssign_Displacement']
-            order_map = {k: i for i, k in enumerate(order)}
-            def sort_key(node):
-                name = node.getName()
-                for k in order:
-                    if k in name:
-                        return order_map[k]
-                return len(order)  # fallback if no keyword matches
-            return sorted(nodes, key=sort_key)
-        
-        shaderAssignments = sort_by_role(shaderAssignments) # Reorder the list to have the Blender order
-        if len(shaderAssignments)==1:
-            boxInOutHandling(shaderAssignments[0])        
-        elif len(shaderAssignments)==2:
-            shaderAssignments[1]['in'].setInput(shaderAssignments[0]['out'])
-            boxInOutHandling(shaderAssignments[0],shaderAssignments[1])
-        else:
-            shaderAssignments[1]['in'].setInput(shaderAssignments[0]['out'])
-            shaderAssignments[2]['in'].setInput(shaderAssignments[1]['out'])
-            boxInOutHandling(shaderAssignments[0],shaderAssignments[2])
+            def sort_by_role(nodes):
+                order = ['ShaderAssign_Surface', 'ShaderAssign_Volume', 'ShaderAssign_Displacement']
+                order_map = {k: i for i, k in enumerate(order)}
+                def sort_key(node):
+                    name = node.getName()
+                    for k in order:
+                        if k in name:
+                            return order_map[k]
+                    return len(order)  # fallback if no keyword matches
+                return sorted(nodes, key=sort_key)
+            
+            shaderAssignments = sort_by_role(shaderAssignments) # Reorder the list to have the Blender order
+            if len(shaderAssignments)==1:
+                boxInOutHandling(shaderAssignments[0])        
+            elif len(shaderAssignments)==2:
+                shaderAssignments[1]['in'].setInput(shaderAssignments[0]['out'])
+                boxInOutHandling(shaderAssignments[0],shaderAssignments[1])
+            else:
+                shaderAssignments[1]['in'].setInput(shaderAssignments[0]['out'])
+                shaderAssignments[2]['in'].setInput(shaderAssignments[1]['out'])
+                boxInOutHandling(shaderAssignments[0],shaderAssignments[2])
 
         # Connect in/out for box chaining
         mat_box["in"].setInput(last_out)
