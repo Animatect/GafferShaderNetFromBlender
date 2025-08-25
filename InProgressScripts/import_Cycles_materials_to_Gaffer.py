@@ -145,7 +145,7 @@ def convert_ramp_interpolation(interpolation:str):
     translatdict:dict = {
         "ease":3,
         "cardinal":1,
-        "lineal":0,
+        "linear":0,
         "b_spline":2,
         "constant":4
     }
