@@ -101,5 +101,7 @@
   "ShaderNodeVolumeScatter": "volume_scatter",
   "ShaderNodeWavelength": "wavelength",
   "ShaderNodeWireframe": "wireframe",
-  "ShaderNodeVolumeCoefficients": "Volume_Coefficients"
+  "ShaderNodeVolumeCoefficients": "Volume_Coefficients",
+  "NodeGroupInput":"NodeGroupInput",
+  "NodeGroupOutput":"NodeGroupOutput"
 }

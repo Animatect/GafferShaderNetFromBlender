@@ -246,43 +246,37 @@ def handle_special_cases(node):
 
     return specials
 
-# def safe_socket_name(node, socket):
-#     # handle cases where sockets have repeating names:
-#     if node.bl_idname == "ShaderNodeAddShader":
-#         if 
-#     else:
-#         return socket.name
+############ WALK THE TREE ##############
+### this is where the tracing happens ###
+#########################################
+def walk(socket, material, visited, node_info, links):
+    # Go through all the links of the socket.
+    for link in socket.links:
+        from_node = link.from_node
+        from_socket = link.from_socket
+        to_node = link.to_socket.node
+        to_socket = link.to_socket
+        # Only process not visited nodes
+        if from_node.name not in visited:
+            visited.add(from_node.name)
 
-
-
-def trace_shader_network(material):
-    if not material.use_nodes:
-        print(f"{material.name} has no nodes.")
-        return None
-
-    tree = material.node_tree
-    nodes = tree.nodes
-
-    output_node = next((n for n in nodes if n.type == 'OUTPUT_MATERIAL' and n.is_active_output), None)
-    if output_node is None:
-        print(f"No Material Output found in {material.name}")
-        return None
-
-    
-    visited = set()
-    node_info = {}
-    links = []
-
-    def walk(socket):
-        # Go through all the links of the socket.
-        for link in socket.links:
-            from_node = link.from_node
-            from_socket = link.from_socket
-            to_node = link.to_socket.node
-            to_socket = link.to_socket
-            if from_node.name not in visited:
-                visited.add(from_node.name)
+            ## HANDLE GROUPS
+            if from_node.type == 'GROUP':
+                params = {}
+                group_data = trace_group_network(from_node)
+                node_info[from_node.name] = {
+                    "type": from_node.bl_idname,
+                    "cycles_type": "group",
+                    "params": params,
+                    "location": to_serializable(from_node.location),
+                    "group": group_data   # <--- embed the group subtree
+                }
+            
+            # HANDLE 99.9% of the cases here.
+            else:
+                # Remap the UI name blender is using to a more appropiate technical cycles name, and handle special cases
                 cycles_type = blender_node_to_cycles(from_node)
+                # Handle cases where shader could not be mapped
                 if cycles_type == "unknown":
                     print("On ",material.name, " the node ", from_node.name, " of Type: ", from_node.bl_idname, " mapped to unknown.")
                     return None
@@ -309,23 +303,36 @@ def trace_shader_network(material):
                     "location": to_serializable(from_node.location)
                 }
 
-                # We do the navigation backwards to other nodes connected to this one's inputs
-                for input_socket in from_node.inputs:
-                    if input_socket.is_linked:
-                        walk(input_socket)
+            # We do the navigation backwards to other nodes connected to this one's inputs
+            for input_socket in from_node.inputs:
+                if input_socket.is_linked:
+                    walk(socket=input_socket, material=material, visited=visited, node_info=node_info, links=links)
 
-            # Only add link if the to_node (downstream) is already in visited
-            if to_node.name in visited:
-                links.append({
-                    "from_node": from_node.name,
-                    "from_socket": from_socket.identifier,
-                    "to_node": to_node.name,
-                    "to_socket": to_socket.identifier
-                })
+        # Only add link if the to_node (downstream) is already in visited
+        if to_node.name in visited:
+            links.append({
+                "from_node": from_node.name,
+                "from_socket": from_socket.identifier,
+                "to_node": to_node.name,
+                "to_socket": to_socket.identifier
+            })
+    
+    return "SUCCESS"
+
+def trace_group_network(group_node):
+    group_tree = group_node.node_tree
+    nodes = group_tree.nodes
+
+    output_node = next((n for n in nodes if n.type == 'GROUP_OUTPUT' and n.is_active_output), None)
+    if output_node is None:
+        print(f"No group Output found in {group_node.name}")
+        return None
         
-        return "SUCCESS"
+    visited = set()
+    node_info = {}
+    links = []    
 
-    # Start from Surface / Displacement / Volume
+    # add the output node to the dictionary nodes
     visited.add(output_node.name)
     node_info[output_node.name] = {
         "type": output_node.bl_idname,
@@ -333,11 +340,54 @@ def trace_shader_network(material):
         "params": {},
         "location": list(output_node.location)
     }
-    # Do the node net navigation.
+    # Do the node net navigation, Start from Surface / Displacement / Volume.
+    for socket in output_node.inputs:
+        if socket.is_linked:
+            for link in socket.links:
+                success = walk(socket=link.from_socket, material=group_node, visited=visited, node_info=node_info, links=links)
+                if not success:
+                    print(f"{group_node.name} encountered an error and the Matiral won't be processed")
+                    return None
+    return {
+        group_node.name: {
+            "nodes": node_info,
+            "links": links
+        }
+    }
+
+
+### START THE MAIN TRACE FOR A NETWORK ###
+def trace_shader_network(material):
+    if not material.use_nodes:
+        print(f"{material.name} has no nodes.")
+        return None
+
+    tree = material.node_tree
+    nodes = tree.nodes
+
+    output_node = next((n for n in nodes if n.type == 'OUTPUT_MATERIAL' and n.is_active_output), None)
+    if output_node is None:
+        print(f"No Material Output found in {material.name}")
+        return None
+
+    
+    visited = set()
+    node_info = {}
+    links = []    
+
+    # add the output node to the dictionary nodes
+    visited.add(output_node.name)
+    node_info[output_node.name] = {
+        "type": output_node.bl_idname,
+        "cycles_type": blender_node_to_cycles(output_node),
+        "params": {},
+        "location": list(output_node.location)
+    }
+    # Do the node net navigation, Start from Surface / Displacement / Volume.
     for socket_name in ("Surface", "Displacement", "Volume"):
         if socket_name in output_node.inputs and output_node.inputs[socket_name].is_linked:
             for link in output_node.inputs[socket_name].links:
-                success = walk(link.from_socket)
+                success = walk(socket=link.from_socket, material=material, visited=visited, node_info=node_info, links=links)
                 if not success:
                     print(f"{material.name} encountered an error and the Matiral won't be processed")
                     return None

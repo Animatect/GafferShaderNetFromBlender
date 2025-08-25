@@ -386,7 +386,7 @@ def safe_connect(parent, src_node_name, src_socket_label, dst_node_name, dst_soc
     except Exception as e:
         print(f"❌ Failed to connect {src_node_name}.{src_socket_label} → {dst_node_name}.{dst_socket_label}: {e}")
 
-def create_basecheck_shader(mainShaderbox, paths):
+def create_basecheck_shader(mainShaderbox):
     shassignnode = GafferScene.ShaderAssignment("CheckShader")
     mainShaderbox.addChild(shassignnode)
 
@@ -434,7 +434,7 @@ def load_materials_from_json(json_path, parent):
     with open(json_path, "r") as f:
         material_data = json.load(f)
 
-    paths = [f"/{mat}" for mat in material_data.keys()]
+    # paths = [f"/{mat}" for mat in material_data.keys()]
 
     #Add Master Box
     materials_box = Gaffer.Box("Materials")
@@ -444,7 +444,7 @@ def load_materials_from_json(json_path, parent):
     fallback_box = Gaffer.Box("Fallback_Material")
     materials_box.addChild(fallback_box)
     Gaffer.Metadata.registerValue(fallback_box, 'nodeGadget:color', imath.Color3f(1, 0, 1))
-    shassignnode = create_basecheck_shader(fallback_box, paths)
+    shassignnode = create_basecheck_shader(fallback_box)
     boxInOutHandling(shassignnode)
     last_out = fallback_box["out"]
     # Assign a start value to last_mat_box
