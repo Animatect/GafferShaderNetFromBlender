@@ -57,11 +57,14 @@ def resolve_plug_name(socket_label, gaffer_node, io="parameters", shader_type=No
     candidate = safe_plug_name(socket_label)
     #BoxNodes
     if isBox:
+        print("isbox")
         if shader_type in ["rgb_curves", "vector_curves"]:
             if io == "out":
                 return "value"
             else:
                 return candidate
+        elif shader_type == "group":
+            return candidate
 
     # 1. Try safe plug name directly
     if validIo and io in gaffer_node and candidate in gaffer_node[io]:
@@ -292,7 +295,7 @@ def set_shader_specialCases(shader_node, params_dict, shader_type):
     
 
 def set_shader_parameters(shader_node, params_dict, shader_type):
-    print(f"!!!! 🎈ShaderType: {shader_type} !!!!!")
+    print(f"!!!! 🎱 ShaderType: {shader_type} !!!!!")
     if shader_type in SPECIAL_CASES:
         set_shader_specialCases(shader_node, params_dict, shader_type)
         return 
@@ -340,11 +343,13 @@ def safe_connect(parent, src_node_name, src_socket_label, dst_node_name, dst_soc
         isSrcBox:bool = src_node.typeName() == "Gaffer::Box"
         isDstBox:bool = dst_node.typeName() == "Gaffer::Box"
         # Try to guess shader types from node names
+        print("snn:!: ", src_node['name'].getValue())
         src_shader_type = src_node['name'].getValue()
         dst_shader_type = dst_node['name'].getValue()
         src_plug_name = resolve_plug_name(src_socket_label, src_node, io="out", shader_type=src_shader_type, isBox=isSrcBox)
         dst_plug_name = resolve_plug_name(dst_socket_label, dst_node, io="parameters", shader_type=dst_shader_type, isBox=isDstBox)
-
+        print("src_plug_name::", src_plug_name)
+        print("dst_plug_name::", dst_plug_name)
         if not src_plug_name or not dst_plug_name:
             print(f"❌ Could not resolve {src_node_name}.{src_socket_label} → {dst_node_name}.{dst_socket_label}")
             return
@@ -430,11 +435,16 @@ def sanitize_name(name: str) -> str:
     return safe
 
 #### MAIN LOGIC ####
-def create_material_network(mat_box, material):
+def create_material_network(mat_box, material, isGroup=False):
     nodes = material["nodes"]
     links = material.get("links", [])
+    print("LINKS: \n", links)
     created_nodes = {}
     
+    output_node_name =          ""
+    group_output_node_name =    ""
+    group_input_node_name =     ""
+
     if len(links) == 0:
         return "NOLINKS"
     
@@ -443,10 +453,16 @@ def create_material_network(mat_box, material):
         node_type = node_info.get("type", "")
         shader_type = shader_safe_type(node_info.get("cycles_type", ""))
         params = node_info.get("params", {})
-
         if node_type == "ShaderNodeOutputMaterial":
             output_node_name = node_name
+            continue        
+        if node_type == "NodeGroupOutput":
+            group_output_node_name = node_name
+            continue      
+        if node_type == "NodeGroupInput":
+            group_input_node_name = node_name
             continue
+
 
         safe_name = re.sub(r'\W|^(?=\d)', '_', node_name)
         
@@ -454,6 +470,20 @@ def create_material_network(mat_box, material):
         if node_type == "ShaderNodeGroup":
             group_box = Gaffer.Box(safe_name)
             mat_box.addChild(group_box)
+            created_nodes[node_name] = safe_name
+            
+            group_data = node_info.get("group",{})
+            for group_name, group in group_data.items(): # Only 1 group but we iterate to get the data
+                group_box.setName(group_name)
+
+                 # Safe_connect plug
+                string_plug = Gaffer.StringPlug( "name", Gaffer.Plug.Direction.In, "group", Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic )
+                group_box.addChild(string_plug)
+                Gaffer.Metadata.registerValue(group_box["name"], 'plugValueWidget:type', '')
+                #
+
+                load_group_network(group_box, group)
+            
             
         else:
             shader = GafferCycles.CyclesShader(safe_name)
@@ -477,9 +507,29 @@ def create_material_network(mat_box, material):
         from_socket = link["from_socket"]
         to_socket = link["to_socket"]
         
-        
-        if from_node == output_node_name: # Gaffer has no Output Node.
+
+        # Safety
+        if from_node == output_node_name or from_node == group_output_node_name: # Gaffer has no Output Node.
             continue
+
+        # Group I/O
+        if from_node == group_input_node_name:
+            dst_node = mat_box[created_nodes[to_node]]
+            dst_shader_type = dst_node['name'].getValue()
+            dst_plug_name = resolve_plug_name(to_socket, dst_node, io="parameters", shader_type=dst_shader_type, isBox=False)
+            print(f"dst_plug_name::::{dst_plug_name}")
+            boxInPlug = Gaffer.BoxIO.promote( dst_node["parameters"][dst_plug_name] )
+            groupInput = dst_node["parameters"][dst_plug_name].getInput().node()
+            groupInput["name"].setValue(safe_plug_name(from_socket))            
+        if to_node == group_output_node_name:
+            src_node = mat_box[created_nodes[from_node]]
+            src_shader_type = src_node['name'].getValue()            
+            src_plug_name = resolve_plug_name(from_socket, src_node, io="out", shader_type=src_shader_type, isBox=False)
+            boxOutPlug = Gaffer.BoxIO.promote(src_node['out'][src_plug_name])
+            groupOutput = src_node['out'][src_plug_name].outputs()[0].node()
+            groupOutput["name"].setValue(safe_plug_name(to_socket))
+
+        # Material ShaderAssignments
         if to_node == output_node_name:   # We replace the output node with a Shader Assignment.
             final_shader = created_nodes.get(from_node)
             if final_shader:
@@ -495,6 +545,9 @@ def create_material_network(mat_box, material):
             safe_connect(mat_box, created_nodes[from_node], from_socket, created_nodes[to_node], to_socket)
     
     return shaderAssignments
+def load_group_network(group_box, group):
+    groupAssignment = create_material_network(group_box, group, isGroup=True) # Create the Network
+
 
 # --- Main material loader ---
 def load_materials_from_json(json_path, parent):
