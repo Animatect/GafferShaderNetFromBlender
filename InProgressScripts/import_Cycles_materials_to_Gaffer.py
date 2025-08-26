@@ -57,7 +57,6 @@ def resolve_plug_name(socket_label, gaffer_node, io="parameters", shader_type=No
     candidate = safe_plug_name(socket_label)
     #BoxNodes
     if isBox:
-        print("isbox")
         if shader_type in ["rgb_curves", "vector_curves"]:
             if io == "out":
                 return "value"
@@ -343,13 +342,10 @@ def safe_connect(parent, src_node_name, src_socket_label, dst_node_name, dst_soc
         isSrcBox:bool = src_node.typeName() == "Gaffer::Box"
         isDstBox:bool = dst_node.typeName() == "Gaffer::Box"
         # Try to guess shader types from node names
-        print("snn:!: ", src_node['name'].getValue())
         src_shader_type = src_node['name'].getValue()
         dst_shader_type = dst_node['name'].getValue()
         src_plug_name = resolve_plug_name(src_socket_label, src_node, io="out", shader_type=src_shader_type, isBox=isSrcBox)
         dst_plug_name = resolve_plug_name(dst_socket_label, dst_node, io="parameters", shader_type=dst_shader_type, isBox=isDstBox)
-        print("src_plug_name::", src_plug_name)
-        print("dst_plug_name::", dst_plug_name)
         if not src_plug_name or not dst_plug_name:
             print(f"❌ Could not resolve {src_node_name}.{src_socket_label} → {dst_node_name}.{dst_socket_label}")
             return
@@ -474,7 +470,7 @@ def create_material_network(mat_box, material, isGroup=False):
             
             group_data = node_info.get("group",{})
             for group_name, group in group_data.items(): # Only 1 group but we iterate to get the data
-                group_box.setName(group_name)
+                group_box.setName(sanitize_name(group_name))
 
                  # Safe_connect plug
                 string_plug = Gaffer.StringPlug( "name", Gaffer.Plug.Direction.In, "group", Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic )
