@@ -516,14 +516,14 @@ def create_material_network(mat_box, material, isGroup=False):
             print(f"dst_plug_name::::{dst_plug_name}")
             boxInPlug = Gaffer.BoxIO.promote( dst_node["parameters"][dst_plug_name] )
             groupInput = dst_node["parameters"][dst_plug_name].getInput().node()
-            groupInput["name"].setValue(safe_plug_name(from_socket))            
+            groupInput["name"].setValue(safe_plug_name(from_socket))
         if to_node == group_output_node_name:
             src_node = mat_box[created_nodes[from_node]]
             src_shader_type = src_node['name'].getValue()            
             src_plug_name = resolve_plug_name(from_socket, src_node, io="out", shader_type=src_shader_type, isBox=False)
             boxOutPlug = Gaffer.BoxIO.promote(src_node['out'][src_plug_name])
-            groupOutput = src_node['out'][src_plug_name].outputs()[0].node()
-            groupOutput["name"].setValue(safe_plug_name(to_socket))
+            # Change plug name
+            boxOutPlug.getInput().parent()["name"].setValue(safe_plug_name(to_socket))
 
         # Material ShaderAssignments
         if to_node == output_node_name:   # We replace the output node with a Shader Assignment.
