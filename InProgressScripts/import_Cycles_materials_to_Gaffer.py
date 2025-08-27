@@ -434,8 +434,8 @@ def sanitize_name(name: str) -> str:
 def create_material_network(mat_box, material, isGroup=False):
     nodes = material["nodes"]
     links = material.get("links", [])
-    print("LINKS: \n", links)
     created_nodes = {}
+    groups = []
     
     output_node_name =          ""
     group_output_node_name =    ""
@@ -477,8 +477,9 @@ def create_material_network(mat_box, material, isGroup=False):
                 group_box.addChild(string_plug)
                 Gaffer.Metadata.registerValue(group_box["name"], 'plugValueWidget:type', '')
                 #
-
-                load_group_network(group_box, group)
+                # process group
+                groupAssignment = load_group_network(group_box, group) # returns a dict with the group and the map to rename sockets
+                groups.append(groupAssignment)
             
             
         else:
@@ -539,10 +540,26 @@ def create_material_network(mat_box, material, isGroup=False):
         # connect input and outputs for this node
         if from_node in created_nodes and to_node in created_nodes:
             safe_connect(mat_box, created_nodes[from_node], from_socket, created_nodes[to_node], to_socket)
+        
+    # return remap data
+    if isGroup:
+        groupAssignment = {
+            "group":mat_box.getName(),
+            "socketmap": material["socket_map"]
+        }
+        return groupAssignment
+    else:        
+        # rename group sockets from their unique identifiers after all has been connected in the tree containing the group.
+        if len(groups)>0:
+            for grp in groups:
+                for identifier, name in grp["socketmap"].items():              
+                    mat_box[grp["group"]][safe_plug_name(identifier)].setName(sanitize_name(name))
     
     return shaderAssignments
+
 def load_group_network(group_box, group):
     groupAssignment = create_material_network(group_box, group, isGroup=True) # Create the Network
+    return groupAssignment
 
 
 # --- Main material loader ---
