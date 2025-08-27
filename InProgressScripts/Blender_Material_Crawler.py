@@ -269,7 +269,7 @@ def walk(socket, material, visited, node_info, links):
                     "cycles_type": "group",
                     "params": params,
                     "location": to_serializable(from_node.location),
-                    "group": group_data   # <--- embed the group subtree
+                    "group": group_data   # embed the group subtree
                 }
             
             # HANDLE 99.9% of the cases here.
@@ -348,10 +348,17 @@ def trace_group_network(group_node):
                 if not success:
                     print(f"{group_node.name} encountered an error and the Matiral won't be processed")
                     return None
+    # Create a map for sockets that goes from identifier to name.
+    socketmap = {}
+    for input in group_node.inputs:
+        socketmap.update({input.identifier : input.name})
+    for output in group_node.outputs:
+        socketmap.update({output.identifier : output.name})
     return {
         group_node.name: {
             "nodes": node_info,
-            "links": links
+            "links": links,
+            "socket_map":socketmap
         }
     }
 
