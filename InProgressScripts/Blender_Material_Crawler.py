@@ -262,7 +262,11 @@ def walk(socket, material, visited, node_info, links):
 
             ## HANDLE GROUPS
             if from_node.type == 'GROUP':
-                params = {}
+                params = {
+                    inp.identifier: to_serializable(inp)
+                    for inp in from_node.inputs
+                    if hasattr(inp, "default_value")
+                }
                 group_data = trace_group_network(from_node)
                 node_info[from_node.name] = {
                     "type": from_node.bl_idname,
@@ -288,7 +292,6 @@ def walk(socket, material, visited, node_info, links):
                     params = {
                         inp.identifier: to_serializable(inp)
                         for inp in from_node.inputs
-                        #if not inp.is_linked and hasattr(inp, "default_value")
                         if hasattr(inp, "default_value")
                     }
                     params.update(extract_node_extras(from_node))

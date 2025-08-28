@@ -430,7 +430,11 @@ def sanitize_name(name: str) -> str:
         safe = "_" + safe
     return safe
 
-#### MAIN LOGIC ####
+
+            ####################
+            #### MAIN LOGIC ####
+            ####################
+
 def create_material_network(mat_box, material, isGroup=False):
     nodes = material["nodes"]
     links = material.get("links", [])
@@ -479,6 +483,19 @@ def create_material_network(mat_box, material, isGroup=False):
                 #
                 # process group
                 groupAssignment = load_group_network(group_box, group) # returns a dict with the group and the map to rename sockets
+                for param_label, value in params.items():
+                    grp_plug_name = safe_plug_name(param_label)
+                    if group_box.getChild(grp_plug_name):
+                        grp_plug = group_box[grp_plug_name]
+                        try:
+                            grp_plug.setValue(process_values(value))
+                            print(f"🔧 Set {group_box.getName()}.{grp_plug_name} = {value} => {value}")
+                        except Exception as e:
+                            print(f"❌ Failed to set {group_box.getName()}.{grp_plug_name}, value={value}:\n {e}")
+                    else:
+                        print(f"⚠️ Could not resolve param '{param_label}' for group type '{group_name}'")
+                        continue
+                    
                 groups.append(groupAssignment)
             
             
@@ -488,8 +505,6 @@ def create_material_network(mat_box, material, isGroup=False):
             shader.shaderType = shader_type
             mat_box.addChild(shader)
             created_nodes[node_name] = safe_name
-
-            # print(f"➕ Created shader node: {node_name} as {safe_name}")
             set_shader_parameters(shader, params, shader_type)
 
     ### LINKS HANDLING ###
