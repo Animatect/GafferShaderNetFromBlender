@@ -310,12 +310,14 @@ def walk(socket, material, visited, node_info, links):
 
         # Only add link if the to_node (downstream) is already in visited
         if to_node.name in visited:
-            links.append({
+            linkdict = {
                 "from_node": from_node.name,
                 "from_socket": from_socket.identifier,
                 "to_node": to_node.name,
                 "to_socket": to_socket.identifier
-            })
+            }
+            if not linkdict in links:
+                links.append(linkdict)
     
     return "SUCCESS"
 
