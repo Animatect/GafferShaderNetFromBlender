@@ -2,51 +2,61 @@ import bpy
 import json
 import os
 
+def assign_mat_id(obj):
+    mesh = obj.data
+    hasmultiplemat:bool = False
+
+    # Create the attribute if it doesn't already exist
+    if "mat_index" not in mesh.attributes:
+        mesh.attributes.new(name="mat_index", type='INT', domain='FACE')
+
+    # Access the attribute data
+    attr = mesh.attributes["mat_index"].data
+    
+    if len(attr)>0:
+        # Assign the material index to each face
+        for i, poly in enumerate(mesh.polygons):
+            attr[i].value = poly.material_index
+        
+        hasmultiplemat = len(attr) > 1    
+
+    return hasmultiplemat
+    
+
 def build_usd_path(obj, root="/root"):
     """Recursively build a USD-like path for an object based on Blender parent hierarchy."""
-    path = root
     if obj.parent:
-        path = build_usd_path(obj.parent, root)
-    return path + "/" + obj.name
+        return build_usd_path(obj.parent, root) + "/" + obj.name
+    return root + "/" + obj.name
 
-def export_usd_like_json(filepath):
-    """Export scene hierarchy as JSON with USD-style paths and material attributes."""
-    paths = {}
+def export_material_hierarchy_json(filepath):
+    data = {}
 
     for obj in bpy.context.scene.objects:
+        if obj.type != 'MESH':
+            continue
+
         usd_path = build_usd_path(obj)
-        obj_entry = {"type": obj.type}
+        has_multiple_mat = assign_mat_id(obj)
 
-        if obj.type == 'MESH':
-            mesh = obj.data
-            ### Material Split ###
-            material_count = len(obj.material_slots)
+        # Build material index → name mapping
+        mat_by_index = {}
+        for idx, slot in enumerate(obj.material_slots):
+            if slot.material:
+                mat_by_index[idx] = slot.material.name
 
-            if material_count > 1:  # only worth storing if multiple materials
-                # Ensure mat_index attribute exists on mesh
-                if "mat_index" not in mesh.attributes:
-                    mesh.attributes.new(name="mat_index", type='INT', domain='FACE')
+        data[obj.name] = {
+            "path": usd_path,
+            "mat_by_index": mat_by_index
+        }
 
-                attr = mesh.attributes["mat_index"].data
-
-                # Assign mat indices per face
-                for i, poly in enumerate(mesh.polygons):
-                    attr[i].value = poly.material_index
-
-                # Collect mat_index mapping into JSON
-                obj_entry["attributes"] = {
-                    "mat_index": [poly.material_index for poly in mesh.polygons]
-                }
-
-        paths[usd_path] = obj_entry
-
-    # Write out
     with open(filepath, "w") as f:
-        json.dump(paths, f, indent=4)
-    print(f"Exported hierarchy to {filepath}")
+        json.dump(data, f, indent=4)
+
+    print(f"Exported material hierarchy JSON to {filepath}")
 
 
-# Example usage: saves JSON next to the .blend
+# Example usage: save next to blend file
 folder = "C:\\GitHub\\GafferShaderNetFromBlender\\InProgressScripts\\testFiles\\"
 output_path = os.path.join(folder, "scene_hierarchy.json")
-export_usd_like_json(output_path)
+export_material_hierarchy_json(output_path)
