@@ -434,7 +434,7 @@ def sanitize_name(name: str) -> str:
             ####################
             #### MAIN LOGIC ####
             ####################
-
+# This is a recursive function that creates a network of shaders, could be a material or the shaders inside a group
 def create_material_network(mat_box, material, isGroup=False):
     nodes = material["nodes"]
     links = material.get("links", [])
@@ -547,6 +547,13 @@ def create_material_network(mat_box, material, isGroup=False):
                 sh_assign = GafferScene.ShaderAssignment(f"ShaderAssign_{to_socket}")
                 mat_box.addChild(sh_assign)
                 sh_assign["shader"].setInput(mat_box[final_shader]["out"])
+                # Expose filter
+                if not mat_box.getChild('filter_in'):
+                    boxFilterPlug = Gaffer.BoxIO.promote(sh_assign["filter"])
+                    boxFilterPlug.outputs()[0].parent().setName("filter_in")
+                else:
+                    sh_assign['filter'].setInput(mat_box['filter_in']['out'])
+                # Collect Assignemt to have surface, displacement and volume in one collection to parse, order and connect later
                 shaderAssignments.append(sh_assign)
                 print(f"🎯 Created ShaderAssignment and connected final shader {final_shader}")
             continue
@@ -575,14 +582,8 @@ def load_group_network(group_box, group):
     groupAssignment = create_material_network(group_box, group, isGroup=True) # Create the Network
     return groupAssignment
 
-
-# --- Main material loader ---
-def load_materials_from_json(json_path, parent):
-    with open(json_path, "r") as f:
-        material_data = json.load(f)
-
-    # paths = [f"/{mat}" for mat in material_data.keys()]
-
+#### GET THE MATERIALS INTO THE GAFFER SCENE ####
+def process_materials(material_data:dict, parent):
     #Add Master Box
     materials_box = Gaffer.Box("Materials")
     parent.addChild(materials_box)
@@ -638,6 +639,11 @@ def load_materials_from_json(json_path, parent):
         # Connect in/out for box chaining
         mat_box["in"].setInput(last_out)
         last_out = mat_box["out"]
+        # Connect the filter node
+        mat_filter = GafferScene.PathFilter("PF_"+mat_name)
+        materials_box.addChild( mat_filter )
+        mat_box['filter'].setInput(mat_filter['out'])
+
     
     #Handle InOut for master box
     if mat_box.getChild("out"):
@@ -645,9 +651,30 @@ def load_materials_from_json(json_path, parent):
         last_mat_box = mat_box
     else:
         boxInOutHandling(fallback_box, last_mat_box)
+    
+    return materials_box
+
+
+#### ASSIGN THE CREATED MATERIALS TO MESHES ####
+def assign_materials(materials_box, assignment_data:dict):
+    pass
+
+# --- Main material loader ---
+def load_materials_from_json(json_path, parent):
+    with open(json_path, "r") as f:
+        data = json.load(f)
+
+    material_data = data["materials"]
+    assignment_data = data["hierarchy"]
+    # paths = [f"/{mat}" for mat in material_data.keys()]
+    materials_box = process_materials(material_data, parent)
+    # if materials_box:
+    #     assign_materials(materials_box, assignment_data)
+
+    
 
 
 # Usage:
 # Assuming you're running this in a Gaffer script editor or binding context
-json_path = r"C:\GitHub\GafferShaderNetFromBlender\InProgressScripts\testFiles\materialNet.json"
+json_path = r"C:\GitHub\GafferShaderNetFromBlender\InProgressScripts\testFiles\combined_export.json"
 load_materials_from_json(json_path, root)  # or a Gaffer.Box() if building modular
