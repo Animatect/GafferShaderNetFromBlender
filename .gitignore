@@ -4,3 +4,6 @@
 InProgressScripts/testFiles/materialNet.json
 InProgressScripts/CheckFiles/CheckTypeConversion.blend
 InProgressScripts/testFiles/scene_hierarchy.json
+InProgressScripts/CheckFiles/HierarchyCheck.blend
+*.usdc
+*.hdr

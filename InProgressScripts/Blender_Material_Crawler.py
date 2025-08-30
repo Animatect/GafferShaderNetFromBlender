@@ -4,12 +4,21 @@ import json
 import os
 
 
-script_dir = r"C:\GitHub\GafferShaderNetFromBlender\InProgressScripts"#os.path.dirname(os.path.abspath(__file__))
-mapping_path = os.path.join(script_dir, "blender_shader_class_to_cycles_name.json")
+
 
 class MaterialExporter:
-    def __init__(self, mapping_path):
+    def __init__(self):
+        ######################
+        #####  UI_STUFF  #####
+        ######################
+        self.process_selected_only = False
+        
+        #####################
+        #####  MAPPING  #####
+        #####################
         """Initialize with a path to the Blender→Cycles shader map JSON file."""
+        script_dir = r"C:\GitHub\GafferShaderNetFromBlender\InProgressScripts"#os.path.dirname(os.path.abspath(__file__))
+        mapping_path = os.path.join(script_dir, "blender_shader_class_to_cycles_name.json")
         with open(mapping_path, "r") as f:
             self.BLENDER_TO_CYCLES_SHADER_MAP = json.load(f)
 
@@ -416,23 +425,33 @@ class MaterialExporter:
     #########################################
     #-------------EXPORT ENTRY--------------#
     #########################################
-
-    def export_all(self, filepath):
+    def get_serialized_dict(self) -> dict:
         all_materials_data = {}
-        for mat in bpy.data.materials:
+        mat_iter_collection = bpy.data.materials
+        if self.process_selected_only:
+            # change mat_iter_collection for a collection of selected only.
+            pass
+        for mat in mat_iter_collection:
             data = self.trace_shader_network(mat)
             if data:
                 all_materials_data.update(data)
+
+        return all_materials_data
+        
+
+
+    def export_all(self, filepath):
+        serialized_dict = self.get_serialized_dict()
         with open(filepath, 'w') as f:
-            json.dump(all_materials_data, f, indent=2)
+            json.dump(serialized_dict, f, indent=2)
         print(f"\n✅ Shader network exported to {filepath}")
 
 
 # Example usage
 if __name__ == "__main__":
     script_dir = r"C:\GitHub\GafferShaderNetFromBlender\InProgressScripts"
-    mapping_path = os.path.join(script_dir, "blender_shader_class_to_cycles_name.json")
+    # mapping_path = os.path.join(script_dir, "blender_shader_class_to_cycles_name.json")
     output_path = os.path.join(script_dir, "testFiles", "materialNet.json")
 
-    exporter = MaterialExporter(mapping_path)
+    exporter = MaterialExporter()
     exporter.export_all(output_path)

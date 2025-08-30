@@ -300,6 +300,9 @@
   "normal_map": {
     "uv_map":"attribute"
   },
+  "gabor_texture":{
+    "gabor_type":"type"
+  },
   "toon_bsdf": {},
   "glossy_bsdf": {},
   "refraction_bsdf": {},

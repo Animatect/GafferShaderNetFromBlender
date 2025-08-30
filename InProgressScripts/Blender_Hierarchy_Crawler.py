@@ -2,42 +2,44 @@ import bpy
 import json
 import os
 
-def assign_mat_id(obj):
-    mesh = obj.data
-    hasmultiplemat:bool = False
 
-    # Create the attribute if it doesn't already exist
-    if "mat_index" not in mesh.attributes:
-        mesh.attributes.new(name="mat_index", type='INT', domain='FACE')
+class MaterialHierarchyExporter:
+    def __init__(self, root="/root"):
+        self.root = root
+        self.process_selected_only = False
 
-    # Access the attribute data
-    attr = mesh.attributes["mat_index"].data
-    
-    if len(attr)>0:
-        # Assign the material index to each face
-        for i, poly in enumerate(mesh.polygons):
-            attr[i].value = poly.material_index
+    def assign_mat_id(self, obj):
+        # assign ID attr to meshes to split in Gaffer
+        mesh = obj.data
+        hasmultiplemat:bool = False
+
+        # Create the attribute if it doesn't already exist
+        if "mat_index" not in mesh.attributes:
+            mesh.attributes.new(name="mat_index", type='INT', domain='FACE')
+
+        # Access the attribute data
+        attr = mesh.attributes["mat_index"].data
         
-        hasmultiplemat = len(attr) > 1    
+        if len(obj.material_slots)>0:
+            # Assign the material index to each face
+            for i, poly in enumerate(mesh.polygons):
+                attr[i].value = poly.material_index
+            print("attr: ", attr)
+            hasmultiplemat = len(obj.material_slots) > 1
 
-    return hasmultiplemat
-    
+        return hasmultiplemat
+        
 
-def build_usd_path(obj, root="/root"):
-    """Recursively build a USD-like path for an object based on Blender parent hierarchy."""
-    if obj.parent:
-        return build_usd_path(obj.parent, root) + "/" + obj.name
-    return root + "/" + obj.name
+    def build_usd_path(self, obj):
+        # Recursively build a USD-like path for an object
+        if obj.parent:
+            return self.build_usd_path(obj.parent) + "/" + obj.name + "/" +obj.data.name
+        return self.root + "/" + obj.name
 
-def export_material_hierarchy_json(filepath):
-    data = {}
-
-    for obj in bpy.context.scene.objects:
-        if obj.type != 'MESH':
-            continue
-
-        usd_path = build_usd_path(obj)
-        has_multiple_mat = assign_mat_id(obj)
+    def process_object(self, obj):
+        # Process a single mesh object
+        usd_path = self.build_usd_path(obj)
+        has_multiple_mat = self.assign_mat_id(obj)
 
         # Build material index → name mapping
         mat_by_index = {}
@@ -45,18 +47,42 @@ def export_material_hierarchy_json(filepath):
             if slot.material:
                 mat_by_index[idx] = slot.material.name
 
-        data[obj.name] = {
-            "path": usd_path,
-            "mat_by_index": mat_by_index
+        dataobj = {
+            obj.name:{
+                "path": usd_path,
+                "mat_by_index": mat_by_index,
+                "has_multiple_mat": has_multiple_mat
+            }
         }
 
-    with open(filepath, "w") as f:
-        json.dump(data, f, indent=4)
+        return dataobj
 
-    print(f"Exported material hierarchy JSON to {filepath}")
+    def get_serialized_dict(self) -> dict:
+         # Export the hierarchy of all mesh objects to JSON
+        data = {}  # reset before exporting
+        mat_iter_collection = bpy.context.scene.objects
+        if self.process_selected_only:
+            # set mat_iter_collection to an iterated list of selected objects
+            pass
+        for obj in mat_iter_collection:
+            if obj.type == 'MESH':
+                dataobj = self.process_object(obj)
+                data.update(dataobj)
+        return data
+
+    def export(self, filepath):       
+        serialized_dict = self.get_serialized_dict()
+
+        with open(filepath, "w") as f:
+            json.dump(serialized_dict, f, indent=4)
+
+        print(f"Exported material hierarchy JSON to {filepath}")
 
 
 # Example usage: save next to blend file
-folder = "C:\\GitHub\\GafferShaderNetFromBlender\\InProgressScripts\\testFiles\\"
-output_path = os.path.join(folder, "scene_hierarchy.json")
-export_material_hierarchy_json(output_path)
+if __name__ == "__main__":
+    folder = "C:\\GitHub\\GafferShaderNetFromBlender\\InProgressScripts\\testFiles\\"
+    output_path = os.path.join(folder, "scene_hierarchy.json")
+
+    exporter = MaterialHierarchyExporter(root="/root")
+    exporter.export(output_path)
