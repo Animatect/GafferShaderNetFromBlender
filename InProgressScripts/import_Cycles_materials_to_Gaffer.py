@@ -657,7 +657,36 @@ def process_materials(material_data:dict, parent):
 
 #### ASSIGN THE CREATED MATERIALS TO MESHES ####
 def assign_materials(materials_box, assignment_data:dict):
-    pass
+    for k, v in assignment_data.items():
+        objName = k
+        path = v["path"]
+        # Split into components and sanitise each
+        components = path.split("/")
+        sanitised = [sanitize_name(c) for c in components if c]
+        # Rebuild into a valid Gaffer-style path
+        gafferPath = "/" + "/".join(sanitised)
+
+        materialname = sanitize_name(v["mat_by_index"]["0"])
+        multimat = v["has_multiple_mat"]
+        if multimat:
+            # split geometry
+            pass
+        try:
+            print(f"Path: {gafferPath} ::: Material: {materialname}")
+            material_node = materials_box[materialname]
+            filter_node = material_node['filter'].getInput().parent()
+            filter_paths = filter_node["paths"].getValue()
+            new_filter_paths = IECore.StringVectorData( filter_paths )
+            new_filter_paths.append( gafferPath )
+            filter_node["paths"].setValue( new_filter_paths )
+
+        except Exception as e:
+            print(f"💀 Failed to Assign {materialname} to {objName} on the path {path}:\n {e}")
+            
+
+
+
+
 
 # --- Main material loader ---
 def load_materials_from_json(json_path, parent):
@@ -668,8 +697,8 @@ def load_materials_from_json(json_path, parent):
     assignment_data = data["hierarchy"]
     # paths = [f"/{mat}" for mat in material_data.keys()]
     materials_box = process_materials(material_data, parent)
-    # if materials_box:
-    #     assign_materials(materials_box, assignment_data)
+    if materials_box:
+        assign_materials(materials_box, assignment_data)
 
     
 
