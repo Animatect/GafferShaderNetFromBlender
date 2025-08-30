@@ -3,7 +3,7 @@ import json
 import os
 
 
-class MaterialHierarchyExporter:
+class ScheneHierarchyExporter:
     def __init__(self, root="/root"):
         self.root = root
         self.process_selected_only = False
@@ -57,7 +57,7 @@ class MaterialHierarchyExporter:
 
         return dataobj
 
-    def get_serialized_dict(self) -> dict:
+    def get_serialized_hierarchy_dict(self) -> dict:
          # Export the hierarchy of all mesh objects to JSON
         data = {}  # reset before exporting
         mat_iter_collection = bpy.context.scene.objects
@@ -71,7 +71,7 @@ class MaterialHierarchyExporter:
         return data
 
     def export(self, filepath):       
-        serialized_dict = self.get_serialized_dict()
+        serialized_dict = self.get_serialized_hierarchy_dict()
 
         with open(filepath, "w") as f:
             json.dump(serialized_dict, f, indent=4)

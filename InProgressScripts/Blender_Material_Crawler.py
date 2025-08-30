@@ -425,7 +425,7 @@ class MaterialExporter:
     #########################################
     #-------------EXPORT ENTRY--------------#
     #########################################
-    def get_serialized_dict(self) -> dict:
+    def get_serialized_mat_dict(self) -> dict:
         all_materials_data = {}
         mat_iter_collection = bpy.data.materials
         if self.process_selected_only:
@@ -441,7 +441,7 @@ class MaterialExporter:
 
 
     def export_all(self, filepath):
-        serialized_dict = self.get_serialized_dict()
+        serialized_dict = self.get_serialized_mat_dict()
         with open(filepath, 'w') as f:
             json.dump(serialized_dict, f, indent=2)
         print(f"\n✅ Shader network exported to {filepath}")

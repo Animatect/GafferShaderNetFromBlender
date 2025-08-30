@@ -7,3 +7,4 @@ InProgressScripts/testFiles/scene_hierarchy.json
 InProgressScripts/CheckFiles/HierarchyCheck.blend
 *.usdc
 *.hdr
+InProgressScripts/testFiles/combined_export.json
