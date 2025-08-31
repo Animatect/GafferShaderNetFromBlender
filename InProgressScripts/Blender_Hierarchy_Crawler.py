@@ -77,7 +77,7 @@ class ScheneHierarchyExporter:
             # set mat_iter_collection to an iterated list of selected objects
             pass
         for obj in mat_iter_collection:
-            if obj.type == 'MESH':
+            if obj.type == 'MESH' and len(obj.material_slots) > 0:
                 dataobj = self.process_object(obj)
                 data.update(dataobj)
         return data
