@@ -30,11 +30,22 @@ class ScheneHierarchyExporter:
         return hasmultiplemat
         
 
-    def build_usd_path(self, obj):
-        # Recursively build a USD-like path for an object
+    def build_usd_path(self, obj, include_data=False):
+        # Build parent path first (no data names in recursion)
         if obj.parent:
-            return self.build_usd_path(obj.parent) + "/" + obj.name + "/" +obj.data.name
-        return self.root + "/" + obj.name
+            base = self.build_usd_path(obj.parent, include_data=False)
+        else:
+            base = self.root
+
+        # Append just this object's name
+        path = f"{base}/{obj.name}"
+
+        # Optionally append the mesh datablock name (only for the leaf)
+        if include_data and obj.type == 'MESH' and obj.data:
+            path = f"{path}/{obj.data.name}"
+
+        return path
+
 
     def process_object(self, obj):
         # Process a single mesh object
