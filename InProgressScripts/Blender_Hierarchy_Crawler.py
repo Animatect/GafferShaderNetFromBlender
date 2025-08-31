@@ -30,7 +30,7 @@ class ScheneHierarchyExporter:
         return hasmultiplemat
         
 
-    def build_usd_path(self, obj, include_data=False):
+    def build_usd_path(self, obj, include_data=True):
         # Build parent path first (no data names in recursion)
         if obj.parent:
             base = self.build_usd_path(obj.parent, include_data=False)
@@ -39,6 +39,7 @@ class ScheneHierarchyExporter:
 
         # Append just this object's name
         path = f"{base}/{obj.name}"
+
 
         # Optionally append the mesh datablock name (only for the leaf)
         if include_data and obj.type == 'MESH' and obj.data:
@@ -95,5 +96,5 @@ if __name__ == "__main__":
     folder = "C:\\GitHub\\GafferShaderNetFromBlender\\InProgressScripts\\testFiles\\"
     output_path = os.path.join(folder, "scene_hierarchy.json")
 
-    exporter = MaterialHierarchyExporter(root="/root")
+    exporter = ScheneHierarchyExporter(root="/root")
     exporter.export(output_path)

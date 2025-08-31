@@ -655,6 +655,44 @@ def process_materials(material_data:dict, parent):
     return materials_box
 
 
+def insertPrimitiveVariables(materials_box, varName="uniqueobj"):
+    # Make the PrimitiveVariables node
+    pv = GafferScene.PrimitiveVariables()
+    pv.setName("AddUniqueObjVar")
+
+    # Add the variable
+    pv["primitiveVariables"].addChild(
+        Gaffer.NameValuePlug(
+            varName,
+            Gaffer.StringPlug(
+                "value",
+                Gaffer.Plug.Direction.In,
+                "${scene:path}"
+            ),
+            True,
+            varName + "Plug"
+        )
+    )
+
+    # Figure out what is connected to the target node's "in"
+    targetIn = materials_box["in"]
+    existingInput = targetIn.getInput()
+
+    if existingInput is None:
+        # Nothing connected yet: just connect pv["out"] to target["in"]
+        targetIn.setInput(pv["out"])
+    else:
+        # Already connected: insert pv between them
+        # 1. Connect pv["in"] to whatever was driving the target
+        pv["in"].setInput(existingInput)
+        # 2. Connect pv["out"] into the target
+        targetIn.setInput(pv["out"])
+
+    # Add pv to the script so it stays alive
+    materials_box.parent().addChild(pv)
+
+    return pv
+
 #### ASSIGN THE CREATED MATERIALS TO MESHES ####
 def assign_materials(materials_box, assignment_data:dict):
     for k, v in assignment_data.items():
@@ -698,6 +736,7 @@ def load_materials_from_json(json_path, parent):
     # paths = [f"/{mat}" for mat in material_data.keys()]
     materials_box = process_materials(material_data, parent)
     if materials_box:
+        pv = insertPrimitiveVariables(materials_box)
         assign_materials(materials_box, assignment_data)
 
     
