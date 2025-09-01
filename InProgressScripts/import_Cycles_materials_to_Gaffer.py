@@ -792,7 +792,7 @@ def assign_materials(materials_box, assignment_data:dict):
     last_output = None
 
     for k, v in assignment_data.items():
-        objName = k
+        objName = sanitize_name(k)
         path = v["path"]
         # Split into components and sanitise each
         components = path.split("/")
@@ -806,6 +806,8 @@ def assign_materials(materials_box, assignment_data:dict):
             # split geometry
             splitter_data = buildMatSplitNetwork(splits_box, objName, v, matbox_input)
             split_box = splitter_data["object_box"]
+            if last_output:
+                split_box['in'].setInput(last_output)
             last_output = split_box['out']
             if not first_input:
                 first_input = split_box['in']
