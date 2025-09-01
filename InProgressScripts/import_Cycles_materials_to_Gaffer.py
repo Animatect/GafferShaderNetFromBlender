@@ -392,22 +392,26 @@ def create_basecheck_shader(mainShaderbox):
     mainShaderbox.addChild(shassignnode)
 
     checkMat = GafferCycles.CyclesShader("CheckMaterial")
-    mainShaderbox.addChild(checkMat)
     checkMat.loadShader("emission")
+    mainShaderbox.addChild(checkMat)
     checkMat["parameters"]["color"].setValue(imath.Color3f(1, 0, 1))  # Magenta
     #Gaffer.Metadata.registerValue(checkMat, 'nodeGadget:color', imath.Color3f(1, 0, 1))
+    lightPath = GafferCycles.CyclesShader("light_path")
+    lightPath.loadShader("light_path")
+    mainShaderbox.addChild(lightPath)
+    checkMat['parameters']['strength'].setInput(lightPath['out']['is_camera_ray'])    
 
     shassignnode['shader'].setInput(checkMat['out'])
 
-    pathFilter = GafferScene.PathFilter("CheckerNodes_pathFilter")
-    mainShaderbox.addChild(pathFilter)
-    shassignnode['filter'].setInput(pathFilter["out"])
+    # pathFilter = GafferScene.PathFilter("CheckerNodes_pathFilter")
+    # mainShaderbox.addChild(pathFilter)
+    # shassignnode['filter'].setInput(pathFilter["out"])
 
-    newpaths = IECore.StringVectorData()
+    # newpaths = IECore.StringVectorData()
     # for v in paths:
     #     newpaths.append(v if v.endswith("/...") else v.rstrip("/") + "/...")
-    newpaths.append('*')
-    pathFilter["paths"].setValue(newpaths)
+    # newpaths.append('*')
+    # pathFilter["paths"].setValue(newpaths)
 
     return shassignnode
 
@@ -693,8 +697,100 @@ def insertPrimitiveVariables(materials_box, varName="uniqueobj"):
 
     return pv
 
+def buildMatSplitNetwork(parentBox, objName, data_dict:dict, existingInput):
+    lastOutput = None
+    firstInput = None
+    new_paths = {}
+
+    objPath = data_dict["path"]
+    matByIndex = data_dict["mat_by_index"]
+    
+    # Make a Box to contain the split network
+    objBox = Gaffer.Box()
+    objBox.setName(objName + "_MatSplitBox")
+    parentBox.addChild(objBox)
+
+    # PathFilter
+    pf = GafferScene.PathFilter()
+    pf.setName(objName + "_Filter")
+    pf["paths"].setValue(IECore.StringVectorData([objPath]))
+    objBox.addChild(pf)
+
+    # MeshSplit
+    ms = GafferScene.MeshSplit()
+    ms.setName(objName + "_MeshSplit")
+    if firstInput and lastOutput:
+        ms["in"].setInput(lastOutput)
+    else:
+        firstInput = ms["in"]
+    ms["filter"].setInput(pf["out"])
+    ms["segment"].setValue("mat_index")
+    objBox.addChild(ms)
+
+    lastOutput = ms["out"]
+
+    # After the split, we’ll get new children per material index.
+    # To rename them, use a SceneRename node with expressions.
+    for idx, matName in matByIndex.items():
+        matName = sanitize_name(matName)
+        rn = GafferScene.Rename()
+        rn.setName(f"{objName}_{matName}_Rename")
+        rn["in"].setInput(lastOutput)
+
+        # PathFilter for the split child
+        childFilter = GafferScene.PathFilter()
+        childFilter.setName(f"{objName}_{matName}_Filter")
+        # This assumes MeshSplit names children "0", "1", "2"...
+        childPath = objPath + "/" + idx
+
+        childFilter["paths"].setValue(IECore.StringVectorData([childPath]))
+        objBox.addChild(childFilter)
+
+        rn["filter"].setInput(childFilter["out"])
+        new_name = objName + "_" + matName
+        new_path = objPath + "/" + new_name
+        rn["name"].setValue(new_name)
+        objBox.addChild(rn)        
+
+        # Save the Data.
+        new_paths.update({new_path : matName})
+
+        lastOutput = rn["out"]
+
+    # Finally connect last rename out to the Box out
+    boxInOutHandling(firstInput.parent(), lastOutput.parent())
+
+    returndict:dict = {
+        "object_box" : objBox,
+        "data" : new_paths
+    }
+
+    return returndict
+
+def assign_material(materials_box, materialname, hierarchy_path, objName):
+    try:
+        print(f"Path: {hierarchy_path} ::: Material: {materialname}")
+        material_node = materials_box[materialname]
+        filter_node = material_node['filter'].getInput().parent()
+        filter_paths = filter_node["paths"].getValue()
+        new_filter_paths = IECore.StringVectorData( filter_paths )
+        new_filter_paths.append( hierarchy_path )
+        filter_node["paths"].setValue( new_filter_paths )
+
+    except Exception as e:
+        print(f"💀 Failed to Assign {materialname} to {objName} on the path {hierarchy_path}:\n {e}")
+
+
 #### ASSIGN THE CREATED MATERIALS TO MESHES ####
 def assign_materials(materials_box, assignment_data:dict):
+    matbox_input = materials_box['in'].getInput()
+    # setup meshSplits
+    splits_box = Gaffer.Box()
+    splits_box.setName("MeshSplits")
+    materials_box.parent().addChild(splits_box)
+    first_input = None
+    last_output = None
+
     for k, v in assignment_data.items():
         objName = k
         path = v["path"]
@@ -708,22 +804,23 @@ def assign_materials(materials_box, assignment_data:dict):
         multimat = v["has_multiple_mat"]
         if multimat:
             # split geometry
-            pass
-        try:
-            print(f"Path: {gafferPath} ::: Material: {materialname}")
-            material_node = materials_box[materialname]
-            filter_node = material_node['filter'].getInput().parent()
-            filter_paths = filter_node["paths"].getValue()
-            new_filter_paths = IECore.StringVectorData( filter_paths )
-            new_filter_paths.append( gafferPath )
-            filter_node["paths"].setValue( new_filter_paths )
-
-        except Exception as e:
-            print(f"💀 Failed to Assign {materialname} to {objName} on the path {path}:\n {e}")
-            
+            splitter_data = buildMatSplitNetwork(splits_box, objName, v, matbox_input)
+            split_box = splitter_data["object_box"]
+            last_output = split_box['out']
+            if not first_input:
+                first_input = split_box['in']
+            for new_child_path, material_name in splitter_data["data"].items():
+                assign_material(materials_box, material_name, new_child_path, objName)
+        else:
+            assign_material(materials_box, materialname, gafferPath, objName)
 
 
-
+    if first_input:
+        boxInOutHandling(first_input.parent(), last_output.parent())
+        splits_box['in'].setInput(matbox_input)
+        materials_box['in'].setInput(splits_box['out'])
+    else:
+        materials_box.parent().removeChild(splits_box)
 
 
 # --- Main material loader ---
