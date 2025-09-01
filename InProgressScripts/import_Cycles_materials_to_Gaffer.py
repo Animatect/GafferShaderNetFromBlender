@@ -802,6 +802,7 @@ def assign_materials(materials_box, assignment_data:dict):
 
         materialname = sanitize_name(v["mat_by_index"]["0"])
         multimat = v["has_multiple_mat"]
+        v["path"] = gafferPath
         if multimat:
             # split geometry
             splitter_data = buildMatSplitNetwork(splits_box, objName, v, matbox_input)
