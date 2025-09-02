@@ -7,11 +7,11 @@ import os
 
 
 class MaterialExporter:
-    def __init__(self):
+    def __init__(self, selected_only=False):
         ######################
         #####  UI_STUFF  #####
         ######################
-        self.process_selected_only = False
+        self.process_selected_only = selected_only
         
         #####################
         #####  MAPPING  #####
@@ -428,9 +428,18 @@ class MaterialExporter:
     def get_serialized_mat_dict(self) -> dict:
         all_materials_data = {}
         mat_iter_collection = bpy.data.materials
+        
+        # Selection Only
         if self.process_selected_only:
-            # change mat_iter_collection for a collection of selected only.
-            pass
+            selected_mats = set()
+            for obj in bpy.context.selected_objects:
+                if obj.type == "MESH":
+                    for slot in obj.material_slots:
+                        if slot.material:
+                            selected_mats.add(slot.material)
+            mat_iter_collection = list(selected_mats)
+
+        # Iterate
         for mat in mat_iter_collection:
             data = self.trace_shader_network(mat)
             if data:

@@ -18,11 +18,11 @@ class EXPORT_OT_blender_to_gaffer(bpy.types.Operator):
     # ------------------------------------------------------------------
     # Section toggles (for collapsible UI)
     # ------------------------------------------------------------------
-    show_general: bpy.props.BoolProperty(default=True)
-    show_Gaffer_translation: bpy.props.BoolProperty(default=True)
-    show_object_types: bpy.props.BoolProperty(default=True)
-    show_geometry: bpy.props.BoolProperty(default=True)
-    show_rigging: bpy.props.BoolProperty(default=True)
+    show_general: bpy.props.BoolProperty(default=True) # type: ignore
+    show_Gaffer_translation: bpy.props.BoolProperty(default=True) # type: ignore
+    show_object_types: bpy.props.BoolProperty(default=True) # type: ignore
+    show_geometry: bpy.props.BoolProperty(default=True) # type: ignore
+    show_rigging: bpy.props.BoolProperty(default=True) # type: ignore
 
     # --- General ---
     filepath: bpy.props.StringProperty(
@@ -154,6 +154,29 @@ class EXPORT_OT_blender_to_gaffer(bpy.types.Operator):
         # General
         box = layout.box()
         row = box.row()
+        row.prop(self, "show_General", icon="TRIA_DOWN" if self.show_general else "TRIA_RIGHT", emboss=False)
+        row.label(text="General", icon="SCENE_DATA")
+        if self.show_general:
+            col = box.column(align=True)
+            col.prop(self, "root_prim_path")
+            col.prop(self, "selection_only")
+            col.prop(self, "visible_only")
+            col.prop(self, "export_animation")
+            col.prop(self, "use_settings")
+            
+        # Gaffer translator
+        box = layout.box()
+        row = box.row()
+        row.prop(self, "show_gaffer_translation", icon="TRIA_DOWN" if self.show_Gaffer_translation else "TRIA_RIGHT", emboss=False)
+        row.label(text="Gaffer Translation", icon_value=gaffer_icon.icon_id)
+        if self.show_Gaffer_translation:
+            col = box.column(align=True)
+            col.prop(self, "matlib_only")
+            col.prop(self, "set_matindex")
+
+        # Object Types
+        box = layout.box()
+        row = box.row()
         row.prop(self, "show_object_types", icon="TRIA_DOWN" if self.show_object_types else "TRIA_RIGHT", emboss=False)
         row.label(text="Object Types", icon="OBJECT_DATA")
         if self.show_object_types:
@@ -166,16 +189,6 @@ class EXPORT_OT_blender_to_gaffer(bpy.types.Operator):
             col.prop(self, "export_pointclouds")
             col.prop(self, "export_volumes")
             col.prop(self, "export_hair")
-        
-        # Gaffer translator
-        box = layout.box()
-        row = box.row()
-        row.prop(self, "show_gaffer_translation", icon="TRIA_DOWN" if self.show_Gaffer_translation else "TRIA_RIGHT", emboss=False)
-        row.label(text="Gaffer Translation", icon_value=gaffer_icon.icon_id)
-        if self.show_Gaffer_translation:
-            col = box.column(align=True)
-            col.prop(self, "matlib_only")
-            col.prop(self, "set_matindex")
 
         # Geometry
         box = layout.box()
@@ -202,10 +215,10 @@ class EXPORT_OT_blender_to_gaffer(bpy.types.Operator):
     # Execution
     # ------------------------------------------------------------------
     def execute(self, context):
+        usd_path = self.filepath
+        json_path = os.path.splitext(usd_path)[0] + ".gcyc"
         try:
-            usd_path = self.filepath
-            json_path = os.path.splitext(usd_path)[0] + ".json"
-            exporter = BlenderExporter(root="/root")
+            exporter = BlenderExporter(root="/root", selected_only=self.selection_only, set_mat_id=self.set_matindex)
             
             if self.matlib_only:
                 # Export materials only
@@ -246,7 +259,9 @@ class EXPORT_OT_blender_to_gaffer(bpy.types.Operator):
             self.report({'ERROR'}, f"USD export failed: {e}")
             return {'CANCELLED'}
 
-        self.report({'INFO'}, f"USD exported to {self.filepath}")
+        if not self.matlib_only:
+            self.report({'INFO'}, f"USD exported to {usd_path}")
+        self.report({'INFO'}, f"Materials exported to {json_path}")
         return {'FINISHED'}
 
     def invoke(self, context, event):

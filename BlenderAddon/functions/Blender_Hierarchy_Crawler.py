@@ -4,9 +4,10 @@ import os
 
 
 class ScheneHierarchyExporter:
-    def __init__(self, root="/root"):
+    def __init__(self, root="/root", selected_only=False, set_mat_id=True):
         self.root = root
-        self.process_selected_only = False
+        self.process_selected_only = selected_only
+        self.set_mat_id = set_mat_id
 
     def assign_mat_id(self, obj):
         # assign ID attr to meshes to split in Gaffer
@@ -51,7 +52,9 @@ class ScheneHierarchyExporter:
     def process_object(self, obj):
         # Process a single mesh object
         usd_path = self.build_usd_path(obj)
-        has_multiple_mat = self.assign_mat_id(obj)
+        has_multiple_mat = False
+        if self.set_mat_id:
+            has_multiple_mat = self.assign_mat_id(obj)
 
         # Build material index → name mapping
         mat_by_index = {}
@@ -72,11 +75,16 @@ class ScheneHierarchyExporter:
     def get_serialized_hierarchy_dict(self) -> dict:
          # Export the hierarchy of all mesh objects to JSON
         data = {}  # reset before exporting
-        mat_iter_collection = bpy.context.scene.objects
+        obj_iter_collection = bpy.context.scene.objects
         if self.process_selected_only:
             # set mat_iter_collection to an iterated list of selected objects
-            pass
-        for obj in mat_iter_collection:
+            selected_objs = set()
+            for obj in bpy.context.selected_objects:
+                if obj.type == "MESH":
+                    selected_objs.add(obj)
+            obj_iter_collection = list(selected_objs)
+
+        for obj in obj_iter_collection:
             if obj.type == 'MESH' and len(obj.material_slots) > 0:
                 dataobj = self.process_object(obj)
                 data.update(dataobj)

@@ -10,9 +10,9 @@ from .Blender_Hierarchy_Crawler import ScheneHierarchyExporter
 
 
 class BlenderExporter(ScheneHierarchyExporter, MaterialExporter):
-    def __init__(self, root="/root"):
-        ScheneHierarchyExporter.__init__(self, root)
-        MaterialExporter.__init__(self)
+    def __init__(self, root="/root", selected_only=False, set_mat_id=True):
+        ScheneHierarchyExporter.__init__(self, root, selected_only, set_mat_id)
+        MaterialExporter.__init__(self, selected_only)
         self.data = {}
         self.cycles_version = 4.4
 
