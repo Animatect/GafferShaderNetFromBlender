@@ -1,5 +1,8 @@
 # generate_label_map.py
 # Create the remap of plugs json based on the metadata file in the code.
+#Is not perfect and the resulting Json needs to be patched heavily 
+# 
+# DO NOT OVERWRITE THE CURRENTLY CREATED ONE
 
 import inspect
 import os

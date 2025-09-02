@@ -41,9 +41,320 @@ SHADER_TYPE_REMAP = {
 
 }
 
-label_map_path = os.path.join("C:\\GitHub\\GafferShaderNetFromBlender\\InProgressScripts", "cycles_label_map.json")
-with open(label_map_path, "r", encoding="utf-8") as f:
-    LABEL_MAP = json.load(f)
+LABEL_MAP = {
+    "add_closure":{
+        "shader":"closure1",
+        "shader_001":"closure2"
+    },
+    "mix_closure":{
+        "shader":"closure1",
+        "shader_001":"closure2"
+    },
+    "principled_bsdf": {
+        "base color": "base_color",
+        "diffuse roughness":"roughness",
+        "ior": "thin_film_ior",
+        "method": "subsurface_method",
+        "weight": "sheen_weight",
+        "radius": "subsurface_radius",
+        "scale": "subsurface_scale",
+        "anisotropy": "subsurface_anisotropy",
+        "distribution": "distribution",
+        "ior level": "specular_ior_level",
+        "tint": "sheen_tint",
+        "anisotropic": "anisotropic",
+        "anisotropic rotation": "anisotropic_rotation",
+        "tangent": "tangent",
+        "roughness": "sheen_roughness",
+        "normal": "coat_normal",
+        "color": "emission_color",
+        "strength": "emission_strength",
+        "thickness": "thin_film_thickness"
+    },
+    "principled_hair_bsdf": {
+        "absorption coefficient": "absorption_coefficient",
+        "melanin redness": "melanin_redness",
+        "radial roughness": "radial_roughness",
+        "ior": "ior",
+        "random color": "random_color",
+        "random roughness": "random_roughness",
+        "aspect ratio": "aspect_ratio"
+    },
+    "principled_volume": {
+        "color attribute": "color_attribute",
+        "density attribute": "density_attribute",
+        "absorption color": "absorption_color",
+        "emission strength": "emission_strength",
+        "emission color": "emission_color",
+        "blackbody intensity": "blackbody_intensity",
+        "blackbody tint": "blackbody_tint",
+        "temperature attribute": "temperature_attribute"
+    },
+    "vector_map_range": {
+        "interpolation type": "range_type",
+        "from min": "from_min",
+        "from max": "from_max",
+        "to min": "to_min",
+        "to max": "to_max",
+        "steps": "steps",
+        "clamp": "use_clamp"
+    },
+    "map_range": {
+        "interpolation_type": "range_type",
+        "from min": "from_min",
+        "from max": "from_max",
+        "to min": "to_min",
+        "to max": "to_max",
+        "steps": "steps",
+        "clamp": "use_clamp"
+    },
+    "mix": {
+        "blending mode": "mix_type",
+        "factor":"fac",
+        "a": "color1",
+        "b": "color2",
+        "clamp": "use_clamp",
+        "result": "color"
+    },
+    "mix_color": {
+        "blending_mode": "blend_type",
+        "clamp_result": "use_clamp_result",
+        "clamp_factor": "use_clamp",
+        "factor_float":"fac",
+        "a_color": "a",
+        "b_color": "b",
+        "result_color":"result"
+        
+    },
+    "mix_float": {
+        "clamp_result": "use_clamp_result",
+        "clamp_factor": "use_clamp",
+        "factor_float":"fac",
+        "a_float": "a",
+        "b_float": "b",
+        "result_float":"result"
+        
+    },
+    "mix_vector": {
+        "clamp_result": "use_clamp_result",
+        "clamp_factor": "use_clamp",
+        "factor_float":"fac",
+        "a_vector": "a",
+        "b_vector": "b",
+        "result_vector":"result"    
+    },
+    "mix_vector_non_uniform": {
+        "clamp_result": "use_clamp_result",
+        "clamp_factor": "use_clamp",
+        "factor_vector":"fac",
+        "a_vector": "a",
+        "b_vector": "b",
+        "result_vector":"result"    
+    },
+    "float_curve": {
+        "min x": "min_x",
+        "max x": "max_x",
+        "factor":"fac"
+    },
+    "rgb_curves": {
+        "color":"value",
+        "factor":"fac",
+        "min x": "min_x",
+        "max x": "max_x"
+    },
+    "vector_curves": {
+        "vector":"value",
+        "factor":"fac",
+        "min x": "min_x",
+        "max x": "max_x"
+    },
+    "vector_transform": {
+        "vector_type": "transform_type",
+        "convert from": "convert_from",
+        "mconvert to": "convert_to"
+    },
+    "mapping": {
+        "vector_type": "mapping_type"
+    },
+    "vector_rotate": {
+        "rotation_type": "rotate_type"
+    },
+    "clamp": {
+        "clamp type": "clamp_type"
+
+    },
+    "brightness_contrast": {
+        "brightness": "bright"
+    },
+    "normal": {
+        "direction": "direction"
+    },
+    "bump": {
+        "sample center": "sample_center",
+        "sample x": "sample_x",
+        "sample y": "sample_y",
+        "use object space": "use_object_space"
+    },
+    "vertex_color": {
+        "layer name": "layer_name"
+    },
+    "vector_math": {
+        "operation": "math_type",
+        "vector":"vector1",
+        "vector_001":"vector2",
+        "vector_002":"vector3"
+    },
+    "texture_coordinate": {
+        "from dupli": "from_dupli",
+        "use transform": "use_transform",
+        "object transform": "ob_tfm"
+    },
+    "ambient_occlusion": {
+        "only local": "only_local"
+    },
+    "uvmap": {
+        "from dupli": "from_dupli",
+        "uv_map":"attribute"
+    },
+    "wireframe": {
+        "use pixel size": "use_pixel_size"
+    },
+    "tangent": {
+        "direction": "direction_type",
+        "uv_map":"attribute"
+    },
+    "point_density_texture": {
+        "transform": "tfm"
+    },
+    "image_texture": {
+        "image":"filename",
+        "image_color_space":"colorspace",
+        "alpha type": "alpha_type",
+        "projection blend": "projection_blend"
+    },
+    "environment_texture": {
+        "alpha type": "alpha_type"
+    },
+    "sky_texture": {
+        "type": "sky_type",
+        "sun direction": "sun_direction",
+        "sun disc": "sun_disc",
+        "sun size": "sun_size",
+        "sun intensity": "sun_intensity",
+        "sun elevation": "sun_elevation",
+        "sun rotation": "sun_rotation",
+        "ground albedo": "ground_albedo",
+        "air": "air_density",
+        "dust": "dust_density",
+        "ozone": "ozone_density"
+    },
+    "noise_texture": {
+        "normalize": "use_normalize",
+        "noise_dimensions":"dimensions",
+        "noise_type": "type"
+    },
+    "gradient_texture": {
+        "gradient type": "gradient_type"
+    },
+    "voronoi_texture": {
+        "normalize": "use_normalize",
+        "voronoi_dimensions": "dimensions",
+        "distance": "metric"
+    },
+    "ies_light": {
+        "ies": "ies",
+        "filepath":"filename"
+    },
+    "musgrave_texture": {
+        "musgrave type": "musgrave_type"
+    },
+    "checker_texture": {},
+    "magic_texture": {
+        "turbulence_depth":"depth"
+    },
+    "wave_texture": {
+        "wave type": "wave_type",
+        "bands direction": "bands_direction",
+        "rings direction": "rings_direction",
+        "detail scale": "detail_scale",
+        "detail roughness": "detail_roughness",
+        "phase offset":"phase",
+        "wave_profile":"profile"
+    },
+    "brick_texture": {
+        "offset frequency": "offset_frequency",
+        "squash frequency": "squash_frequency",
+        "mortar size": "mortar_size",
+        "mortar smooth": "mortar_smooth",
+        "brick width": "brick_width",
+        "row width": "brick_height"
+    },
+    "hair_bsdf": {
+        "roughness u": "roughness_u",
+        "roughness v": "roughness_v"
+    },
+    "subsurface_scattering": {
+        "ior": "subsurface_ior",
+        "roughness": "subsurface_roughness",
+        "anisotropy": "subsurface_anisotropy",
+        "falloff":"method"
+    },
+    "math": {
+        "operation": "math_type",
+        "clamp": "use_clamp",
+        "value": "value1",
+        "value_001": "value2",
+        "value_002": "value3"
+    },
+    "rgb_ramp": {
+        "ramp alpha": "ramp_alpha"
+    },
+    "color":{
+        "color":"value"
+    },
+    "separate_color":{
+        "red":"r",
+        "green":"g",
+        "blue":"b",
+        "mode":"color_type"
+    },
+    "combine_color":{
+        "red":"r",
+        "green":"g",
+        "blue":"b",
+        "mode":"color_type"
+    },
+    "fresnel":{
+        "normal":"UNSUPPORTED"
+    },
+    "layer_weight":{
+        "normal":"UNSUPPORTED"
+    },
+    "bevel":{
+        "normal":"bevel"
+    },
+    "combine_xyz":{},
+    "attribute":{
+        "attribute_name":"attribute"
+    },
+    "white_noise_texture":{
+        "noise_dimensions":"dimensions"
+    },
+    "normal_map": {
+        "uv_map":"attribute"
+    },
+    "gabor_texture":{
+        "gabor_type":"type"
+    },
+    "toon_bsdf": {},
+    "glossy_bsdf": {},
+    "refraction_bsdf": {},
+    "sheen_bsdf": {},
+    "diffuse_bsdf": {}
+}
+# label_map_path = os.path.join("C:\\GitHub\\GafferShaderNetFromBlender\\InProgressScripts", "cycles_label_map.json")
+# with open(label_map_path, "r", encoding="utf-8") as f:
+    # LABEL_MAP = json.load(f)
 
 def safe_plug_name(plugname):
     plugnamesafe = plugname.lower().replace(" ", "_")
@@ -827,7 +1138,7 @@ def assign_materials(materials_box, assignment_data:dict):
 
 
 # --- Main material loader ---
-def load_materials_from_json(json_path, parent):
+def load_materials_from_json(json_path, parent, usd_reader_node, split_submeshes=True):
     with open(json_path, "r") as f:
         data = json.load(f)
 
@@ -836,13 +1147,52 @@ def load_materials_from_json(json_path, parent):
     # paths = [f"/{mat}" for mat in material_data.keys()]
     materials_box = process_materials(material_data, parent)
     if materials_box:
-        pv = insertPrimitiveVariables(materials_box)
-        assign_materials(materials_box, assignment_data)
+        if usd_reader_node:
+            materials_box["in"].setInput(usd_reader_node["out"])
+            pv = insertPrimitiveVariables(materials_box)
+            assign_materials(materials_box, assignment_data)
 
+
+##############################
+########### START ############
+##############################
+# This is called from the box node
+def create_networks(blenderScene_box):
+    file_reader = None
+    split_submeshes = blenderScene_box['splitSubMeshes'].getValue()
+    filepath = blenderScene_box['fileName'].getValue()
+    usd_path = filepath
+    usd_ext = ["usd", "usdc", "usda"]
+    split_path = os.path.splitext(filepath)
+    if not split_path[1].lower() in usd_ext:
+        for ext in usd_ext:
+            check_path = split_path[0] + "."+ext
+            if os.path.exists(check_path):
+                usd_path = check_path
+                break
+    if os.path.exists(usd_path):
+        file_reader = GafferScene.SceneReader( "SceneReader" )
+        blenderScene_box.addChild( file_reader )    
+        file_reader['fileName'].setValue(usd_path)
     
+    json_path = os.path.splitext(usd_path)[0] + ".gcyc"
+    if os.path.exists(json_path):
+        load_materials_from_json(json_path, blenderScene_box, file_reader, split_submeshes)
+
+
+
+    ## Remove UI after Ussage to avoid overwriting and/or making a mess ##
+    blenderScene_box.removeChild(blenderScene_box['updateList'])
+    blenderScene_box.removeChild(blenderScene_box['fileName'])
+    blenderScene_box.removeChild(blenderScene_box['splitSubMeshes'])
+
+
+	# else:
+	# 	## Change to error
+	# 	IECore.warning('Node input is not connected')  
 
 
 # Usage:
 # Assuming you're running this in a Gaffer script editor or binding context
-json_path = r"C:\GitHub\GafferShaderNetFromBlender\InProgressScripts\testFiles\combined_export.json"
-load_materials_from_json(json_path, root)  # or a Gaffer.Box() if building modular
+# json_path = r"C:\GitHub\GafferShaderNetFromBlender\InProgressScripts\testFiles\combined_export.json"
+# load_materials_from_json(json_path, root)  # or a Gaffer.Box() if building modular
