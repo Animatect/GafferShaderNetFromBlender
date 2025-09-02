@@ -11,31 +11,35 @@ class EXPORT_OT_blender_to_gaffer(bpy.types.Operator):
         name="File Path",
         description="Filepath to export USD",
         subtype="FILE_PATH"
-    )
+    ) # type: ignore
 
     root_prim_path: bpy.props.StringProperty(
         name="Root Prim",
         description="Name of the root prim under which everything is grouped",
         default="/root"
-    )
+    ) # type: ignore
+
 
     selection_only: bpy.props.BoolProperty(
         name="Selection Only",
         description="Export only selected objects",
         default=False
-    )
+    ) # type: ignore
+
 
     visible_only: bpy.props.BoolProperty(
         name="Visible Only",
         description="Export only visible objects",
         default=True
-    )
+    ) # type: ignore
+
 
     export_animation: bpy.props.BoolProperty(
         name="Animation",
         description="Export keyframe animation",
         default=False
-    )
+    ) # type: ignore
+
 
     use_settings: bpy.props.EnumProperty(
         name="Use Settings For",
@@ -45,7 +49,8 @@ class EXPORT_OT_blender_to_gaffer(bpy.types.Operator):
             ("VIEWPORT", "Viewport", "")
         ],
         default="RENDER"
-    )
+    ) # type: ignore
+
 
     # --- Object Types ---
     export_meshes: bpy.props.BoolProperty(name="Meshes", default=True)
@@ -62,44 +67,51 @@ class EXPORT_OT_blender_to_gaffer(bpy.types.Operator):
         name="UV Maps",
         description="Export UV maps",
         default=True
-    )
+    ) # type: ignore
+
 
     rename_uvmaps: bpy.props.BoolProperty(
         name="Rename UV Maps",
         description="Rename exported UV maps to be unique",
         default=False
-    )
+    ) # type: ignore
+
 
     export_normals: bpy.props.BoolProperty(
         name="Normals",
         description="Export normals",
         default=True
-    )
+    ) # type: ignore
+
 
     use_instancing: bpy.props.BoolProperty(
         name="Use Instancing",
         description="Export object data as instances when possible",
         default=True
-    )
+    ) # type: ignore
+
 
     # --- Rigging ---
     export_blendshapes: bpy.props.BoolProperty(
         name="Shape Keys",
         description="Export shape keys (blend shapes)",
         default=True
-    )
+    ) # type: ignore
+
 
     export_skins: bpy.props.BoolProperty(
         name="Armatures",
         description="Export armature (skin) data",
         default=True
-    )
+    ) # type: ignore
+
 
     export_bones: bpy.props.BoolProperty(
         name="Only Deform Bones",
         description="Export only deform bones (skip non-deforming)",
         default=False
-    )
+    ) # type: ignore
+
 
     # ------------------------------------------------------------------
     # Draw UI
@@ -148,17 +160,6 @@ class EXPORT_OT_blender_to_gaffer(bpy.types.Operator):
     # Execution
     # ------------------------------------------------------------------
     def execute(self, context):
-        # Build object types set
-        obj_types = set()
-        if self.export_meshes: obj_types.add("MESH")
-        if self.export_lights: obj_types.add("LIGHT")
-        if self.export_world: obj_types.add("WORLD")
-        if self.export_cameras: obj_types.add("CAMERA")
-        if self.export_curves: obj_types.add("CURVE")
-        if self.export_pointclouds: obj_types.add("POINTCLOUD")
-        if self.export_volumes: obj_types.add("VOLUME")
-        if self.export_hair: obj_types.add("HAIR")
-
         try:
             bpy.ops.wm.usd_export(
                 filepath=self.filepath,
@@ -167,15 +168,24 @@ class EXPORT_OT_blender_to_gaffer(bpy.types.Operator):
                 visible_objects_only=self.visible_only,
                 export_animation=self.export_animation,
                 evaluation_mode=self.use_settings,
-                export_object_types=obj_types,
+
+                export_meshes = self.export_meshes,
+                export_lights = self.export_lights,
+                export_cameras = self.export_cameras,
+                export_curves = self.export_curves,
+                export_points = self.export_pointclouds,
+                export_volumes = self.export_volumes,
+                export_hair = self.export_hair,
+                convert_world_material = self.export_world,
+
                 export_uvmaps=self.export_uvmaps,
-                export_uvmaps_rename=self.rename_uvmaps,
+                rename_uvmaps =self.rename_uvmaps,
                 export_normals=self.export_normals,
                 export_materials=False,       # 🚫 No materials
                 use_instancing=self.use_instancing,
-                export_blendshapes=self.export_blendshapes,
-                export_skins=self.export_skins,
-                export_bones=self.export_bones,
+                export_shapekeys =self.export_blendshapes,
+                export_armatures =self.export_skins,
+                only_deform_bones =self.export_bones,
             )
         except Exception as e:
             self.report({'ERROR'}, f"USD export failed: {e}")

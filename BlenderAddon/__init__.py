@@ -11,6 +11,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+# TO DO
+# Define how to handle textures
+# manejar displacement que notiene displace node
+
 from . import auto_load
 
 auto_load.init()
