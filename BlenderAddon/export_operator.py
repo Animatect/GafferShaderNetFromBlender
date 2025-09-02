@@ -273,8 +273,10 @@ class EXPORT_OT_blender_to_gaffer(bpy.types.Operator):
 
 
 def menu_func_export(self, context):
+    pcoll = icons.preview_collections["main"]
+    gaffer_icon = pcoll["my_icon"]
     self.layout.operator(EXPORT_OT_blender_to_gaffer.bl_idname,
-                         text="Blender to Gaffer")
+                         text="Blender to Gaffer", icon_value=gaffer_icon.icon_id)
 
 
 def register():
