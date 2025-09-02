@@ -85,7 +85,7 @@ def setup_box(node, code):
 		Gaffer.Metadata.registerValue(mainShaderbox, "icon", iconPath)
 	
 	Gaffer.Metadata.registerValue( mainShaderbox, 'noduleLayout:customGadget:addButtonTop:visible', False )
-	Gaffer.Metadata.registerValue( mainShaderbox, 'noduleLayout:customGadget:addButtonBottom:visible', True )
+	Gaffer.Metadata.registerValue( mainShaderbox, 'noduleLayout:customGadget:addButtonBottom:visible', False )
 	Gaffer.Metadata.registerValue( mainShaderbox, 'noduleLayout:customGadget:addButtonLeft:visible', False )
 	Gaffer.Metadata.registerValue( mainShaderbox, 'noduleLayout:customGadget:addButtonRight:visible', False )
 

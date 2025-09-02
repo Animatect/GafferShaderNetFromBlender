@@ -1152,6 +1152,8 @@ def load_materials_from_json(json_path, parent, usd_reader_node, split_submeshes
             pv = insertPrimitiveVariables(materials_box)
             assign_materials(materials_box, assignment_data)
 
+    return materials_box
+
 
 ##############################
 ########### START ############
@@ -1159,6 +1161,7 @@ def load_materials_from_json(json_path, parent, usd_reader_node, split_submeshes
 # This is called from the box node
 def create_networks(blenderScene_box):
     file_reader = None
+    materials_box = None
     split_submeshes = blenderScene_box['splitSubMeshes'].getValue()
     filepath = blenderScene_box['fileName'].getValue()
     usd_path = filepath
@@ -1177,14 +1180,15 @@ def create_networks(blenderScene_box):
     
     json_path = os.path.splitext(usd_path)[0] + ".gcyc"
     if os.path.exists(json_path):
-        load_materials_from_json(json_path, blenderScene_box, file_reader, split_submeshes)
+        materials_box = load_materials_from_json(json_path, blenderScene_box, file_reader, split_submeshes)        
 
 
-
-    ## Remove UI after Ussage to avoid overwriting and/or making a mess ##
-    blenderScene_box.removeChild(blenderScene_box['updateList'])
-    blenderScene_box.removeChild(blenderScene_box['fileName'])
-    blenderScene_box.removeChild(blenderScene_box['splitSubMeshes'])
+    if materials_box:
+        Gaffer.BoxIO.promote( materials_box["out"] )
+        ## Remove UI after Ussage to avoid overwriting and/or making a mess ##
+        blenderScene_box.removeChild(blenderScene_box['updateList'])
+        blenderScene_box.removeChild(blenderScene_box['fileName'])
+        blenderScene_box.removeChild(blenderScene_box['splitSubMeshes'])
 
 
 	# else:
