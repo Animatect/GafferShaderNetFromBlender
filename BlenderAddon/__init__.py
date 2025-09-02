@@ -16,6 +16,7 @@
 # manejar displacement que notiene displace node
 
 from . import auto_load
+from . import icons 
 
 auto_load.init()
 

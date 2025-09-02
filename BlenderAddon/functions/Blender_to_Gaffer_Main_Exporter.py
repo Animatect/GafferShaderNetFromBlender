@@ -3,10 +3,10 @@ import json
 import sys
 import bpy
 
-sys.path.append(r"C:\GitHub\GafferShaderNetFromBlender\InProgressScripts")
+# sys.path.append(os.path)
 
-from Blender_Material_Crawler import MaterialExporter
-from Blender_Hierarchy_Crawler import ScheneHierarchyExporter
+from .Blender_Material_Crawler import MaterialExporter
+from .Blender_Hierarchy_Crawler import ScheneHierarchyExporter
 
 
 class BlenderExporter(ScheneHierarchyExporter, MaterialExporter):
@@ -16,6 +16,9 @@ class BlenderExporter(ScheneHierarchyExporter, MaterialExporter):
         self.data = {}
         self.cycles_version = 4.4
 
+    def export_mat_only(self, filepath):
+        self.export_materials(filepath)
+        
     def export(self, filepath):
         self.data = {
             "materials":{},

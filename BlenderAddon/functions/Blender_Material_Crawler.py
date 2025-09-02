@@ -17,7 +17,7 @@ class MaterialExporter:
         #####  MAPPING  #####
         #####################
         """Initialize with a path to the Blender→Cycles shader map JSON file."""
-        script_dir = r"C:\GitHub\GafferShaderNetFromBlender\InProgressScripts"#os.path.dirname(os.path.abspath(__file__))
+        script_dir = os.path.dirname(os.path.abspath(__file__))
         mapping_path = os.path.join(script_dir, "blender_shader_class_to_cycles_name.json")
         with open(mapping_path, "r") as f:
             self.BLENDER_TO_CYCLES_SHADER_MAP = json.load(f)
@@ -440,7 +440,7 @@ class MaterialExporter:
         
 
 
-    def export_all(self, filepath):
+    def export_materials(self, filepath):
         serialized_dict = self.get_serialized_mat_dict()
         with open(filepath, 'w') as f:
             json.dump(serialized_dict, f, indent=2)
