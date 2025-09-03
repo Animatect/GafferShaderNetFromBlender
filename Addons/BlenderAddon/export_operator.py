@@ -103,7 +103,7 @@ class EXPORT_OT_blender_to_gaffer(bpy.types.Operator):
     rename_uvmaps: bpy.props.BoolProperty(
         name="Rename UV Maps",
         description="Rename exported UV maps to be unique",
-        default=False
+        default=True
     ) # type: ignore
 
 
