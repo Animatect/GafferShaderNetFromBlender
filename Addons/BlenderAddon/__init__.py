@@ -13,6 +13,7 @@
 
 # TO DO
 # Define how to handle textures
+# handle xform in texture coordinates input node on object mode
 # manejar displacement que notiene displace node
 
 from . import auto_load

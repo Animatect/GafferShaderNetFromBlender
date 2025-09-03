@@ -861,7 +861,16 @@ def create_material_network(mat_box, material, isGroup=False):
             if final_shader:
                 sh_assign = GafferScene.ShaderAssignment(f"ShaderAssign_{to_socket}")
                 mat_box.addChild(sh_assign)
+                # check if displacement has a Displacement node before, if not set it to it
                 sh_assign["shader"].setInput(mat_box[final_shader]["out"])
+                if to_socket.lower() == "displacement":
+                    if not mat_box[final_shader]['name'].getValue() == "displacement":
+                        displace_shader = GafferCycles.CyclesShader("output_surface_displacement")
+                        displace_shader.loadShader("displacement")
+                        mat_box.addChild(displace_shader)
+                        sh_assign["shader"].setInput(displace_shader['out']['displacement'])
+                        safe_connect(mat_box, created_nodes[from_node], from_socket, "output_surface_displacement", "height")
+
                 # Expose filter
                 if not mat_box.getChild('filter_in'):
                     boxFilterPlug = Gaffer.BoxIO.promote(sh_assign["filter"])
