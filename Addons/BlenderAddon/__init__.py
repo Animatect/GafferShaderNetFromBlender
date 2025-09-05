@@ -11,11 +11,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# TO DO
-# Define how to handle textures
-# handle xform in texture coordinates input node on object mode
-# manejar displacement que notiene displace node
-
 from . import auto_load
 from . import icons 
 

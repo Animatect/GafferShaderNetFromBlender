@@ -2,6 +2,7 @@ import bpy
 import mathutils
 import json
 import os
+import re
 
 
 
@@ -62,6 +63,50 @@ class MaterialExporter:
 
         return cycles_name
 
+    def get_image_sequence_padding(self, img: bpy.types.Image):
+        """Return the padding (number of digits) of an image sequence.
+        Returns None if not a sequence or padding can't be determined."""
+        
+        if not img or img.source != 'SEQUENCE':
+            return None
+
+        # Case 1: Blender stored the path with hash marks (e.g. file.####.png)
+        if "#" in img.filepath:
+            return img.filepath.count("#")
+
+        # Case 2: Explicit filenames, try to infer digits from actual path
+        abs_path = bpy.path.abspath(img.filepath, library=img.library)
+        filename = os.path.basename(abs_path)
+
+        # Look for digits at the end of the stem (before extension)
+        stem, ext = os.path.splitext(filename)
+        match = re.search(r"(\d+)$", stem)
+        if match:
+            return len(match.group(1))
+
+        return None
+
+    def path_to_sequence_pattern(self, path, hash_symbol="#"):
+        """Convert a frame-numbered path into a sequence pattern.
+        Example: file..0001.exr -> file..####.exr
+        """
+        dirname, filename = os.path.split(path)
+        stem, ext = os.path.splitext(filename)
+
+        # Look for trailing digits in the stem
+        m = re.search(r"(\d+)$", stem)
+        if not m:
+            return path  # no frame digits found, return original path
+
+        frame_str = m.group(1)
+        padding = len(frame_str)
+
+        # Replace frame digits with hash symbols
+        new_stem = stem[: -padding] + (hash_symbol * padding)
+        new_filename = new_stem + ext
+
+        return os.path.join(dirname, new_filename)
+
     def get_image_filepath(self, img):
         imgpath = img.filepath.replace("\\", "/")
         imgpath = bpy.path.abspath(imgpath)
@@ -82,6 +127,17 @@ class MaterialExporter:
             uiparams["use_cyclic"] = node.image_user.use_cyclic
             uiparams["alpha_mode"] = node.image.alpha_mode
             uiparams["image_color_space"] = node.image.colorspace_settings.name
+
+            # Set path as '#' padded path.
+            if node.type == "TEX_IMAGE" and node.image.source in ['SEQUENCE', 'MOVIE']:
+                root, ext = os.path.splitext(uiparams["image"])
+                if ext in ['mov', 'mp4', 'avi']:
+                    print(f"for image in {node.name} where the file extension is {ext} Video files are not supported in Gaffer as a valid sequence")
+                else:
+                    # padding = self.get_image_sequence_padding(node.image)
+                    imgpath = uiparams["image"]
+                    uiparams["image"] = self.path_to_sequence_pattern(imgpath)
+
 
         return uiparams
 

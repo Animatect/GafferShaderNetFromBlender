@@ -1209,3 +1209,10 @@ def create_networks(blenderScene_box):
 # Assuming you're running this in a Gaffer script editor or binding context
 # json_path = r"C:\GitHub\GafferShaderNetFromBlender\InProgressScripts\testFiles\combined_export.json"
 # load_materials_from_json(json_path, root)  # or a Gaffer.Box() if building modular
+
+
+
+
+# TO DO
+# Define how to handle textures
+# handle xform in texture coordinates input node on object mode
