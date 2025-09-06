@@ -20,9 +20,12 @@ def setup_box(node, code):
 		Gaffer.StringPlug( "fileName", defaultValue = "", flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic ) 
 	)
 
-	# Split Sub Meshes checkbox
+	# Split Sub Meshes and process sequences checkboxes
 	mainShaderbox.addChild(
 		Gaffer.BoolPlug( "splitSubMeshes", defaultValue = True, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic )
+	)
+	mainShaderbox.addChild(
+		Gaffer.BoolPlug( "processImgSequences", defaultValue = True, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic )
 	)
 
 	# ---------- Metadata ----------
@@ -49,8 +52,16 @@ def setup_box(node, code):
 	Gaffer.Metadata.registerValue( mainShaderbox["splitSubMeshes"], "nodule:type", "" )
 	Gaffer.Metadata.registerValue( mainShaderbox["splitSubMeshes"], "layout:section", "Settings" )
 	Gaffer.Metadata.registerValue( mainShaderbox["splitSubMeshes"], "label", "Split Sub Meshes" )
-	Gaffer.Metadata.registerValue( mainShaderbox["splitSubMeshes"], "description", "If enabled, sub-meshes are split when importing." )
+	Gaffer.Metadata.registerValue( mainShaderbox["splitSubMeshes"], "description", "If enabled, sub-meshes are split when importing to assign sub materials." )
 	Gaffer.Metadata.registerValue( mainShaderbox["splitSubMeshes"], "layout:index", 2 )
+
+	## Process Image Sequences checkbox
+	Gaffer.Metadata.registerValue( mainShaderbox["processImgSequences"], "nodule:type", "" )
+	Gaffer.Metadata.registerValue( mainShaderbox["processImgSequences"], "layout:section", "Settings" )
+	Gaffer.Metadata.registerValue( mainShaderbox["processImgSequences"], "label", "Process Image Sequences" )
+	Gaffer.Metadata.registerValue( mainShaderbox["processImgSequences"], "description", "If enabled, " \
+	"an expresion is set to deal with image sequences options like, frame_start, offset, duration and cyclic, otherwise sequences will load the frame playhead is currently at." )
+	Gaffer.Metadata.registerValue( mainShaderbox["processImgSequences"], "layout:index", 3 )
 
 	## Button ##
 	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'nodule:type', '' )
@@ -68,7 +79,7 @@ def setup_box(node, code):
 		'It can also import only the materials by importing a .gcyc file thah has no .usd file with the same name in the same folder.'
 		)
 	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'label', 'Import Cycles Scene' )
-	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'layout:index', 3 )
+	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'layout:index', 4 )
 	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'layout:divider', True )
 
 	## Color ##	

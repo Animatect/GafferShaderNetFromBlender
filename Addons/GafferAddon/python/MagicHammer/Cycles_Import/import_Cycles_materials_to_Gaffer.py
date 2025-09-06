@@ -358,6 +358,8 @@ LABEL_MAP = {
 # with open(label_map_path, "r", encoding="utf-8") as f:
     # LABEL_MAP = json.load(f)
 
+PROCESS_IMAGE_SEQ = True
+
 def safe_plug_name(plugname):
     plugnamesafe = plugname.lower().replace(" ", "_")
     return plugnamesafe
@@ -646,7 +648,7 @@ def set_shader_specialCases(shader_node, params_dict, shader_type):
         p = Path(raw_path)
         filepath = p.as_posix()
         shader_node["parameters"]["filename"].setValue(filepath)#(params_dict["image"].replace("\\", "/")))
-        if params_dict["Source"] in ["SEQUENCE", "MOVIE"]:
+        if params_dict["Source"] in ["SEQUENCE", "MOVIE"] and PROCESS_IMAGE_SEQ:
             load_image_sequence(shader_node, params_dict)
 
         # Color Space
@@ -1275,9 +1277,11 @@ def load_materials_from_json(json_path, parent, usd_reader_node, split_submeshes
 ##############################
 # This is called from the box node
 def create_networks(blenderScene_box):
+    global PROCESS_IMAGE_SEQ
     file_reader = None
     materials_box = None
     split_submeshes = blenderScene_box['splitSubMeshes'].getValue()
+    PROCESS_IMAGE_SEQ = blenderScene_box['processImgSequences'].getValue()
     filepath = blenderScene_box['fileName'].getValue()
     usd_path = filepath
     usd_ext = ["usd", "usdc", "usda"]
@@ -1304,6 +1308,7 @@ def create_networks(blenderScene_box):
         blenderScene_box.removeChild(blenderScene_box['updateList'])
         blenderScene_box.removeChild(blenderScene_box['fileName'])
         blenderScene_box.removeChild(blenderScene_box['splitSubMeshes'])
+        blenderScene_box.removeChild(blenderScene_box['processImgSequences'])
 
 
 	# else:
