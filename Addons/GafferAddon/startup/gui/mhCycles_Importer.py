@@ -22,7 +22,7 @@ def setup_box(node, code):
 
 	# Split Sub Meshes checkbox
 	mainShaderbox.addChild(
-		Gaffer.BoolPlug( "splitSubMeshes", defaultValue = False, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic )
+		Gaffer.BoolPlug( "splitSubMeshes", defaultValue = True, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic )
 	)
 
 	# ---------- Metadata ----------

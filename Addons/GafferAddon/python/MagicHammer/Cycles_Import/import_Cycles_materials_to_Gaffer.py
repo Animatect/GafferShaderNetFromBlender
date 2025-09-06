@@ -584,10 +584,111 @@ def build_curves_box(shader_node, params_dict, mode="rgb"):
 
     return box
 
+def load_image_sequence(image_node, params_dict:dict):
+    expression_node = Gaffer.Expression( image_node.getName()+"_Expression" )
+    image_node.parent().addChild(expression_node)
+    expression_node["__engine"].setValue( 'python' )
+    
+    # === Parameters imported from Blender ===
+    sequence_path  = params_dict["image"]
+    frame_start    = params_dict["frame_start"]
+    frame_duration = params_dict["frame_duration"]
+    frame_offset   = params_dict["frame_offset"]
+    use_cyclic     = params_dict["use_cyclic"]
+
+    m = re.search(r"(#+)", sequence_path)
+    if m:
+        padding = len(m.group(1))
+    else:
+        padding = 4  # default
+    # Split extension first
+    prefix, ext = os.path.splitext(sequence_path)
+
+    # Remove the frame token from prefix
+    prefix = prefix.replace(m.group(1), "")
+
+    expression = f"""
+prefix = r"{prefix}"
+ext = "{ext}"
+cyc = {use_cyclic}
+fs = {frame_start}
+fd = {frame_duration}
+fo = {frame_offset}
+fr = int(context.getFrame())
+
+# Clamp/cycle frame
+if cyc:
+    if fr >= fs + fd:
+        mod = fr % fd
+        fr = mod if mod != 0 else fd
+
+framestart = fs - 1
+formula = (fr - framestart) + fo
+
+if not cyc and fr >= fs + fd:
+    formula = fd + fo
+
+if (fr - framestart) < 0:
+    formula = fo
+
+frame = str(formula).zfill({padding})
+parent["{image_node.getName()}"]["parameters"]["filename"] = prefix + frame + ext
+"""
+    
+    expression_node.setExpression(expression)
+
 
 def set_shader_specialCases(shader_node, params_dict, shader_type):
     if shader_type == "image_texture":        
         shader_node["parameters"]["filename"].setValue((params_dict["image"].replace("\\", "/")))
+        if params_dict["Source"] in ["SEQUENCE", "MOVIE"]:
+            load_image_sequence(shader_node, params_dict)
+
+        # Color Space
+        color_space_remap = {
+            'Non-Color'     :'data',
+            'Linear Rec.709':'Linear Rec.709 (sRGB)'
+        }
+        color_space = params_dict["image_color_space"]
+        plug = shader_node['parameters']['colorspace']
+        presets = list(Gaffer.Metadata.value(plug, "presetValues"))
+        color_space = color_space_remap.get(color_space)
+        if color_space in presets:
+            shader_node['parameters']['colorspace'].setValue(color_space)
+        else:
+            # set to Auto
+            color_space = shader_node['parameters']['colorspace'].setValue('')
+        # Alpha
+        alpha_remap = {
+            'STRAIGHT'      : 'unassociated',
+            'PREMUL'        : 'associated',
+            'CHANNEL_PACKED': 'channel_packed',
+            'NONE'          : 'ignore'
+        }
+        alpha_type = alpha_remap[params_dict["alpha_mode"]]
+        shader_node['parameters']['alpha_type'].setValue(alpha_type)
+        # Extension
+        Extension_remap = {
+            'REPEAT'    : 'periodic',
+            'EXTEND'    : 'black',
+            'CLIP'      : 'clamp',
+            'MIRROR'    : 'mirror'
+        }
+        Extension_type = Extension_remap[params_dict["extension"]]
+        shader_node['parameters']['extension'].setValue(Extension_type)
+        # # Projection
+        projection_remap = {
+            'FLAT'    : 'flat',
+            'BOX'     : 'box',
+            'SPHERE'  : 'sphere',
+            'TUBE'    : 'tube'
+        }
+        projection_type = projection_remap[params_dict["projection"]]
+        shader_node['parameters']['projection'].setValue(projection_type)
+        # # Other
+        shader_node['parameters']['interpolation'].setValue(params_dict["interpolation"].lower())
+        shader_node['parameters']['projection_blend'].setValue(params_dict["projection_blend"])
+
     # On Curves, interpolation is not 1:1 and takes the value of the first point on Blender.
     elif shader_type == "float_curve":
         shader_node["parameters"]["fac"].setValue(params_dict["Factor"])
