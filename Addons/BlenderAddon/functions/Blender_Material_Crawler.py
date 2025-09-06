@@ -4,6 +4,8 @@ import json
 import os
 import re
 
+from pathlib import Path
+
 
 
 
@@ -102,15 +104,20 @@ class MaterialExporter:
         padding = len(frame_str)
 
         # Replace frame digits with hash symbols
-        new_stem = stem[: -padding] + (hash_symbol * padding)
+        new_stem = stem[: -padding] + (hash_symbol * padding)        
         new_filename = new_stem + ext
+        dirname = Path(dirname)
+        new_path = dirname / new_filename
+        
 
-        return os.path.join(dirname, new_filename)
+        return new_path.as_posix()
 
     def get_image_filepath(self, img):
-        imgpath = img.filepath.replace("\\", "/")
-        imgpath = bpy.path.abspath(imgpath)
-        imgpath = os.path.realpath(imgpath)
+        # imgpath = img.filepath.replace("\\", "/")
+        # imgpath = bpy.path.abspath(imgpath)
+        # imgpath = os.path.realpath(imgpath)
+        imgpath = img.filepath
+        imgpath = Path(imgpath).as_posix()
 
         return imgpath
 

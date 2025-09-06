@@ -7,6 +7,8 @@ import json
 import os
 import re
 
+from pathlib import Path
+
 # --- Type conversion map for plugs ---
 PLUG_TYPE_MAP = {
     'Gaffer::FloatPlug': 'float',
@@ -639,8 +641,11 @@ parent["{image_node.getName()}"]["parameters"]["filename"] = prefix + frame + ex
 
 
 def set_shader_specialCases(shader_node, params_dict, shader_type):
-    if shader_type == "image_texture":        
-        shader_node["parameters"]["filename"].setValue((params_dict["image"].replace("\\", "/")))
+    if shader_type == "image_texture":
+        raw_path = params_dict["image"] 
+        p = Path(raw_path)
+        filepath = p.as_posix()
+        shader_node["parameters"]["filename"].setValue(filepath)#(params_dict["image"].replace("\\", "/")))
         if params_dict["Source"] in ["SEQUENCE", "MOVIE"]:
             load_image_sequence(shader_node, params_dict)
 
