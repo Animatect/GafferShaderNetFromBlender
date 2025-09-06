@@ -2,19 +2,19 @@ import Gaffer
 import GafferUI
 import GafferScene
 import IECore
+import IECoreScene
 import imath
 import os
 import GafferCycles
 
 
-def setup_box(node, code):
+def setup_box(node, code, code2):
 	mainShaderbox = node
-	
+	### STTINGS ####
+	# ---------- Plugs ----------
 	mainShaderbox.addChild( Gaffer.V2fPlug( "__uiPosition", defaultValue = imath.V2f( 0, 0 ), flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
-	# mainShaderbox.addChild( Gaffer.StringVectorDataPlug( "paths", defaultValue = IECore.StringVectorData( [  ] ), flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
 	mainShaderbox.addChild( Gaffer.StringPlug( "updateList", defaultValue = '', flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
 	
-	# ---------- New Plugs ----------
 	# File chooser
 	mainShaderbox.addChild( 
 		Gaffer.StringPlug( "fileName", defaultValue = "", flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic ) 
@@ -68,9 +68,7 @@ def setup_box(node, code):
 	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'layout:section', 'Settings' )
 	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'plugValueWidget:type', 'GafferUI.ButtonPlugValueWidget' )
 	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'layout:accessory', False )
-
 	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'buttonPlugValueWidget:clicked', code )
-
 	Gaffer.Metadata.registerValue( 
 		mainShaderbox["updateList"], 
 		'description', 
@@ -81,6 +79,33 @@ def setup_box(node, code):
 	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'label', 'Import Cycles Scene' )
 	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'layout:index', 4 )
 	Gaffer.Metadata.registerValue( mainShaderbox["updateList"], 'layout:divider', True )
+
+
+	#### SCENE TOOLS ####
+	
+	# ---------- Plugs ----------
+	mainShaderbox.addChild( Gaffer.StringPlug( "createCyclesScene", defaultValue = '', flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
+
+	# ---------- Metadata ----------
+	## Button ##
+	Gaffer.Metadata.registerValue( mainShaderbox["createCyclesScene"], 'nodule:type', '' )
+	Gaffer.Metadata.registerValue( mainShaderbox["createCyclesScene"], 'layout:section', 'Utils' )
+	Gaffer.Metadata.registerValue( mainShaderbox["createCyclesScene"], 'plugValueWidget:type', 'GafferUI.ButtonPlugValueWidget' )
+	Gaffer.Metadata.registerValue( mainShaderbox["createCyclesScene"], 'layout:accessory', False )
+	Gaffer.Metadata.registerValue( mainShaderbox["createCyclesScene"], 'buttonPlugValueWidget:clicked', code2 )
+	Gaffer.Metadata.registerValue( 
+		mainShaderbox["createCyclesScene"], 
+		'description',		
+		'This button will generate the nodes for required for a vanilla Blender Render Scene.'
+		)
+	Gaffer.Metadata.registerValue( mainShaderbox["createCyclesScene"], 'label', 'Create Cycles Scene' )
+	Gaffer.Metadata.registerValue( mainShaderbox["createCyclesScene"], 'layout:index', 1 )
+	Gaffer.Metadata.registerValue( mainShaderbox["createCyclesScene"], 'layout:divider', True )
+
+
+
+
+
 
 	## Color ##	
 	Gaffer.Metadata.registerValue( mainShaderbox, 'nodeGadget:color', imath.Color3f( 0.815686, 0.352941, 0.156863 ) )
@@ -113,14 +138,21 @@ def __cycmatnetextract() :
 
 
 def __cycmatnetextractPostCreator( node, menu ) :
-	## BUTTON CODE ##
+	## IMPORTER BUTTON CODE ##
 	code:str = ""
 	code += "from MagicHammer.Cycles_Import.import_Cycles_materials_to_Gaffer import create_networks\n"
 	code += "node = plug.node()\n"
 	code += "create_networks( node )"
 	################
 
-	setup_box( node, code )
+	## SCENE_CREATOR BUTTON CODE ##
+	code2:str = ""
+	code2 += "from MagicHammer.Cycles_Import.create_Cycles_Scene import create_Scene\n"
+	code2 += "blenderBox = plug.node()\n"
+	code2 += "create_Scene( blenderBox )"
+	################
+
+	setup_box( node, code, code2)
 
 ## MAKE NODE ##
 nodeMenu = GafferUI.NodeMenu.acquire( application )
