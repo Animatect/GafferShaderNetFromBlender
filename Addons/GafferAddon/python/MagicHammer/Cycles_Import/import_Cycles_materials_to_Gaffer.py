@@ -1374,14 +1374,15 @@ def create_networks(blenderScene_box):
         blenderScene_box.removeChild(blenderScene_box['processImgSequences'])
 
         ## Add Cache Control
-        box = blenderScene_box
-        box.addChild( Gaffer.BoolPlug( "setCache", defaultValue = True, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
-        Gaffer.Metadata.registerValue( box["setCache"], "plugValueWidget:type", "GafferUI.ButtonPlugValueWidget" )
-        Gaffer.Metadata.registerValue( box["setCache"], 'nodule:type', '' )
-        Gaffer.Metadata.registerValue( box["setCache"], 'layout:section', 'Settings' )
-        Gaffer.Metadata.registerValue( box["setCache"], 'buttonPlugValueWidget:clicked', 'plug.setValue( not plug.getValue() )\nif plug.getValue():\n\tGaffer.Metadata.registerValue( plug, "label", "CACHE LOADED" )\n\tplug.node()["Cache_Switch"][\'index\'].setValue(1)\nelse:\n\tGaffer.Metadata.registerValue( plug, "label", "NO CACHE" )\n\tplug.node()["Cache_Switch"][\'index\'].setValue(0)' )
-        Gaffer.Metadata.registerValue( box["setCache"], 'layout:index', 0 )
-        Gaffer.Metadata.registerValue( box["setCache"], 'label', 'CACHE LOADED' )
+        if blenderScene_box.getChild("MeshSplits") and cache_meshes:
+            box = blenderScene_box
+            box.addChild( Gaffer.BoolPlug( "setCache", defaultValue = True, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
+            Gaffer.Metadata.registerValue( box["setCache"], "plugValueWidget:type", "GafferUI.ButtonPlugValueWidget" )
+            Gaffer.Metadata.registerValue( box["setCache"], 'nodule:type', '' )
+            Gaffer.Metadata.registerValue( box["setCache"], 'layout:section', 'Settings' )
+            Gaffer.Metadata.registerValue( box["setCache"], 'buttonPlugValueWidget:clicked', 'plug.setValue( not plug.getValue() )\nif plug.getValue():\n\tGaffer.Metadata.registerValue( plug, "label", "CACHE LOADED" )\n\tplug.node()["Cache_Switch"][\'index\'].setValue(1)\nelse:\n\tGaffer.Metadata.registerValue( plug, "label", "NO CACHE" )\n\tplug.node()["Cache_Switch"][\'index\'].setValue(0)' )
+            Gaffer.Metadata.registerValue( box["setCache"], 'layout:index', 0 )
+            Gaffer.Metadata.registerValue( box["setCache"], 'label', 'CACHE LOADED' )
 
 
 
