@@ -25,6 +25,9 @@ def setup_box(node, code, code2):
 		Gaffer.BoolPlug( "splitSubMeshes", defaultValue = True, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic )
 	)
 	mainShaderbox.addChild(
+		Gaffer.BoolPlug( "cacheSubmeshes", defaultValue = True, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic )
+	)
+	mainShaderbox.addChild(
 		Gaffer.BoolPlug( "processImgSequences", defaultValue = True, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic )
 	)
 
@@ -54,6 +57,13 @@ def setup_box(node, code, code2):
 	Gaffer.Metadata.registerValue( mainShaderbox["splitSubMeshes"], "label", "Split Sub Meshes" )
 	Gaffer.Metadata.registerValue( mainShaderbox["splitSubMeshes"], "description", "If enabled, sub-meshes are split when importing to assign sub materials." )
 	Gaffer.Metadata.registerValue( mainShaderbox["splitSubMeshes"], "layout:index", 2 )
+
+	## Cache Sub Meshes checkbox
+	Gaffer.Metadata.registerValue( mainShaderbox["cacheSubmeshes"], "nodule:type", "" )
+	Gaffer.Metadata.registerValue( mainShaderbox["cacheSubmeshes"], "layout:section", "Settings" )
+	Gaffer.Metadata.registerValue( mainShaderbox["cacheSubmeshes"], "label", "Cache Sub Meshes" )
+	Gaffer.Metadata.registerValue( mainShaderbox["cacheSubmeshes"], "description", "If enabled, A new USD is created to bake all the splitting process." )
+	Gaffer.Metadata.registerValue( mainShaderbox["cacheSubmeshes"], "layout:index", 2 )
 
 	## Process Image Sequences checkbox
 	Gaffer.Metadata.registerValue( mainShaderbox["processImgSequences"], "nodule:type", "" )

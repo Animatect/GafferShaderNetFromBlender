@@ -1,6 +1,7 @@
 import Gaffer
 import GafferScene
 import GafferCycles
+import GafferDispatch
 import IECore
 import imath
 import json
@@ -1210,7 +1211,7 @@ def assign_material(materials_box, materialname, hierarchy_path, objName):
 
 
 #### ASSIGN THE CREATED MATERIALS TO MESHES ####
-def assign_materials(materials_box, assignment_data:dict):
+def assign_materials(materials_box, assignment_data:dict, split_geo=True):
     matbox_input = materials_box['in'].getInput()
     # setup meshSplits
     splits_box = Gaffer.Box()
@@ -1218,6 +1219,7 @@ def assign_materials(materials_box, assignment_data:dict):
     materials_box.parent().addChild(splits_box)
     first_input = None
     last_output = None
+    processedSceneNode = None
 
     for k, v in assignment_data.items():
         objName = sanitize_name(k)
@@ -1227,35 +1229,78 @@ def assign_materials(materials_box, assignment_data:dict):
         sanitised = [sanitize_name(c) for c in components if c]
         # Rebuild into a valid Gaffer-style path
         gafferPath = "/" + "/".join(sanitised)
+        try:
+            materialname = sanitize_name(next(iter(v["mat_by_index"].values()), None)) # get the first value no matter the key
+            # materialname = sanitize_name(v["mat_by_index"]["0"])
+            multimat = v["has_multiple_mat"]
+            v["path"] = gafferPath
+            if multimat and split_geo:
+                # split geometry
+                try:
+                    splitter_data = buildMatSplitNetwork(splits_box, objName, v, matbox_input)
+                    split_box = splitter_data["object_box"]
+                    if last_output:
+                        split_box['in'].setInput(last_output)
+                    last_output = split_box['out']
+                    if not first_input:
+                        first_input = split_box['in']
+                    for new_child_path, material_name in splitter_data["data"].items():
+                        assign_material(materials_box, material_name, new_child_path, objName)
+                except Exception as e:
+                    print(f"👻 Failed to Split {objName}:\n {e}")
 
-        materialname = sanitize_name(v["mat_by_index"]["0"])
-        multimat = v["has_multiple_mat"]
-        v["path"] = gafferPath
-        if multimat:
-            # split geometry
-            splitter_data = buildMatSplitNetwork(splits_box, objName, v, matbox_input)
-            split_box = splitter_data["object_box"]
-            if last_output:
-                split_box['in'].setInput(last_output)
-            last_output = split_box['out']
-            if not first_input:
-                first_input = split_box['in']
-            for new_child_path, material_name in splitter_data["data"].items():
-                assign_material(materials_box, material_name, new_child_path, objName)
-        else:
-            assign_material(materials_box, materialname, gafferPath, objName)
+            else:
+                assign_material(materials_box, materialname, gafferPath, objName)
+        except Exception as e:
+            print(f"💀 Failed to Assign Material to {objName}:\n {e}")
 
 
     if first_input:
         boxInOutHandling(first_input.parent(), last_output.parent())
         splits_box['in'].setInput(matbox_input)
         materials_box['in'].setInput(splits_box['out'])
+        processedSceneNode = splits_box
     else:
         materials_box.parent().removeChild(splits_box)
+    
+    return processedSceneNode
+
+############# CACHE FILES ###############
+def create_CachedMesh(materials_box:Gaffer.Node, inputNode:Gaffer.Node):
+    parent = materials_box.parent()
+    filepath = Path(parent['fileName'].getValue())
+    dirname = filepath.parent      # /home/user/project
+    name    = filepath.stem        # file
+    ext     = filepath.suffix      # .usd
+    new_filepath = (dirname / f"{name}_gfrCache.usd").as_posix()
+    # Writer
+    cacheWriter = GafferScene.SceneWriter( "Cache_Writer" )
+    cacheWriter['fileName'].setValue(new_filepath)
+    parent.addChild( cacheWriter )
+    cacheWriter['in'].setInput(inputNode['out'])
+    # Dispatcher
+    dispatcher = GafferDispatch.LocalDispatcher( "LocalDispatcher" )
+    parent.addChild( dispatcher )
+    dispatcher['tasks']['task0'].setInput(cacheWriter['task'])
+    # Execute!
+    dispatcher['tasks']['task0'].execute()
+    #Read    
+    file_reader = GafferScene.SceneReader( "Cached_SceneReader" )
+    parent.addChild( file_reader )    
+    file_reader['fileName'].setValue(new_filepath)
+    #Switch
+    switch = Gaffer.Switch( "Cache_Switch" )
+    parent.addChild( switch )
+    switch.setup( GafferScene.ScenePlug( direction = Gaffer.Plug.Direction.In ) )
+    switch["in"][0].setInput( inputNode['out'] )
+    switch["in"][1].setInput( file_reader["out"] )
+    materials_box['in'].setInput(switch['out'])
+    #Set it to Read the Cache
+    switch['index'].setValue(1)
 
 
 # --- Main material loader ---
-def load_materials_from_json(json_path, parent, usd_reader_node, split_submeshes=True):
+def load_materials_from_json(json_path, parent, usd_reader_node, split_submeshes=True, cache_meshes=True):
     with open(json_path, "r") as f:
         data = json.load(f)
 
@@ -1266,10 +1311,14 @@ def load_materials_from_json(json_path, parent, usd_reader_node, split_submeshes
     if materials_box:
         if usd_reader_node:
             materials_box["in"].setInput(usd_reader_node["out"])
-            pv = insertPrimitiveVariables(materials_box)
-            assign_materials(materials_box, assignment_data)
+            pv:Gaffer.Node = insertPrimitiveVariables(materials_box)
+            processedSceneNode:Gaffer.Node|None = assign_materials(materials_box, assignment_data, split_submeshes)
+            if processedSceneNode and cache_meshes:
+               create_CachedMesh(materials_box, processedSceneNode) 
 
     return materials_box
+
+
 
 
 ##############################
@@ -1281,6 +1330,7 @@ def create_networks(blenderScene_box):
     file_reader = None
     materials_box = None
     split_submeshes = blenderScene_box['splitSubMeshes'].getValue()
+    cache_meshes = blenderScene_box['cacheSubmeshes'].getValue()
     PROCESS_IMAGE_SEQ = blenderScene_box['processImgSequences'].getValue()
     filepath = blenderScene_box['fileName'].getValue()
     usd_path = filepath
@@ -1299,31 +1349,36 @@ def create_networks(blenderScene_box):
     
     json_path = os.path.splitext(usd_path)[0] + ".gcyc"
     if os.path.exists(json_path):
-        materials_box = load_materials_from_json(json_path, blenderScene_box, file_reader, split_submeshes)        
+        materials_box = load_materials_from_json(json_path, blenderScene_box, file_reader, split_submeshes, cache_meshes)        
 
 
     if materials_box:
+        ## Add out plug
         Gaffer.BoxIO.promote( materials_box["out"] )
         ## Remove UI after Ussage to avoid overwriting and/or making a mess ##
         blenderScene_box.removeChild(blenderScene_box['updateList'])
         blenderScene_box.removeChild(blenderScene_box['fileName'])
         blenderScene_box.removeChild(blenderScene_box['splitSubMeshes'])
+        blenderScene_box.removeChild(blenderScene_box['cacheSubmeshes'])
         blenderScene_box.removeChild(blenderScene_box['processImgSequences'])
 
+        ## Add Cache Control
+        box = blenderScene_box
+        box.addChild( Gaffer.BoolPlug( "setCache", defaultValue = True, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
+        Gaffer.Metadata.registerValue( box["setCache"], "plugValueWidget:type", "GafferUI.ButtonPlugValueWidget" )
+        Gaffer.Metadata.registerValue( box["setCache"], 'nodule:type', '' )
+        Gaffer.Metadata.registerValue( box["setCache"], 'layout:section', 'Settings' )
+        Gaffer.Metadata.registerValue( box["setCache"], 'buttonPlugValueWidget:clicked', 'plug.setValue( not plug.getValue() )\nif plug.getValue():\n\tGaffer.Metadata.registerValue( plug, "label", "CACHE LOADED" )\n\tplug.node()["Cache_Switch"][\'index\'].setValue(1)\nelse:\n\tGaffer.Metadata.registerValue( plug, "label", "NO CACHE" )\n\tplug.node()["Cache_Switch"][\'index\'].setValue(0)' )
+        Gaffer.Metadata.registerValue( box["setCache"], 'layout:index', 0 )
+        Gaffer.Metadata.registerValue( box["setCache"], 'label', 'CACHE LOADED' )
 
-	# else:
-	# 	## Change to error
-	# 	IECore.warning('Node input is not connected')  
 
 
-# Usage:
-# Assuming you're running this in a Gaffer script editor or binding context
-# json_path = r"C:\GitHub\GafferShaderNetFromBlender\InProgressScripts\testFiles\combined_export.json"
-# load_materials_from_json(json_path, root)  # or a Gaffer.Box() if building modular
+
+
 
 
 
 
 # TO DO
-# Define how to handle textures
 # handle xform in texture coordinates input node on object mode
