@@ -1133,6 +1133,9 @@ def buildMatSplitNetwork(parentBox, objName, data_dict:dict, existingInput):
 
     objPath = data_dict["path"]
     matByIndex = data_dict["mat_by_index"]
+    # Handle Mat Duplication.
+    values = list(matByIndex.values())        
+    duplicates = set([v for v in values if values.count(v) > 1]) # Using a set to find duplicates
     
     # Make a Box to contain the split network
     objBox = Gaffer.Box()
@@ -1160,26 +1163,32 @@ def buildMatSplitNetwork(parentBox, objName, data_dict:dict, existingInput):
 
     # After the split, we’ll get new children per material index.
     # To rename them, use a SceneRename node with expressions.
+    # If a Material Name appears more than once we mark a suffix for correct processing
     for idx, matName in matByIndex.items():
+        hasdupl = False
+        if matName in duplicates:
+            hasdupl = True
         matName = sanitize_name(matName)
         rn = GafferScene.Rename()
         rn.setName(f"{objName}_{matName}_Rename")
         rn["in"].setInput(lastOutput)
+        objBox.addChild(rn)
 
         # PathFilter for the split child
         childFilter = GafferScene.PathFilter()
         childFilter.setName(f"{objName}_{matName}_Filter")
         # This assumes MeshSplit names children "0", "1", "2"...
         childPath = objPath + "/" + idx
-
         childFilter["paths"].setValue(IECore.StringVectorData([childPath]))
         objBox.addChild(childFilter)
-
         rn["filter"].setInput(childFilter["out"])
+
+        # RENAME
         new_name = objName + "_" + matName
+        if hasdupl:
+            new_name = new_name + "_duplMat_" + idx
         new_path = objPath + "/" + new_name
         rn["name"].setValue(new_name)
-        objBox.addChild(rn)        
 
         # Save the Data.
         new_paths.update({new_path : matName})
