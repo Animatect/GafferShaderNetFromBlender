@@ -744,6 +744,8 @@ def set_shader_parameters(shader_node, params_dict, shader_type):
         try:
             if shader_type == "vector_rotate" and value == "AXIS_ANGLE":
                 value = "axis"
+            elif value == "FBM":
+                value = "fBM"
             elif isinstance(value, str) and not value in ["1D","2D","3D","4D"]:
                 # Upercase labels and strings produce invalid results.
                 value = value.lower()
