@@ -10,8 +10,8 @@ from .Blender_Hierarchy_Crawler import ScheneHierarchyExporter
 
 
 class BlenderExporter(ScheneHierarchyExporter, MaterialExporter):
-    def __init__(self, root="/root", selected_only=False, set_mat_id=True):
-        ScheneHierarchyExporter.__init__(self, root, selected_only, set_mat_id)
+    def __init__(self, root="/root", selected_only=False, set_mat_id=True, bake_TextureSpace=True):
+        ScheneHierarchyExporter.__init__(self, root, selected_only, set_mat_id, bake_TextureSpace)
         MaterialExporter.__init__(self, selected_only)
         self.data = {}
         self.cycles_version = 4.4

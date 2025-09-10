@@ -4,10 +4,32 @@ import os
 
 
 class ScheneHierarchyExporter:
-    def __init__(self, root="/root", selected_only=False, set_mat_id=True):
+    def __init__(self, root="/root", selected_only=False, set_mat_id=True, Bake_TextureSpace=True):
         self.root = root
         self.process_selected_only = selected_only
         self.set_mat_id = set_mat_id
+        self.Bake_TextureSpace = Bake_TextureSpace
+
+    def generated_to_vector_attribute(self, obj, attr_name="baked_texturespace"):
+        mesh = obj.data
+
+        # Create or reuse a Vector3 attribute on the vertices (domain='POINT')
+        if attr_name not in mesh.attributes:
+            mesh.attributes.new(name=attr_name, type='FLOAT_VECTOR', domain='POINT')
+        
+        attr = mesh.attributes[attr_name].data
+
+        # Compute object bounding box min/max for normalization
+        min_co = [min(v.co[i] for v in mesh.vertices) for i in range(3)]
+        max_co = [max(v.co[i] for v in mesh.vertices) for i in range(3)]
+
+        # Store Generated coords (normalized XYZ) into the attribute
+        for i, v in enumerate(mesh.vertices):
+            gen = [
+                (v.co[j] - min_co[j]) / (max_co[j] - min_co[j]) if max_co[j] != min_co[j] else 0.0
+                for j in range(3)
+            ]
+            attr[i].vector = gen
 
     def assign_mat_id(self, obj):
         # assign ID attr to meshes to split in Gaffer
@@ -55,6 +77,8 @@ class ScheneHierarchyExporter:
         has_multiple_mat = False
         if self.set_mat_id:
             has_multiple_mat = self.assign_mat_id(obj)
+        if self.Bake_TextureSpace:
+            self.generated_to_vector_attribute(obj)
 
         # Build material index → name mapping
         mat_by_index = {}

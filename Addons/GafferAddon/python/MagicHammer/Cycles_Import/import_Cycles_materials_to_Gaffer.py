@@ -966,6 +966,22 @@ def create_material_network(mat_box, material, isGroup=False):
             # Change plug name
             boxOutPlug.getInput().parent()["name"].setValue(safe_plug_name(to_socket))
 
+        # If From node is Texture Coordinates using the "Generated" Output use the baked attribute instead.
+        if mat_box.getChild(created_nodes[from_node]):
+            src_node = mat_box.getChild(created_nodes[from_node])
+            src_shader_type = src_node['name'].getValue()
+            if src_shader_type == 'texture_coordinate':
+                nm = created_nodes[from_node]+'_Generated'
+                shader = GafferCycles.CyclesShader(nm)
+                shader.loadShader('attribute')
+                mat_box.addChild(shader)
+                created_nodes[nm] = nm
+                shader['parameters']['attribute'].setValue('baked_texturespace')
+
+                from_node = nm
+                from_socket = 'vector'
+
+
         # Material ShaderAssignments
         if to_node == output_node_name:   # We replace the output node with a Shader Assignment.
             final_shader = created_nodes.get(from_node)

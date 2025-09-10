@@ -81,6 +81,11 @@ class EXPORT_OT_blender_to_gaffer(bpy.types.Operator):
         description="Add a Material property to the objects with multi material so they can be splitted in gaffer",
         default=True
     ) # type: ignore
+    set_baked_texturespace: bpy.props.BoolProperty(
+        name="Bake Texture Space Coordinates",
+        description="Sets an attribute that bakes the procedurally generated Texture Space Coordinates that are used by the 'Generated' option in the 'Texture Coordinate' node",
+        default=True
+    ) # type: ignore
 
     # --- Object Types ---
     export_meshes: bpy.props.BoolProperty(name="Meshes", default=True) # type: ignore
@@ -173,6 +178,7 @@ class EXPORT_OT_blender_to_gaffer(bpy.types.Operator):
             col = box.column(align=True)
             col.prop(self, "matlib_only")
             col.prop(self, "set_matindex")
+            col.prop(self, "set_baked_texturespace")
 
         # Object Types
         box = layout.box()
@@ -218,7 +224,7 @@ class EXPORT_OT_blender_to_gaffer(bpy.types.Operator):
         usd_path = self.filepath
         json_path = os.path.splitext(usd_path)[0] + ".gcyc"
         try:
-            exporter = BlenderExporter(root="/root", selected_only=self.selection_only, set_mat_id=self.set_matindex)
+            exporter = BlenderExporter(root="/root", selected_only=self.selection_only, set_mat_id=self.set_matindex, bake_TextureSpace=self.set_baked_texturespace)
             
             if self.matlib_only:
                 # Export materials only
