@@ -1400,6 +1400,76 @@ def create_networks(blenderScene_box):
             Gaffer.Metadata.registerValue( box["setCache"], 'layout:index', 0 )
             Gaffer.Metadata.registerValue( box["setCache"], 'label', 'CACHE LOADED' )
 
+        ## Add Material Selector
+        selector_click:str = """import Gaffer
+import GafferUI
+import GafferScene
+
+
+
+def focus_node_in_box(root, materials_box, selection):    
+    # Get the script window
+    sw = GafferUI.ScriptWindow.acquire(root)
+    # Grab the first GraphEditor
+    graphEditor = sw.getLayout().editors(GafferUI.GraphEditor)[0]
+    # Set the GraphEditor root to the Box
+    graphEditor.graphGadget().setRoot(materials_box)
+    # Focus on the current selection
+    graphEditor.frame(selection)
+
+def select_matchig_filters(root, materials_box, targetPath):
+    # clear selection
+    root.selection().clear()
+    # Loop over child nodes inside the Box
+    for node in materials_box.children():
+        if isinstance(node, GafferScene.PathFilter):
+            # PathFilter has a 'paths' plug (StringVectorDataPlug)
+            paths = node["paths"].getValue()
+            if targetPath in paths:
+                print("Match found in node:", node.getName())
+                root.selection().add(node)
+
+    return root.selection()
+
+def find_loc_material(blenderBox):
+    # The path we want to match
+    targetPath:str = blenderBox['find_path'].getValue()
+    materials_box = blenderBox.getChild('Materials')
+    root = blenderBox.parent()#Gaffer.ScriptNode( "ScriptNode" )
+    print(root)
+    if materials_box:
+        if not targetPath == '':
+            selection = select_matchig_filters(root, materials_box, targetPath)
+            if selection.size() > 0:
+                focus_node_in_box(root, materials_box, selection)
+            else:
+                print("Didn't find Material for that location inside the Materials box.")
+        else:
+            print("Path is empty, drag a location to the text field")
+    else:
+        print("there is no material box with the default 'Materials' name inside this Blender scene node.")
+        
+ 
+
+blenderBox = plug.node()
+find_loc_material( blenderBox )
+        """
+        blenderScene_box.addChild( Gaffer.StringPlug( "find_path", defaultValue = '', flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
+        blenderScene_box.addChild( Gaffer.BoolPlug( "shaderSelector", defaultValue = False, flags = Gaffer.Plug.Flags.Default | Gaffer.Plug.Flags.Dynamic, ) )
+        Gaffer.Metadata.registerValue( blenderScene_box["find_path"], 'nodule:type', '' )
+        Gaffer.Metadata.registerValue( blenderScene_box["find_path"], 'layout:section', 'Settings' )
+        Gaffer.Metadata.registerValue( blenderScene_box["find_path"], 'label', 'Path to locate material' )
+        Gaffer.Metadata.registerValue( blenderScene_box["find_path"], 'description', 'Must be a valid location with a material assigned to it' )
+        Gaffer.Metadata.registerValue( blenderScene_box["find_path"], 'layout:index', 3 )
+        Gaffer.Metadata.registerValue( blenderScene_box["shaderSelector"], 'nodule:type', '' )
+        Gaffer.Metadata.registerValue( blenderScene_box["shaderSelector"], 'layout:section', 'Settings' )
+        Gaffer.Metadata.registerValue( blenderScene_box["shaderSelector"], 'plugValueWidget:type', 'GafferUI.ButtonPlugValueWidget' )
+        Gaffer.Metadata.registerValue( blenderScene_box["shaderSelector"], 'label', 'Find material for path' )
+        Gaffer.Metadata.registerValue( blenderScene_box["shaderSelector"], 'description', 'Finds the shader assigned to the mesh setted in the path' )
+        Gaffer.Metadata.registerValue( blenderScene_box["shaderSelector"], 'layout:index', 4 )
+        Gaffer.Metadata.registerValue( blenderScene_box["shaderSelector"], 'buttonPlugValueWidget:clicked', selector_click)
+
+
 
 
 
