@@ -1359,27 +1359,31 @@ def create_networks(blenderScene_box):
     split_submeshes = blenderScene_box['splitSubMeshes'].getValue()
     cache_meshes = blenderScene_box['cacheSubmeshes'].getValue()
     PROCESS_IMAGE_SEQ = blenderScene_box['processImgSequences'].getValue()
-    filepath = blenderScene_box['fileName'].getValue()
-    usd_path = filepath
-    usd_ext = ["usd", "usdc", "usda"]
-    split_path = os.path.splitext(filepath)
-    if not split_path[1].lower() in usd_ext:
+    filepath:Path = Path(blenderScene_box['fileName'].getValue())
+    usd_path:Path = filepath
+    usd_ext = [".usd", ".usdc", ".usda"]
+    filename = filepath.stem
+    extension = filepath.suffix
+    if not extension.lower() in usd_ext:
         for ext in usd_ext:
-            check_path = split_path[0] + "."+ext
-            if os.path.exists(check_path):
+            check_path = filepath.with_suffix(ext)
+            if check_path.exists():
                 usd_path = check_path
                 break
-    if os.path.exists(usd_path):
+    if usd_path.exists():
         file_reader = GafferScene.SceneReader( "SceneReader" )
         blenderScene_box.addChild( file_reader )    
         file_reader['fileName'].setValue(usd_path)
     
-    json_path = os.path.splitext(usd_path)[0] + ".gcyc"
-    if os.path.exists(json_path):
+    json_path = usd_path.with_suffix(".gcyc")
+    if json_path.exists():
         materials_box = load_materials_from_json(json_path, blenderScene_box, file_reader, split_submeshes, cache_meshes)        
 
 
     if materials_box:
+        # Set New Name
+        blenderScene_box.setName(filename)
+
         ## Add out plug
         Gaffer.BoxIO.promote( materials_box["out"] )
         ## Remove UI after Ussage to avoid overwriting and/or making a mess ##
