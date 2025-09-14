@@ -1,6 +1,7 @@
 import bpy
 import json
 import os
+from mathutils import Vector
 
 
 class ScheneHierarchyExporter:
@@ -10,25 +11,41 @@ class ScheneHierarchyExporter:
         self.set_mat_id = set_mat_id
         self.Bake_TextureSpace = Bake_TextureSpace
 
-    def generated_to_vector_attribute(self, obj, attr_name="baked_texturespace"):
-        mesh = obj.data
 
-        # Create or reuse a Vector3 attribute on the vertices (domain='POINT')
+    # converted from blender/intern/cycles/blender/util.h on line 548 /* Texture Space */
+    def mesh_texspace_transform(self, mesh):
+        # Get texspace center + size (auto recomputed if needed)
+        if mesh.use_auto_texspace:
+            mesh.update()
+
+        loc = Vector(mesh.texspace_location)  # center
+        size = Vector(mesh.texspace_size)     # half-size along each axis
+
+        # Convert size to reciprocal scale (0.5 / halfsize == 1 / fullsize)
+        scale = Vector((
+            (0.5 / size.x) if size.x != 0 else 0.0,
+            (0.5 / size.y) if size.y != 0 else 0.0,
+            (0.5 / size.z) if size.z != 0 else 0.0,
+        ))
+
+        # Adjust loc to be ready for transform
+        offset = loc * scale - Vector((0.5, 0.5, 0.5))
+
+        return scale, offset
+
+    def generated_to_vector_attribute(self, obj, attr_name="baked_texturespace"):
+        if obj.type != 'MESH':
+            return
+        mesh = obj.data
+        
         if attr_name not in mesh.attributes:
             mesh.attributes.new(name=attr_name, type='FLOAT_VECTOR', domain='POINT')
-        
+            
         attr = mesh.attributes[attr_name].data
 
-        # Compute object bounding box min/max for normalization
-        min_co = [min(v.co[i] for v in mesh.vertices) for i in range(3)]
-        max_co = [max(v.co[i] for v in mesh.vertices) for i in range(3)]
-
-        # Store Generated coords (normalized XYZ) into the attribute
+        scale, offset = self.mesh_texspace_transform(mesh)
         for i, v in enumerate(mesh.vertices):
-            gen = [
-                (v.co[j] - min_co[j]) / (max_co[j] - min_co[j]) if max_co[j] != min_co[j] else 0.0
-                for j in range(3)
-            ]
+            gen = v.co * scale - offset
             attr[i].vector = gen
 
     def assign_mat_id(self, obj):
